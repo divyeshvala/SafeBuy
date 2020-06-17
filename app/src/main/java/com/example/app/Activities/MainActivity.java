@@ -1,9 +1,10 @@
-package com.example.app;
+package com.example.app.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
+
+import com.example.app.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -12,8 +13,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Just testing
-        for(int i=0; i<5; i++)
-            Log.i("MainActivity", i+" ");
+
+
     }
 }
