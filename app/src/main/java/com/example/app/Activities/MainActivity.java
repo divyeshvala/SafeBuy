@@ -3,7 +3,6 @@ package com.example.app.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-
 import com.example.app.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,3 +16,5 @@ public class MainActivity extends AppCompatActivity {
 
     }
 }
+
+

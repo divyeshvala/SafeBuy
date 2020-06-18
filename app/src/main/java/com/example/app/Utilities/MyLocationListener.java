@@ -31,6 +31,7 @@ public class MyLocationListener implements LocationListener {
     {
         Log.i(TAG, "inside onLocationChanged");
         // send broadcast to Activity.
+
     }
 
     @Override
@@ -44,8 +45,7 @@ public class MyLocationListener implements LocationListener {
     }
 
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras)
-    {
+    public void onStatusChanged(String provider, int status, Bundle extras) {
         Log.i(TAG, "inside onStatusChanged :"+status);
     }
 }
