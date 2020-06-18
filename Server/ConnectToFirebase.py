@@ -9,16 +9,28 @@ app = firebase_admin.initialize_app(cred, {'databaseURL': 'https://safebuy-23dc8
 root = db.reference()
 # Add a new user under /users.
 
-#new_user = root.child('users').push({
- #   'name': 'Mary Anning',
- #   'since': 1700
-#})
+new_user = root.child('NearbyATMRequest').push({
+    'placeName': 'Vile Parle',
+    'distance': '20',
+    'distanceUnit': 'km'
+})
 
 #Retrieve new
-mary = db.reference('users').get()
 
-for data in mary:
-    if data == 'Test':
-        print(mary[data])
+#while True:
+#requests = db.reference('NearbyATMRequest').get()
+
+#for request in requests:
+#    curr_request = requests[request]
+#    lat = curr_request['latitude']
+#    lon = curr_request['longitude']
+
+#    print(lat)
+#    print(lon)
+
+ #   root.child('NearbyATMRequest/'+request+'/result').push({
+ #       'result': 'distinction'
+ #   })
+
 
 

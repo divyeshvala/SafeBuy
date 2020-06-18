@@ -9,33 +9,33 @@ headers = {'Accept': 'application/json'}
 
 payload = json.loads(''' 
 {
-"wsRequestHeaderV2": {
-"requestTs": "2020-06-17T05:57:46.000Z",
-"applicationId": "VATMLOC",
-"requestMessageId": "ICE01-001",
-"userId": "CDISIUserID",
-"userBid": "10000108",
-"correlationId": "909420141104053819418"
-},
-"requestData": {
-"culture": "en-US",
-"distance": "20",
-"distanceUnit": "km",
-"metaDataOptions": 0,
-"location": {
-"address": null,
-"placeName": "vile parley, Mumbai",
-"geocodes": null
-},
-"options": {
-"range": {
-"start": 10,
-"count": 20
-},
-"sort": {
-"primary": "city",
-"direction": "asc"
-},
+    "wsRequestHeaderV2": {
+        "requestTs": "2020-06-17T05:57:46.000Z",
+        "applicationId": "VATMLOC",
+        "requestMessageId": "ICE01-001",
+        "userId": "CDISIUserID",
+        "userBid": "10000108",
+        "correlationId": "909420141104053819418"
+    },
+    "requestData": {
+        "culture": "en-US",
+        "distance": "20",
+        "distanceUnit": "km",
+        "metaDataOptions": 0,
+        "location": {
+        "address": null,
+        "placeName": "vile parley, Mumbai",
+        "geocodes": null
+    },
+    "options": {
+        "range": {
+        "start": 10,
+        "count": 20
+        },
+    "sort": {
+    "primary": "city",
+    "direction": "asc"
+    },
 "operationName": "or",
 "findFilters": [
 {
