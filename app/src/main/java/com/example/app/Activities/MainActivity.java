@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
@@ -15,7 +14,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
-
 import com.example.app.R;
 import com.example.app.Utilities.PermissionUtils;
 import com.google.android.gms.common.api.ApiException;
@@ -28,8 +26,11 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
-public class MainActivity extends AppCompatActivity {
-
+/**
+ * Temporarily we are getting necessary permissions here.
+ */
+public class MainActivity extends AppCompatActivity
+{
     private static final String TAG = "MainActivity";
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private boolean permissionDenied = false;
@@ -40,12 +41,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //GetNearbyATMs.getListOfATMs(50, 35);
-
+        // todo : To be shifted when UI is ready
         getAllPermissions();
-
     }
 
+    // Get location permissions
     private void getAllPermissions()
     {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // Ask user to turn on GPS
     private void enableGPS()
     {
         LocationRequest locationRequest = LocationRequest.create();

@@ -33,7 +33,6 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(new Intent(HomeActivity.this, MapsActivity.class));
             }
         });
-
     }
 
     private void setupLocationAPI()
@@ -45,13 +44,13 @@ public class HomeActivity extends AppCompatActivity {
         {
             if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(),Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 locationManager.requestLocationUpdates(
-                        LocationManager.GPS_PROVIDER, 30000, 10, locationListener);
+                        LocationManager.GPS_PROVIDER, 30000, 2, locationListener);
             }
         }
         else
         {
             locationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER, 30000, 10, locationListener);
+                    LocationManager.GPS_PROVIDER, 300000, 2, locationListener);
         }
     }
 }
