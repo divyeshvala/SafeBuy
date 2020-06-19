@@ -10,4 +10,5 @@
     tools:context=".Activities.MapsActivity"
     map:uiZoomControls="true"
     map:uiCompass="true"
-    />
+    >
+</fragment>
