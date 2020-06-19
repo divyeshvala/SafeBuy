@@ -62,6 +62,8 @@ public class MyLocationListener implements LocationListener {
 
         Intent intent = new Intent("ADDRESS_FOUND");
         intent.putExtra("addressLine", addressLine);
+        intent.putExtra("latitude", location.getLatitude());
+        intent.putExtra("longitude", location.getLongitude());
         mContext.sendBroadcast(intent);
     }
 }
