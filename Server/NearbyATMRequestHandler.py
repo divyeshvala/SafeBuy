@@ -6,6 +6,8 @@ import json
 
 
 # Author : Kunal Anand
+# The code is successfully returning  ATMs near to a given location
+# Filtering the locations according to the containment zones is yet to be done
 
 def Handle(placeName, distance, distanceUnit):
     url = 'https://sandbox.api.visa.com/globalatmlocator/v1/localatms/atmsinquiry'
@@ -121,18 +123,27 @@ def Handle(placeName, distance, distanceUnit):
 
 
 def requestHandler(root, tablepath, city, distance, distanceUnit):
+
     response = Handle(city, distance, distanceUnit)
 
     for res in response["responseData"]:
 
-        for locations in res["foundATMLocations"]:
-            root.child(tablepath).push({
-                "placeName": locations["location"]["placeName"],
-                "coordinates": {
-                    "latitude": locations["location"]["coordinates"]["latitude"],
-                    "longitude": locations["location"]["coordinates"]["longitude"],
-                }
-            })
+        if res["foundATMLocations"] is not None:
+            for locations in res["foundATMLocations"]:
+                root.child(tablepath).push({
+                    "placeName": locations["location"]["placeName"],
+                    "coordinates": {
+                        "latitude": locations["location"]["coordinates"]["latitude"],
+                        "longitude": locations["location"]["coordinates"]["longitude"],
+                    }
+                })
+        root.child(tablepath).push({
+            "placeName": None,
+            "coordinates": {
+                "latitude": -360,
+                "longitude": -360,
+            }
+        })
 
 
 cred = credentials.Certificate('safebuy-23dc8-firebase-adminsdk-tzqju-b6fbe2e44e.json')
@@ -141,12 +152,14 @@ app = firebase_admin.initialize_app(cred, {'databaseURL': 'https://safebuy-23dc8
 
 root = db.reference()
 
-# At this point addition of infinite loop is to be added to always check for the requests
-# All the codes below will be within this infinite loop
+path = 'NearbyATMRequest/{}/result'
 
-req = db.reference('NearbyATMRequest').get()
 
-for request in req:
-    curr_request = req[request]
-    tablepath = 'NearbyATMRequest/' + request + '/result'
-    requestHandler(root, tablepath, curr_request["placeName"], curr_request["distance"], curr_request["distanceUnit"])
+while True:
+    req = db.reference('NearbyATMRequest').get()
+    print(req)
+    if req is not None:
+        for request in req:
+            curr_request = req[request]
+            tablepath = path.format(request)
+            requestHandler(root, tablepath, curr_request["placeName"], curr_request["distance"], curr_request["distanceUnit"])

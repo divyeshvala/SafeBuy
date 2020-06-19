@@ -15,12 +15,12 @@ new_user = root.child('NearbyATMRequest').push({
     'distanceUnit': 'km'
 })
 
-#Retrieve new
+# Retrieve new
 
-#while True:
-#requests = db.reference('NearbyATMRequest').get()
+# while True:
+# requests = db.reference('NearbyATMRequest').get()
 
-#for request in requests:
+# for request in requests:
 #    curr_request = requests[request]
 #    lat = curr_request['latitude']
 #    lon = curr_request['longitude']
@@ -28,9 +28,6 @@ new_user = root.child('NearbyATMRequest').push({
 #    print(lat)
 #    print(lon)
 
- #   root.child('NearbyATMRequest/'+request+'/result').push({
- #       'result': 'distinction'
- #   })
-
-
-
+#   root.child('NearbyATMRequest/'+request+'/result').push({
+#       'result': 'distinction'
+#   })
