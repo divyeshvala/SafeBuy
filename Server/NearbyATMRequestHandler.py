@@ -1,15 +1,11 @@
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import db
 import requests
 import json
 
 
 # Author : Kunal Anand
-# The code is successfully returning  ATMs near to a given location
-# Filtering the locations according to the containment zones is yet to be done
+# The code is successfully returning  ATMs in a given radius to a given location
 
-def Handle(placeName, distance, distanceUnit):
+def getATMLocations(placeName, distance, distanceUnit):
     url = 'https://sandbox.api.visa.com/globalatmlocator/v1/localatms/atmsinquiry'
 
     headers = {'Accept': 'application/json'}
@@ -122,14 +118,18 @@ def Handle(placeName, distance, distanceUnit):
     return data
 
 
-def requestHandler(root, tablepath, city, distance, distanceUnit):
+def handleATMRequests(root, tablepath, city, distance, distanceUnit):
 
-    response = Handle(city, distance, distanceUnit)
+    response = getATMLocations(city, distance, distanceUnit)
 
     for res in response["responseData"]:
 
         if res["foundATMLocations"] is not None:
             for locations in res["foundATMLocations"]:
+
+                print(locations["location"]["placeName"], "latitude: ", locations["location"]["coordinates"]["latitude"],
+                        "longitude: ", locations["location"]["coordinates"]["longitude"])
+
                 root.child(tablepath).push({
                     "placeName": locations["location"]["placeName"],
                     "coordinates": {
@@ -145,21 +145,3 @@ def requestHandler(root, tablepath, city, distance, distanceUnit):
             }
         })
 
-
-cred = credentials.Certificate('safebuy-23dc8-firebase-adminsdk-tzqju-b6fbe2e44e.json')
-
-app = firebase_admin.initialize_app(cred, {'databaseURL': 'https://safebuy-23dc8.firebaseio.com/'})
-
-root = db.reference()
-
-path = 'NearbyATMRequest/{}/result'
-
-
-while True:
-    req = db.reference('NearbyATMRequest').get()
-    print(req)
-    if req is not None:
-        for request in req:
-            curr_request = req[request]
-            tablepath = path.format(request)
-            requestHandler(root, tablepath, curr_request["placeName"], curr_request["distance"], curr_request["distanceUnit"])
