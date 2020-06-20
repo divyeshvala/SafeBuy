@@ -1,5 +1,5 @@
-from NearbyContainmentRequestHandler import *
-from NearbyATMRequestHandler import *
+from Server.NearbyContainmentRequestHandler import *
+from Server.NearbyATMRequestHandler import *
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
