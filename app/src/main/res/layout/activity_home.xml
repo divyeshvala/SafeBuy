@@ -6,12 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".Activities.HomeActivity">
 
-    <Button
-        android:id="@+id/id_getNearbyATMsBTN"
+    <TextView
+        android:id="@+id/id_safeATMList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Get Nearby ATMs"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:text="Safe ATMs\n"
+        />
+
+    <TextView
+        android:id="@+id/id_unsafeATMList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="unsafeATMs\n"
         />
 
 </RelativeLayout>
