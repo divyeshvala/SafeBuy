@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.example.app.R;
+import com.example.app.Utilities.GetDirections;
 import com.example.app.Utilities.PermissionUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -54,6 +55,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         enableMyLocation();
 
+        // todo: remove it later.
+        GetDirections getDirections = new GetDirections(MapsActivity.this, mMap);
+        getDirections.getDirectionsToThisLocation();
     }
 
     private final BroadcastReceiver locationReceiver = new BroadcastReceiver() {

@@ -38,6 +38,8 @@ public class GetNearbyATMs
 
     public void getListOfATMs(String addressLine, double latitude, double longitude)
     {
+        gotResponseForATMs = false;
+        gotResponseForContainmentZones = false;
         // send request
         final DatabaseReference newRequestDB = FirebaseDatabase.getInstance()
                 .getReference().child("NearbyATMRequest").push();
@@ -48,6 +50,7 @@ public class GetNearbyATMs
         messageData.put("latitude", latitude);
         messageData.put("longitude", longitude);
         messageData.put("placeName", addressLine);
+        messageData.put("resolved", "false");
         newRequestDB.updateChildren(messageData);
         Log.i(TAG, "newRequestDB.getKey() :"+newRequestDB.getKey());
 
@@ -63,8 +66,7 @@ public class GetNearbyATMs
                 {
                     Double lat = dataSnapshot.child("coordinates").child("latitude").getValue(Double.class);
                     Double lon = dataSnapshot.child("coordinates").child("longitude").getValue(Double.class);
-                    String placeName = dataSnapshot.child("placeName").getValue(String.class);
-                    Log.i(TAG, "Got atmList response : "+lat+" "+lon+" "+placeName);
+                    Log.i(TAG, "Got atmList response : "+lat+" "+lon+" ");
                     if(lat!=null && lon!=null && lat==-360 && lon==-360)  // means it was last response
                     {
                         gotResponseForATMs = true;
@@ -75,9 +77,11 @@ public class GetNearbyATMs
 
                             Intent intent = new Intent("ACTION_FOUND_ATM_LIST");
                             mContext.sendBroadcast(intent);
+                            //responseDB.removeEventListener(this);
                         }
                     }
                     else if(lat!=null && lon!=null){
+                        String placeName = dataSnapshot.child("placeName").getValue(String.class);
                         ATMsList.add(new LocationObject(lat, lon, placeName));
                     }
                 }
@@ -134,8 +138,22 @@ public class GetNearbyATMs
 
                                     Intent intent = new Intent("ACTION_FOUND_ATM_LIST");
                                     mContext.sendBroadcast(intent);
+                                    //responseDB.removeEventListener(this);
                                 }
                             }
+                        }
+                    }
+                    else
+                    {
+                        gotResponseForContainmentZones = true;
+                        if(gotResponseForATMs) {
+                            // deleting the request after getting the response.
+                            FirebaseDatabase.getInstance().getReference()
+                                    .child("NearbyATMRequest").child(newRequestDB.getKey()).removeValue();
+
+                            Intent intent = new Intent("ACTION_FOUND_ATM_LIST");
+                            mContext.sendBroadcast(intent);
+                            //responseDB.removeEventListener(this);
                         }
                     }
                 }

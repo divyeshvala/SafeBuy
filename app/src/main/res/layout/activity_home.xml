@@ -4,23 +4,72 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Activities.HomeActivity">
+
+    <RelativeLayout
+        android:id="@+id/id_layout"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        >
+        <EditText
+            android:id="@+id/id_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Your location"
+            android:hint="address"
+            android:textAlignment="center"
+            android:inputType="text"
+            />
+        <EditText
+            android:id="@+id/id_radius"
+            android:layout_below="@id/id_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Radius in meters(Between 500-10000)"
+            android:textAlignment="center"
+            android:inputType="number"
+            />
+        <Button
+            android:id="@+id/id_searchBTN"
+            android:layout_below="@+id/id_radius"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Search"
+            android:textAlignment="center"
+            />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/id_safeATMList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="Safe ATMs\n"
+        android:layout_below="@+id/id_layout"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:text="Safe ATMs List\n"
+        android:textAlignment="center"
+        android:textColor="#00897B"
+        android:scrollbars="vertical"
         />
 
     <TextView
         android:id="@+id/id_unsafeATMList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="unsafeATMs\n"
+        android:layout_below="@+id/id_safeATMList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Unsafe ATMs List\n"
+        android:textAlignment="center"
+        android:textColor="#D81B60"
+        android:scrollbars="vertical"
+        />
+
+    <ProgressBar
+        android:id="@+id/id_progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="16dp"
+        android:visibility="invisible"
+        android:layout_centerInParent="true"
         />
 
 </RelativeLayout>

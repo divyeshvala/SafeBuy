@@ -36,7 +36,6 @@ public class GetDirections
     private Polyline mPolyline;
     ArrayList<LatLng> mMarkerPoints;
 
-
     public GetDirections(Context mContext, GoogleMap mMap) {
         this.mContext = mContext;
         this.mMap = mMap;

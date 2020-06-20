@@ -166,7 +166,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
     private void showMissingPermissionError() {
         PermissionUtils.PermissionDeniedDialog
                 .newInstance(true).show(getSupportFragmentManager(), "dialog");
