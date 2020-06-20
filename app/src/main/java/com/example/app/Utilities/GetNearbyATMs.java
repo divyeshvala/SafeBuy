@@ -50,8 +50,7 @@ public class GetNearbyATMs
         messageData.put("latitude", latitude);
         messageData.put("longitude", longitude);
         messageData.put("placeName", addressLine);
-        messageData.put("ATMResponseFlag", false);
-        messageData.put("ContainmentResponseFlag", false);
+        messageData.put("resolved", "false");
         newRequestDB.updateChildren(messageData);
         Log.i(TAG, "newRequestDB.getKey() :"+newRequestDB.getKey());
 

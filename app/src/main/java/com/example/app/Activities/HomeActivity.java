@@ -113,7 +113,9 @@ public class HomeActivity extends AppCompatActivity {
                         Address address = addresses.get(0);
 
                         Log.i(TAG, "address : "+address.getAddressLine(0)+"\n"+
-                                address.getLatitude()+" "+address.getLongitude());
+                                address.getLatitude()+" "+address.getLongitude()+"\n"+
+                                address.getLocality()+"\n"+
+                                address.getSubLocality());
 
                         getNearbyATMs.getListOfATMs(address.getAddressLine(0), address.getLatitude(), address.getLongitude());
 
