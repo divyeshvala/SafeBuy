@@ -16,6 +16,8 @@ new_user = root.child('NearbyATMRequest').push({
     'distanceUnit': 'km'
 })
 
+new_user.update({'distance': 30})
+
 # Retrieve new
 
 # while True:

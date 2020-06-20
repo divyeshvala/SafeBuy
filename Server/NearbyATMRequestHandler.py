@@ -124,6 +124,8 @@ def handleATMRequests(root, tablepath, city, distance, distanceUnit):
 
     for res in response["responseData"]:
 
+        print('Found locations',res["foundATMLocations"])
+
         if res["foundATMLocations"] is not None:
             for locations in res["foundATMLocations"]:
 

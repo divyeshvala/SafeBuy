@@ -23,22 +23,31 @@ while True:
     if req is not None:
         for request in req:
             curr_request = req[request]
-            tablepath1 = path1.format(request)
-            tablepath2 = path2.format(request)
 
-            print(tablepath1, tablepath2)
+            # print(curr_request['resolved'])
 
-            handleContainmentrequests(root, tablepath2, curr_request["longitude"], curr_request["latitude"],
-                                      curr_request["distance"])
+            if curr_request["resolved"] == 'false':
+                tablepath1 = path1.format(request)
+                tablepath2 = path2.format(request)
 
-            handleATMRequests(root, tablepath1, curr_request["placeName"], curr_request["distance"],
-                              curr_request["distanceUnit"])
-#            t1 = threading.Thread(target=handleATMRequests, args = (root, tablepath1, curr_request["placeName"],
-#                                                                    curr_request["distance"], curr_request["distanceUnit"],))
+                # print(tablepath1, tablepath2)
 
-#            t2 = threading.Thread(target=handleContainmentrequests, args = (root, tablepath2,curr_request["longitude"],
-#                                           curr_request["latitude"], curr_request["distance"], ))
+                print(curr_request)
 
-#            t1.start()
-#            t2.start()
+                handleContainmentrequests(root, tablepath2, curr_request["longitude"], curr_request["latitude"],
+                                          curr_request["distance"])
+                curr_request.update({'resolved': 'true'})
+
+                handleATMRequests(root, tablepath1, curr_request["placeName"], curr_request["distance"],
+                                  curr_request["distanceUnit"])
+    #            t1 = threading.Thread(target=handleATMRequests, args = (root, tablepath1, curr_request["placeName"],
+    #                                                                    curr_request["distance"], curr_request["distanceUnit"],))
+
+    #            t2 = threading.Thread(target=handleContainmentrequests, args = (root, tablepath2,curr_request["longitude"],
+    #                                           curr_request["latitude"], curr_request["distance"], ))
+
+    #            t1.start()
+    #            t2.start()
+
+
 
