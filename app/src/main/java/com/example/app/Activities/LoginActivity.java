@@ -33,15 +33,18 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        SignInButton signInButton = findViewById(R.id.sign_in_button);
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
-                // Launch Sign In
-                signInToGoogle();
-            }
-        });
-        // Configure Google Client
-        configureGoogleClient();
+
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+
+        //SignInButton signInButton = findViewById(R.id.sign_in_button);
+//        signInButton.setOnClickListener(new View.OnClickListener() {
+//            @Override public void onClick(View view) {
+//                // Launch Sign In
+//                signInToGoogle();
+//            }
+//        });
+//        // Configure Google Client
+//        configureGoogleClient();
     }
     private void configureGoogleClient() {
         // Configure Google Sign In
