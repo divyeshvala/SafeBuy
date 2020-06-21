@@ -39,10 +39,12 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        //setContentView(R.layout.activity_main);
+
+        startActivity(new Intent(MainActivity.this, SignUpActivity.class));
 
         // todo : To be shifted when UI is ready
-        getAllPermissions();
+       // getAllPermissions();
     }
 
     // Get location permissions

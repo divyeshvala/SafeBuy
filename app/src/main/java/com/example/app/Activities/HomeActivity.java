@@ -61,10 +61,6 @@ public class HomeActivity extends AppCompatActivity {
         radiusText = findViewById(R.id.id_radius);
         searchBTN = findViewById(R.id.id_searchBTN);
 
-        ATMsList = new ArrayList<>();
-        containmentZonesList = new ArrayList<>();
-        getNearbyATMs = new GetNearbyATMs(HomeActivity.this, ATMsList, containmentZonesList);
-
         mLocation = null;
         doesUserWantOurLocationsATMs = false;
 
@@ -78,6 +74,9 @@ public class HomeActivity extends AppCompatActivity {
         searchBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ATMsList = new ArrayList<>();
+                containmentZonesList = new ArrayList<>();
+                getNearbyATMs = new GetNearbyATMs(HomeActivity.this, ATMsList, containmentZonesList);
                 safeList.setText("Safe ATMs\n");
                 unsafeList.setText("Unsafe ATMs\n");
                 String radius = radiusText.getText().toString();

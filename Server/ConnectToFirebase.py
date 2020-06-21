@@ -1,3 +1,4 @@
+# codes to use firebase api
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
@@ -15,12 +16,14 @@ new_user = root.child('NearbyATMRequest').push({
     'distanceUnit': 'km'
 })
 
-#Retrieve new
+new_user.update({'distance': 30})
 
-#while True:
-#requests = db.reference('NearbyATMRequest').get()
+# Retrieve new
 
-#for request in requests:
+# while True:
+# requests = db.reference('NearbyATMRequest').get()
+
+# for request in requests:
 #    curr_request = requests[request]
 #    lat = curr_request['latitude']
 #    lon = curr_request['longitude']
@@ -28,9 +31,6 @@ new_user = root.child('NearbyATMRequest').push({
 #    print(lat)
 #    print(lon)
 
- #   root.child('NearbyATMRequest/'+request+'/result').push({
- #       'result': 'distinction'
- #   })
-
-
-
+#   root.child('NearbyATMRequest/'+request+'/result').push({
+#       'result': 'distinction'
+#   })

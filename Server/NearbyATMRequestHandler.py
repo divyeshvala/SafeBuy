@@ -1,13 +1,11 @@
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import db
 import requests
 import json
 
 
 # Author : Kunal Anand
+# The code is successfully returning  ATMs in a given radius to a given location
 
-def Handle(placeName, distance, distanceUnit):
+def getATMLocations(placeName, distance, distanceUnit):
     url = 'https://sandbox.api.visa.com/globalatmlocator/v1/localatms/atmsinquiry'
 
     headers = {'Accept': 'application/json'}
@@ -120,33 +118,32 @@ def Handle(placeName, distance, distanceUnit):
     return data
 
 
-def requestHandler(root, tablepath, city, distance, distanceUnit):
-    response = Handle(city, distance, distanceUnit)
+def handleATMRequests(root, tablepath, city, distance, distanceUnit):
+
+    response = getATMLocations(city, distance, distanceUnit)
 
     for res in response["responseData"]:
 
-        for locations in res["foundATMLocations"]:
-            root.child(tablepath).push({
-                "placeName": locations["location"]["placeName"],
-                "coordinates": {
-                    "latitude": locations["location"]["coordinates"]["latitude"],
-                    "longitude": locations["location"]["coordinates"]["longitude"],
-                }
-            })
+        print('Found locations',res["foundATMLocations"])
 
+        if res["foundATMLocations"] is not None:
+            for locations in res["foundATMLocations"]:
 
-cred = credentials.Certificate('safebuy-23dc8-firebase-adminsdk-tzqju-b6fbe2e44e.json')
+                print(locations["location"]["placeName"], "latitude: ", locations["location"]["coordinates"]["latitude"],
+                        "longitude: ", locations["location"]["coordinates"]["longitude"])
 
-app = firebase_admin.initialize_app(cred, {'databaseURL': 'https://safebuy-23dc8.firebaseio.com/'})
+                root.child(tablepath).push({
+                    "placeName": locations["location"]["placeName"],
+                    "coordinates": {
+                        "latitude": locations["location"]["coordinates"]["latitude"],
+                        "longitude": locations["location"]["coordinates"]["longitude"],
+                    }
+                })
+        root.child(tablepath).push({
+            "placeName": None,
+            "coordinates": {
+                "latitude": -360,
+                "longitude": -360,
+            }
+        })
 
-root = db.reference()
-
-# At this point addition of infinite loop is to be added to always check for the requests
-# All the codes below will be within this infinite loop
-
-req = db.reference('NearbyATMRequest').get()
-
-for request in req:
-    curr_request = req[request]
-    tablepath = 'NearbyATMRequest/' + request + '/result'
-    requestHandler(root, tablepath, curr_request["placeName"], curr_request["distance"], curr_request["distanceUnit"])
