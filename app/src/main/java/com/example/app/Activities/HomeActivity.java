@@ -33,8 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class HomeActivity extends AppCompatActivity {
-
+public class HomeActivity extends AppCompatActivity
+{
     private static final String TAG = "HomeActivity";
     private static final int containmentZoneRadius = 1000;
     public ArrayList<LocationObject> ATMsList;
@@ -44,7 +44,6 @@ public class HomeActivity extends AppCompatActivity {
     private EditText addressText, radiusText;
     private Button searchBTN;
     private ProgressBar progressBar;
-
     private LocationObject mLocation;
     private boolean doesUserWantOurLocationsATMs;
 
