@@ -14,6 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Activities.SplashScreen">
         <activity android:name=".Messaging.Merchant.MerchantConversationActivity"></activity>
         <activity android:name=".Messaging.Merchant.DisplayOrders" />
         <activity android:name=".Messaging.Customer.CustomerConversationActivity" />
@@ -44,6 +45,15 @@
             android:name=".Activities.MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name=".Activities.MainActivity" />
+        <activity
+            android:name=".Activities.Login"
+            android:label="@string/title_activity_login"
+            android:theme="@style/NoTheme" />
+        <activity
+            android:name=".Activities.customer_main"
+            android:label="@string/title_activity_customer_main"
+            android:theme="@style/NoTheme" />
+
     </application>
 
 </manifest>

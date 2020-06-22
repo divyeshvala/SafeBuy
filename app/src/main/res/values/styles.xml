@@ -8,6 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="NoTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/deepBlue</item>
+      
     <style name="h2">
         <item name="android:textSize">@dimen/h2</item>
         <item name="android:textColor">@color/colorTextBlack</item>
