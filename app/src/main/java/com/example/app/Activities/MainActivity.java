@@ -55,9 +55,7 @@ public class MainActivity extends AppCompatActivity
             if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
                 enableGPS();
             else{
-                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                startActivity(intent);
-                finish();
+                GotoNextActivity();
             }
         }
         else {
@@ -75,9 +73,7 @@ public class MainActivity extends AppCompatActivity
         {
             if(resultCode == Activity.RESULT_OK) {
                 Log.i(TAG, "Got it : GPS Enabled by user");
-                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                startActivity(intent);
-                finish();
+                GotoNextActivity();
             }
             else {
                 Log.i(TAG, "Cancelled : User rejected GPS request");
@@ -99,9 +95,7 @@ public class MainActivity extends AppCompatActivity
             if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
                 enableGPS();
             else{
-                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                startActivity(intent);
-                finish();
+                GotoNextActivity();
             }
 
         } else {
@@ -109,6 +103,13 @@ public class MainActivity extends AppCompatActivity
             // Display the missing permission error dialog when the fragments resume.
             permissionDenied = true;
         }
+    }
+
+    private void GotoNextActivity()
+    {
+        Intent intent = new Intent(MainActivity.this, customer_main.class);
+        startActivity(intent);
+        finish();
     }
 
     // Ask user to turn on GPS

@@ -15,19 +15,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Activities.SplashScreen">
-        <activity android:name=".Messaging.Merchant.MerchantConversationActivity"></activity>
-        <activity android:name=".Messaging.Merchant.DisplayOrders" />
-        <activity android:name=".Messaging.Customer.CustomerConversationActivity" />
-        <activity android:name=".Messaging.Customer.DisplayMerchantsActivity" />
-        <activity android:name=".Activities.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Messaging.Merchant.MerchantConversationActivity"></activity>
+        <activity android:name=".Messaging.Merchant.DisplayOrders" />
+        <activity android:name=".Messaging.Customer.CustomerConversationActivity" />
+        <activity android:name=".Messaging.Customer.DisplayMerchantsActivity" />
         <activity android:name=".Activities.SignUpActivity" />
-        <activity android:name=".Activities.LoginActivity" />
         <activity android:name=".Activities.HomeActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

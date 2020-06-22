@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#000000</color>
-    <color name="grey">#757575</color>
-    <color name="deepBlue">#1a1f71</color>
-    <color name="yellow">#faaa13</color>
-    <color name="white">#ffffff</color>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
     <color name="colorPurpleLight">#4B5980</color>
     <color name="colorPurpleDark">#3F4A68</color>
-    <color name="colorAccent">#FC3768</color>
     <color name="colorTextBlack">#333333</color>
     <color name="colorTextHint">#e1e1e1</color>
     <color name="colorTextInfo">#9b9b9b</color>
     <color name="colorGreen">#A5DE40</color>
     <color name="navColor">#80FFFFFF</color>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+    <color name="black">#000000</color>
+    <color name="grey">#757575</color>
+    <color name="deepBlue">#1a1f71</color>
+    <color name="yellow">#faaa13</color>
+    <color name="white">#ffffff</color>
 </resources>

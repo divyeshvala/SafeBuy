@@ -63,66 +63,66 @@ public class HomeActivity extends AppCompatActivity
         mLocation = null;
         doesUserWantOurLocationsATMs = false;
 
-        IntentFilter intentFilter1 = new IntentFilter("ACTION_FOUND_ATM_LIST");
-        registerReceiver(ATMListReceiver, intentFilter1);
-
-        IntentFilter intentFilter = new IntentFilter("ADDRESS_FOUND");
-        registerReceiver(locationReceiver, intentFilter);
-        setupLocationAPI();
-
-        searchBTN.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ATMsList = new ArrayList<>();
-                containmentZonesList = new ArrayList<>();
-                getNearbyATMs = new GetNearbyATMs(HomeActivity.this, ATMsList, containmentZonesList);
-                safeList.setText("Safe ATMs\n");
-                unsafeList.setText("Unsafe ATMs\n");
-                String radius = radiusText.getText().toString();
-                if(radius.equals(""))
-                    radius = "5000";
-                if(addressText.getText().toString().equals("Your location"))
-                {
-                    progressBar.setVisibility(View.VISIBLE);
-                    if(mLocation!=null)
-                    {
-                        getNearbyATMs.getListOfATMs(mLocation.getPlaceName(), mLocation.getLatitude(), mLocation.getLongitude());
-                    }
-                    else
-                    {
-                        doesUserWantOurLocationsATMs = true;
-                    }
-                }
-                else if(addressText.getText().toString().equals("") || addressText.getText().toString().equals("Please enter your location"))
-                {
-                    addressText.setText("Please enter your location");
-                }
-                else
-                {
-                    progressBar.setVisibility(View.VISIBLE);
-                    List<Address> addresses = null;
-                    try {
-                        Geocoder geocoder = new Geocoder(HomeActivity.this,
-                                Locale.getDefault());
-                        addresses = geocoder.getFromLocationName(
-                                addressText.getText().toString(),
-                                1
-                        );
-                        Address address = addresses.get(0);
-
-                        Log.i(TAG, "address : "+address.getAddressLine(0)+"\n"+
-                                address.getLatitude()+" "+address.getLongitude()+"\n"+
-                                address.getLocality()+"\n"+
-                                address.getSubLocality());
-
-                        getNearbyATMs.getListOfATMs(address.getAddressLine(0), address.getLatitude(), address.getLongitude());
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
+//        IntentFilter intentFilter1 = new IntentFilter("ACTION_FOUND_ATM_LIST");
+//        registerReceiver(ATMListReceiver, intentFilter1);
+//
+//        IntentFilter intentFilter = new IntentFilter("ADDRESS_FOUND");
+//        registerReceiver(locationReceiver, intentFilter);
+//        setupLocationAPI();
+//
+//        searchBTN.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                ATMsList = new ArrayList<>();
+//                containmentZonesList = new ArrayList<>();
+//                getNearbyATMs = new GetNearbyATMs(HomeActivity.this, ATMsList, containmentZonesList);
+//                safeList.setText("Safe ATMs\n");
+//                unsafeList.setText("Unsafe ATMs\n");
+//                String radius = radiusText.getText().toString();
+//                if(radius.equals(""))
+//                    radius = "5000";
+//                if(addressText.getText().toString().equals("Your location"))
+//                {
+//                    progressBar.setVisibility(View.VISIBLE);
+//                    if(mLocation!=null)
+//                    {
+//                        getNearbyATMs.getListOfATMs(mLocation.getPlaceName(), mLocation.getLatitude(), mLocation.getLongitude());
+//                    }
+//                    else
+//                    {
+//                        doesUserWantOurLocationsATMs = true;
+//                    }
+//                }
+//                else if(addressText.getText().toString().equals("") || addressText.getText().toString().equals("Please enter your location"))
+//                {
+//                    addressText.setText("Please enter your location");
+//                }
+//                else
+//                {
+//                    progressBar.setVisibility(View.VISIBLE);
+//                    List<Address> addresses = null;
+//                    try {
+//                        Geocoder geocoder = new Geocoder(HomeActivity.this,
+//                                Locale.getDefault());
+//                        addresses = geocoder.getFromLocationName(
+//                                addressText.getText().toString(),
+//                                1
+//                        );
+//                        Address address = addresses.get(0);
+//
+//                        Log.i(TAG, "address : "+address.getAddressLine(0)+"\n"+
+//                                address.getLatitude()+" "+address.getLongitude()+"\n"+
+//                                address.getLocality()+"\n"+
+//                                address.getSubLocality());
+//
+//                        getNearbyATMs.getListOfATMs(address.getAddressLine(0), address.getLatitude(), address.getLongitude());
+//
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        });
 
         // todo:
         //getNearbyATMs.getListOfATMs("vile parle, mumbai", 19.0968, 72.8517);
