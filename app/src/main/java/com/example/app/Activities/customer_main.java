@@ -17,13 +17,14 @@ import android.view.View;
 //Main Screen of the customer
 public class customer_main extends AppCompatActivity {
 
+    private CustomerMainFragmentAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_main);
 
         //Two fragments are created, one for the merchants near you and the other for merchants that are already visited
-        CustomerMainFragmentAdapter adapter = new CustomerMainFragmentAdapter(getSupportFragmentManager());
+        adapter = new CustomerMainFragmentAdapter(getSupportFragmentManager());
         adapter.addFragment(FragmentNearYou.newInstance(), "Near You");
         adapter.addFragment(FragmentVisited.newInstance(), "Visited");
 
@@ -39,5 +40,10 @@ public class customer_main extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
     }
+
+
+
+
 }
