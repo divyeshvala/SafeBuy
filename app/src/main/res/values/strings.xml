@@ -9,7 +9,6 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
 
-
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>
     <string name="action_sign_in_short">Sign in</string>
@@ -19,4 +18,7 @@
     <string name="near_you">Near You</string>
     <string name="tab_text_1">tab1</string>
     <string name="tab_text_2">tab2</string>
+
+    <string name="facebook_application_id" translatable="false">YOUR_APP_ID</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fbYOUR_APP_ID</string>
 </resources>
