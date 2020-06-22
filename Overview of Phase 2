@@ -1,0 +1,24 @@
+SAFE BUY
+
+Phase 2
+
+Phase 2 begins after the consumer successfully gets the list of the merchants.
+
+There are two modes of delivery system available at the merchant side.
+  ➔ Pickup
+    ◆ Consumer has to select one of the two modes from the pickup.
+      ● Consumer visits the shop and gets the items on his own.
+      ● Consumer uses the third party for it.e.g Dunzo. 
+  ➔ Deliver
+    ◆ The merchant facilitates delivery on it’s own.
+
+The consumer after selecting one of the merchants available to him sends the list of
+items to the merchant.
+
+The merchant then selects whether he wants to make the transaction or not.
+If he wants to then he also informs about the mode of delivery.
+
+If the merchant is only open for pickup or both and then if the consumer goes for the
+pickup. Then the consumer has to make the decision from the two available modes of
+pickup.
+Otherwise if merchant is open for delivery and consumer goes for it merchant  will deliver it.
