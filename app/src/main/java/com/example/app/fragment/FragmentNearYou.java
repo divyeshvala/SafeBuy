@@ -97,8 +97,8 @@ public class FragmentNearYou extends Fragment {
 //                doesUserWantOurLocationsATMs = false;
 //            }
 //
-            getNearbyATMs.getListOfATMs("vile parle, mumbai", 19.0968, 72.8517);
-            //getNearbyATMs.getListOfATMs(addressLine, lat, lon);
+            //getNearbyATMs.getListOfATMs("vile parle, mumbai", 19.0968, 72.8517);
+            getNearbyATMs.getListOfATMs(addressLine, lat, lon);
         }
     };
 
