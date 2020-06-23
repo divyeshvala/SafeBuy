@@ -8,19 +8,20 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.R;
+import com.example.app.model.MessageObject;
 
 import java.util.List;
 
 public class ConversationRecyclerView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     // The items to display in your RecyclerView
-    private List<ChatData> items;
+    private List<MessageObject> items;
     private Context mContext;
 
     private final int DATE = 0, YOU = 1, ME = 2;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public ConversationRecyclerView(Context context, List<ChatData> items) {
+    public ConversationRecyclerView(Context context, List<MessageObject> items) {
         this.mContext = context;
         this.items = items;
     }
@@ -34,11 +35,11 @@ public class ConversationRecyclerView extends RecyclerView.Adapter<RecyclerView.
     @Override
     public int getItemViewType(int position) {
         //More to come
-        if (items.get(position).getType().equals("0")) {
+        if (items.get(position).getUserType().equals("DATE")) {
             return DATE;
-        } else if (items.get(position).getType().equals("1")) {
+        } else if (items.get(position).getUserType().equals("YOU")) {
             return YOU;
-        }else if (items.get(position).getType().equals("2")) {
+        }else if (items.get(position).getUserType().equals("ME")) {
             return ME;
         }
         return -1;
@@ -65,7 +66,7 @@ public class ConversationRecyclerView extends RecyclerView.Adapter<RecyclerView.
         }
         return viewHolder;
     }
-    public void addItem(List<ChatData> item) {
+    public void addItem(List<MessageObject> item) {
         items.addAll(item);
         notifyDataSetChanged();
     }

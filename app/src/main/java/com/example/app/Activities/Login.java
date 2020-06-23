@@ -12,8 +12,8 @@ import com.example.app.R;
 import com.example.app.ui.login.SectionsPagerAdapter;
 
 //Login Activity has fragments for both sigin and signup
-public class Login extends AppCompatActivity {
-
+public class Login extends AppCompatActivity
+{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

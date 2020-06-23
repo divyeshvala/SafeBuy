@@ -5,37 +5,32 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import com.example.app.Messaging.ChatData;
 import com.example.app.Messaging.ConversationRecyclerView;
 import com.example.app.R;
+import com.example.app.Utilities.Communication;
+import com.example.app.model.MessageObject;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class MerchantConversationActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
-    private ConversationRecyclerView mAdapter;
+    public ConversationRecyclerView mAdapter;
     private EditText text;
     Toolbar toolbar;
     TextView title;
     private String merchantId;
     private FirebaseUser currentUser;
-    private List<ChatData> messagesList = new ArrayList<>();
+    public List<MessageObject> messagesList = new ArrayList<>();
+    private Communication communication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,15 +69,20 @@ public class MerchantConversationActivity extends AppCompatActivity {
 
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
+        communication = new Communication(MerchantConversationActivity.this,
+                messagesList, mAdapter, "todo", "merchant");
+        // todo:
+        communication.getMessages();
+
         Button send = (Button) findViewById(R.id.bt_send);
         send.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                if (!text.getText().equals(""))
+                if (!text.getText().toString().equals(""))
                 {
-                    //sendMessage();
+                    sendMessage();
                 }
             }
         });
@@ -90,24 +90,19 @@ public class MerchantConversationActivity extends AppCompatActivity {
 
     private void sendMessage()
     {
-        ChatData item = new ChatData();
+        // update UI
+        MessageObject item = new MessageObject();
         item.setTime(Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+":"+Calendar.getInstance().get(Calendar.MINUTE));
-        item.setType("2");
+        item.setUserType("ME");
         item.setText(text.getText().toString());
         messagesList.add(item);
-        //mAdapter.addItem(messagesList);
         mAdapter.notifyDataSetChanged();
-        mRecyclerView.smoothScrollToPosition(mRecyclerView.getAdapter().getItemCount() -1);
+        if(mAdapter.getItemCount()>0)
+            mRecyclerView.smoothScrollToPosition(mAdapter.getItemCount()-1);
         text.setText("");
 
-        // send message
-        final DatabaseReference sendMessageDB = FirebaseDatabase.getInstance()
-                .getReference().child("merchants").child(merchantId).child("deliveryOrders").child(currentUser.getUid()).push();
-
-        Map<String, Object> messageData = new HashMap<>();
-        messageData.put("details", item.getText());
-        messageData.put("timeStamp", item.getTime());
-        sendMessageDB.updateChildren(messageData);
+        //todo:
+        communication.sendMessage(text.getText().toString());
     }
 
     public void setupToolbarWithUpNav(int toolbarId, String titlePage, @DrawableRes int res){

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Messaging.Merchant.DisplayCustomersActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/id_appBar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        app:elevation="0dp">
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"/>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_below="@id/id_appBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:layout_marginTop="5dp"
+        />
+    <TextView
+        android:id="@+id/tv_selection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/space10"
+        android:drawableLeft="@drawable/ic_trash"
+        android:gravity="center_vertical"
+        android:drawablePadding="@dimen/space15"
+        android:text="Delete (3)"
+        android:textSize="@dimen/h3"
+        android:textColor="@color/colorAccent"
+        android:textAppearance="@style/CardView.Light"
+        android:background="@android:color/white"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

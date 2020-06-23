@@ -53,6 +53,7 @@ public class PlaceholderFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
         return root;
     }
 }
