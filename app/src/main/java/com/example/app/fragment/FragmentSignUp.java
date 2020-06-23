@@ -78,36 +78,32 @@ public class FragmentSignUp extends Fragment implements View.OnClickListener {
 
                     if(TextUtils.isEmpty(email)){
                         Toast.makeText(getActivity(),"Please Enter Email", Toast.LENGTH_SHORT).show();
-                        return;
                     }
-
-                    if(TextUtils.isEmpty(password)){
+                    else if(TextUtils.isEmpty(password)){
                         Toast.makeText(getActivity(), "Please Enter Password", Toast.LENGTH_SHORT).show();
-                        return;
                     }
-
-                    if(password.length() < 6){
+                    else if(password.length() < 6){
                         Toast.makeText(getActivity(), "Password is too short", Toast.LENGTH_SHORT).show();
-                        return;
                     }
+                    else {
+                        progressBar.setVisibility(View.VISIBLE);
 
-                    progressBar.setVisibility(View.VISIBLE);
 
+                        firebaseAuth.createUserWithEmailAndPassword(email, password)
+                                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
 
-                    firebaseAuth.createUserWithEmailAndPassword(email, password)
-                            .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+                                            startActivity(new Intent(getActivity(), Login.class));
+                                            Toast.makeText(getActivity(), "Sign Up Successful", Toast.LENGTH_SHORT).show();
 
-                                    if (task.isSuccessful()) {
-                                        startActivity(new Intent(getActivity(), Login.class));
-                                        Toast.makeText(getActivity(), "Sign Up Successful", Toast.LENGTH_SHORT).show();
-
-                                    } else {
-                                        Toast.makeText(getActivity(), "Authentication Failed", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(getActivity(), "Authentication Failed", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
-                                }
-                            });
+                                });
+                    }
                     break;
 
             default: break;
