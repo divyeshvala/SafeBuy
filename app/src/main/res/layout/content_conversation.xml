@@ -19,11 +19,11 @@
         android:focusableInTouchMode="true">
         <Button
             android:id="@+id/bt_send"
-            android:layout_width="60dp"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Send"
-            android:textColor="@color/colorAccent"
+            android:textColor="#ffffff"
             android:textSize="@dimen/h3"
             android:textAppearance="@style/CardView.Light"
             android:background="@drawable/btn_grey"
