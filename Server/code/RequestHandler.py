@@ -1,14 +1,14 @@
-from Server.NearbyContainmentRequestHandler import *
-from Server.NearbyATMRequestHandler import *
+from Server.code.NearbyContainmentRequestHandler import *
+from Server.code.NearbyATMRequestHandler import *
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
-import threading
 
 # Author : Kunal Anand
 # Task to be done : use multithreading to handle requests
 
-cred = credentials.Certificate('safebuy-23dc8-firebase-adminsdk-tzqju-b6fbe2e44e.json')
+cred = credentials.Certificate('/home/kunal/PycharmProjects/SafeBuy/Server/Resources/safebuy-23dc8-firebase-adminsdk'
+                               '-tzqju-b6fbe2e44e.json')
 
 app = firebase_admin.initialize_app(cred, {'databaseURL': 'https://safebuy-23dc8.firebaseio.com/'})
 
