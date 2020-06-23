@@ -9,6 +9,9 @@ import android.os.Handler;
 import android.widget.TextView;
 
 import com.example.app.R;
+import com.example.app.fragment.FragmentLogin;
+import com.example.app.fragment.FragmentSignUp;
+import com.example.app.fragment.LoginSignupFragmentAdapter;
 import com.example.app.ui.login.SectionsPagerAdapter;
 
 //Login Activity has fragments for both sigin and signup
@@ -19,9 +22,12 @@ public class Login extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
+        LoginSignupFragmentAdapter adapter = new LoginSignupFragmentAdapter(getSupportFragmentManager());
+        adapter.addFragment(FragmentLogin.newInstance(), "Login");
+        adapter.addFragment(FragmentSignUp.newInstance(), "Signup");
         ViewPager viewPager = findViewById(R.id.view_pager);
-        viewPager.setAdapter(sectionsPagerAdapter);
+        viewPager.setAdapter(adapter);
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {}
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
@@ -46,7 +52,7 @@ public class Login extends AppCompatActivity
                 startActivity(new Intent(Login.this, MainActivity.class));
                 finish();
             }
-        }, 2000);
+        }, 5000);
 
     }
 }
