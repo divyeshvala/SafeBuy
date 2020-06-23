@@ -13,8 +13,8 @@ import com.example.app.R;
 
 public class FragmentLogin extends Fragment {
 
-    public static FragmentNearYou newInstance() {
-        return new FragmentNearYou();
+    public static FragmentLogin newInstance() {
+        return new FragmentLogin();
     }
 
     @Nullable
