@@ -2,6 +2,8 @@ package com.example.app.Utilities;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.app.Messaging.ConversationRecyclerView;
 import com.example.app.model.MessageObject;
 import com.google.firebase.database.ChildEventListener;
@@ -19,18 +21,21 @@ public class Communication
 {
     private Context context;
     private List<MessageObject> messageList;
+    private RecyclerView mRecyclerView;
     private ConversationRecyclerView mAdapter;
     private String chatId;
     private String userType;
 
 
     public Communication(Context context, List<MessageObject> messageList,
-                         ConversationRecyclerView mAdapter, String chatId, String userType) {
+                         ConversationRecyclerView mAdapter, RecyclerView mRecyclerView,
+                         String chatId, String userType) {
         this.context = context;
         this.messageList = messageList;
         this.mAdapter = mAdapter;
         this.chatId = chatId;
         this.userType = userType;
+        this.mRecyclerView = mRecyclerView;
     }
 
     public void getMessages()
@@ -57,6 +62,13 @@ public class Communication
                     messageList.add(messageObject);
                     mAdapter.notifyDataSetChanged();
                     //mAdapter.notifyItemInserted(messageList.size()-1); todo
+                    mRecyclerView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(mAdapter.getItemCount()>0)
+                                mRecyclerView.smoothScrollToPosition(mAdapter.getItemCount() - 1);
+                        }
+                    }, 500);
                 }
             }
             @Override
@@ -80,5 +92,13 @@ public class Communication
         messageData.put("userType", userType);
         messageData.put("time", Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+":"+Calendar.getInstance().get(Calendar.MINUTE));
         newMessageDB.updateChildren(messageData);
+
+        mRecyclerView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(mAdapter.getItemCount()>0)
+                    mRecyclerView.smoothScrollToPosition(mAdapter.getItemCount() - 1);
+            }
+        }, 500);
     }
 }

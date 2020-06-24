@@ -21,7 +21,7 @@ import java.util.List;
 
 public class CustomerConversationActivity extends AppCompatActivity {
 
-    private RecyclerView mRecyclerView;
+    public RecyclerView mRecyclerView;
     public ConversationRecyclerView mAdapter;
     private EditText messageText;
     Toolbar toolbar;
@@ -73,7 +73,7 @@ public class CustomerConversationActivity extends AppCompatActivity {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         communication = new Communication(CustomerConversationActivity.this,
-                messagesList, mAdapter, "chatId", "customer");
+                messagesList, mAdapter, mRecyclerView, chatId, "customer");
 
         communication.getMessages();
 

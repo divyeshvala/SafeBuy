@@ -22,7 +22,7 @@ import java.util.List;
 
 public class MerchantConversationActivity extends AppCompatActivity {
 
-    private RecyclerView mRecyclerView;
+    public RecyclerView mRecyclerView;
     public ConversationRecyclerView mAdapter;
     private EditText text;
     Toolbar toolbar;
@@ -51,7 +51,10 @@ public class MerchantConversationActivity extends AppCompatActivity {
         {
             @Override
             public void run() {
-                mRecyclerView.smoothScrollToPosition(mRecyclerView.getAdapter().getItemCount() - 1);
+                if(mRecyclerView.getAdapter().getItemCount()>0)
+                {
+                    mRecyclerView.smoothScrollToPosition(mRecyclerView.getAdapter().getItemCount() - 1);
+                }
             }
         }, 1000);
 
@@ -62,7 +65,10 @@ public class MerchantConversationActivity extends AppCompatActivity {
                 mRecyclerView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mRecyclerView.smoothScrollToPosition(mRecyclerView.getAdapter().getItemCount() - 1);
+                        if(mRecyclerView.getAdapter().getItemCount()>0)
+                        {
+                            mRecyclerView.smoothScrollToPosition(mRecyclerView.getAdapter().getItemCount() - 1);
+                        }
                     }
                 }, 500);
             }
@@ -71,7 +77,7 @@ public class MerchantConversationActivity extends AppCompatActivity {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         communication = new Communication(MerchantConversationActivity.this,
-                messagesList, mAdapter, chatId, "merchant");
+                messagesList, mAdapter, mRecyclerView, chatId, "merchant");
 
         communication.getMessages();
 

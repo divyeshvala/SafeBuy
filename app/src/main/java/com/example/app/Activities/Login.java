@@ -51,7 +51,7 @@ public class Login extends AppCompatActivity
                 else
                 {
                     SharedPreferences.Editor editor = settings.edit();
-                    editor.putString("userType", "customer");
+                    editor.putString("userType", "merchant");
                     editor.apply();
                 }
             }

@@ -72,8 +72,7 @@ public class DisplayMerchantsActivity extends AppCompatActivity implements ChatA
                 chat.setImage(R.drawable.user2);
                 chat.setOnline(true);
                 chat.setLastChat(dataSnapshot.child("phone").getValue(String.class));
-                chat.setUserId(dataSnapshot.child("customerId").getValue(String.class));
-                chat.setChatId(dataSnapshot.getKey());
+                chat.setUserId(dataSnapshot.getKey());
                 merchantsList.add(chat);
                 //mAdapter.notifyDataSetChanged();
                 mAdapter.notifyItemInserted(merchantsList.size()-1); //todo
@@ -126,13 +125,13 @@ public class DisplayMerchantsActivity extends AppCompatActivity implements ChatA
                     data.put("name", merchantsList.get(position).getName());
                     newChatId.updateChildren(data);
 
-                    newChatId = FirebaseDatabase.getInstance().getReference()
-                            .child("merchants").child(merchantsList.get(position).getUserId()).child("chatIds");
+                    DatabaseReference merchantDB = FirebaseDatabase.getInstance().getReference()
+                            .child("merchants").child(merchantsList.get(position).getUserId()).child("chatIds").child(newChatId.getKey());
 
                     data = new HashMap<>();
                     data.put("customerId", myUid);
-                    data.put("name", FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
-                    newChatId.updateChildren(data);
+                    data.put("name", FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                    merchantDB.updateChildren(data);
 
                     GoToNextActivity(merchantsList.get(position), newChatId.getKey());
                 }
