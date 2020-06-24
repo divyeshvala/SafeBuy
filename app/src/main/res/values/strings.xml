@@ -27,5 +27,7 @@
     <string name="location">Location</string>
     <string name="category">Category</string>
     <string name="distance">Distance</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

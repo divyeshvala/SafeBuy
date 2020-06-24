@@ -151,7 +151,7 @@ public class FragmentNearYou extends Fragment {
         return start.distanceTo(dest);
     }
 
-    private void setupLocationAPI()
+    public void setupLocationAPI()
     {
         LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener = new MyLocationListener(getActivity());

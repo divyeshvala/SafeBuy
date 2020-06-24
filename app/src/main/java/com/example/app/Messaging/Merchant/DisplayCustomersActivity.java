@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import com.example.app.Messaging.Chat;
 import com.example.app.Messaging.ChatAdapter;
@@ -34,7 +35,6 @@ public class DisplayCustomersActivity extends AppCompatActivity implements ChatA
     private String myUid;
     Toolbar toolbar;
     TextView title;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
