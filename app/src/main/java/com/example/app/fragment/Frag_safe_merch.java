@@ -1,11 +1,17 @@
 package com.example.app.fragment;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +25,7 @@ import com.example.app.R;
 import com.example.app.Utilities.GetNearbyATMs;
 import com.example.app.Utilities.GetNearbyMerchs;
 import com.example.app.Utilities.LocationObject;
+import com.example.app.Utilities.MyLocationListener;
 
 import java.util.ArrayList;
 
@@ -34,6 +41,7 @@ public class Frag_safe_merch extends Fragment {
     public ArrayList<LocationObject> containmentZonesList;
     private GetNearbyMerchs getNearbyMerchs;
     private FragmentNearYou fgny;
+    private String send2;
     public Frag_safe_merch() {
         // Required empty public constructor
     }
@@ -71,10 +79,10 @@ public class Frag_safe_merch extends Fragment {
         getNearbyMerchs = new GetNearbyMerchs(getActivity(), ATMsList, containmentZonesList);
 //        IntentFilter intentFilter1 = new IntentFilter("ACTION_FOUND_ATM_LIST");
 //        getActivity().registerReceiver(ATMListReceiver, intentFilter1);
-
-        IntentFilter intentFilter = new IntentFilter("ADDRESS_FOUND");
+        send2="ADDRESS_FOUND2";
+        IntentFilter intentFilter = new IntentFilter(send2);
         getActivity().registerReceiver(locationReceiver, intentFilter);
-        fgny.setupLocationAPI();
+        setupLocationAPI(send2);
         return view;
     }
     private final BroadcastReceiver locationReceiver = new BroadcastReceiver() {
@@ -83,4 +91,28 @@ public class Frag_safe_merch extends Fragment {
             Toast.makeText(context, "Location found yipee", Toast.LENGTH_LONG).show();
         }
     };
+    public void onDestroy() {
+        super.onDestroy();
+        try{
+            getActivity().unregisterReceiver(locationReceiver);
+        }catch (Exception e){ e.printStackTrace(); }
+    }
+    private void setupLocationAPI(String send)
+    {
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        LocationListener locationListener = new MyLocationListener(getActivity(),send);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(),Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                locationManager.requestLocationUpdates(
+                        LocationManager.GPS_PROVIDER, 5000, 1, locationListener);
+            }
+        }
+        else
+        {
+            locationManager.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER, 5000, 1, locationListener);
+        }
+    }
 }

@@ -38,6 +38,7 @@ public class FragmentNearYou extends Fragment {
     private static final String TAG = "FragmentNearYou";
     private RecyclerView recyclerViewNearYou;
     private ListAdapter mListadapter;
+    private String send;
     public static FragmentNearYou newInstance() {
         return new FragmentNearYou();
     }
@@ -70,10 +71,10 @@ public class FragmentNearYou extends Fragment {
 
         IntentFilter intentFilter1 = new IntentFilter("ACTION_FOUND_ATM_LIST");
         getActivity().registerReceiver(ATMListReceiver, intentFilter1);
-
-        IntentFilter intentFilter = new IntentFilter("ADDRESS_FOUND");
+        send="ADDRESS_FOUND";
+        IntentFilter intentFilter = new IntentFilter(send);
         getActivity().registerReceiver(locationReceiver, intentFilter);
-        setupLocationAPI();
+        setupLocationAPI(send);
 
         return view;
     }
@@ -93,8 +94,8 @@ public class FragmentNearYou extends Fragment {
 //                doesUserWantOurLocationsATMs = false;
 //            }
 //
-            //getNearbyATMs.getListOfATMs("vile parle, mumbai", 19.0968, 72.8517);
-            getNearbyATMs.getListOfATMs(addressLine, lat, lon);
+            getNearbyATMs.getListOfATMs("vile parle, mumbai", 19.0968, 72.8517);
+            //getNearbyATMs.getListOfATMs(addressLine, lat, lon);
         }
     };
 
@@ -151,10 +152,10 @@ public class FragmentNearYou extends Fragment {
         return start.distanceTo(dest);
     }
 
-    public void setupLocationAPI()
+    private void setupLocationAPI(String send)
     {
         LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        LocationListener locationListener = new MyLocationListener(getActivity());
+        LocationListener locationListener = new MyLocationListener(getActivity(),send);
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
         {
