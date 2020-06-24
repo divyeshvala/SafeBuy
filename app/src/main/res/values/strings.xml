@@ -24,4 +24,8 @@
     <string name="sign_up">Sign Up</string>
     <string name="email">Email address</string>
 
+    <string name="location">Location</string>
+    <string name="category">Category</string>
+    <string name="distance">Distance</string>
+
 </resources>

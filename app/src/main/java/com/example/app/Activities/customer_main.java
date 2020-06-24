@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.example.app.R;
 import com.example.app.fragment.CustomerMainFragmentAdapter;
+import com.example.app.fragment.FilterBottomSheetFragment;
 import com.example.app.fragment.FragmentNearYou;
 import com.example.app.fragment.FragmentVisited;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -36,8 +37,8 @@ public class customer_main extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                FilterBottomSheetFragment bottomSheetFragment = new FilterBottomSheetFragment();
+                bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
             }
         });
 

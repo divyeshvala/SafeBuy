@@ -22,4 +22,5 @@
     <dimen name="h4">12sp</dimen>
     <dimen name="h5">10sp</dimen>
     <dimen name="maxwidth">170dp</dimen>
+    <dimen name="normalText">16sp</dimen>
 </resources>
