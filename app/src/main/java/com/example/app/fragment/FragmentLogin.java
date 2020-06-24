@@ -48,7 +48,6 @@ public class FragmentLogin extends Fragment implements View.OnClickListener{
         progressBar = (ProgressBar) view.findViewById(R.id.loading);
         firebaseAuth = FirebaseAuth.getInstance();
 
-
         System.out.println("Entered Login fragement");
 
         btnLogin_register.setOnClickListener(this);
@@ -101,8 +100,6 @@ public class FragmentLogin extends Fragment implements View.OnClickListener{
                 }
 
                 break;
-
-
             default: break;
         }
 

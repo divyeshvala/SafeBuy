@@ -16,7 +16,38 @@
         android:layout_height="0dp"
         android:layout_weight="3">
 
+        <RadioGroup
+            android:id="@+id/id_radioGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <RadioButton
+                android:id="@+id/id_merchantUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" I am a Merchant"
+                android:textStyle="italic"
+                android:textColor="#ffffff"
+                android:textSize="22sp" />
+
+            <RadioButton
+                android:id="@+id/id_customerUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:textStyle="italic"
+                android:text=" I am a Customer"
+                android:textColor="#ffffff"
+                android:textSize="22sp" />
+        </RadioGroup>
+
         <LinearLayout
+            android:id="@+id/signIn_layout"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="3"
@@ -44,7 +75,6 @@
                 android:textColor="@color/grey"
                 android:textSize="24sp"
                 android:textStyle="normal" />
-
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -55,7 +85,6 @@
         android:layout_weight="7"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         >
-
     </androidx.viewpager.widget.ViewPager>
 
 </LinearLayout>

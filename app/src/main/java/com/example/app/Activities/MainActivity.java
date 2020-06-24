@@ -9,15 +9,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
-
-import com.example.app.Messaging.Customer.DisplayMerchantsActivity;
 import com.example.app.Messaging.Merchant.DisplayCustomersActivity;
 import com.example.app.R;
 import com.example.app.Utilities.PermissionUtils;
@@ -112,9 +109,19 @@ public class MainActivity extends AppCompatActivity
 
     private void GotoNextActivity()
     {
-        Intent intent = new Intent(MainActivity.this, customer_main.class);
-        startActivity(intent);
-        finish();
+        final SharedPreferences settings = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+        if(settings.getString("userType", "customer").equals("customer"))
+        {
+            Intent intent = new Intent(MainActivity.this, customer_main.class);
+            startActivity(intent);
+            finish();
+        }
+        else
+        {
+            Intent intent = new Intent(MainActivity.this, DisplayCustomersActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     // Ask user to turn on GPS
