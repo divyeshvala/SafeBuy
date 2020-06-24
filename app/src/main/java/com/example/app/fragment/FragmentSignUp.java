@@ -3,6 +3,7 @@ package com.example.app.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +70,7 @@ public class FragmentSignUp extends Fragment implements View.OnClickListener {
         switch(v.getId()){
 
             case R.id.login_register:
-
+                    Log.i("FragmentSignUp", "inside it");
                     String email = txtEmail.getEditText().getText().toString().trim();
                     String password = txtPassword.getEditText().getText().toString().trim();
 

@@ -53,7 +53,7 @@ public class DisplayCustomersActivity extends AppCompatActivity implements ChatA
     private void getMerchantsList()
     {
         final DatabaseReference merchantsDB = FirebaseDatabase.getInstance().getReference()
-                .child("merchants").child("merchantId1").child("todo"); //todo
+                .child("merchants").child("merchantId1").child("chatIds"); //todo
 
         merchantsDB.addChildEventListener(new ChildEventListener() {
             @Override

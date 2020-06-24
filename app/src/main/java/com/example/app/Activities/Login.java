@@ -88,6 +88,5 @@ public class Login extends AppCompatActivity
                 finish();
             }
         }, 5000);*/
-
     }
 }

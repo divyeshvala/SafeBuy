@@ -39,7 +39,7 @@ public class MerchantConversationActivity extends AppCompatActivity {
 
         String merchantName = getIntent().getStringExtra("customerName");
         merchantId = getIntent().getStringExtra("customerId");
-        setupToolbarWithUpNav(R.id.toolbar, merchantName, R.drawable.ic_action_back);
+        //setupToolbarWithUpNav(R.id.toolbar, merchantName, R.drawable.ic_action_back);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -90,19 +90,8 @@ public class MerchantConversationActivity extends AppCompatActivity {
 
     private void sendMessage()
     {
-        // update UI
-        MessageObject item = new MessageObject();
-        item.setTime(Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+":"+Calendar.getInstance().get(Calendar.MINUTE));
-        item.setUserType("ME");
-        item.setText(text.getText().toString());
-        messagesList.add(item);
-        mAdapter.notifyDataSetChanged();
-        if(mAdapter.getItemCount()>0)
-            mRecyclerView.smoothScrollToPosition(mAdapter.getItemCount()-1);
-        text.setText("");
-
-        //todo:
         communication.sendMessage(text.getText().toString());
+        text.setText("");
     }
 
     public void setupToolbarWithUpNav(int toolbarId, String titlePage, @DrawableRes int res){

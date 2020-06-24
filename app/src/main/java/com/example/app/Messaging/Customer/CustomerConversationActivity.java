@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import com.example.app.Messaging.ConversationRecyclerView;
 import com.example.app.R;
 import com.example.app.Utilities.Communication;
@@ -18,7 +17,6 @@ import com.example.app.model.MessageObject;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class CustomerConversationActivity extends AppCompatActivity {
@@ -92,19 +90,8 @@ public class CustomerConversationActivity extends AppCompatActivity {
 
     private void sendMessage()
     {
-        // update UI
-        MessageObject item = new MessageObject();
-        item.setTime(Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+":"+Calendar.getInstance().get(Calendar.MINUTE));
-        item.setUserType("ME");
-        item.setText(messageText.getText().toString());
-        messagesList.add(item);
-        mAdapter.notifyDataSetChanged();
-        if(mAdapter.getItemCount()>0)
-            mRecyclerView.smoothScrollToPosition(mAdapter.getItemCount()-1);
-        messageText.setText("");
-
-        //todo:
         communication.sendMessage(messageText.getText().toString());
+        messageText.setText("");
     }
 
     public void setupToolbarWithUpNav(int toolbarId, String titlePage, @DrawableRes int res){

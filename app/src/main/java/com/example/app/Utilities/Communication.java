@@ -15,8 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static android.content.Context.MODE_PRIVATE;
-
 public class Communication
 {
     private Context context;
@@ -79,7 +77,7 @@ public class Communication
         Map<String, Object> messageData = new HashMap<>();
         messageData.put("image", "nullll");
         messageData.put("text", message);
-        messageData.put("creator", userType);
+        messageData.put("userType", userType);
         messageData.put("time", Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+":"+Calendar.getInstance().get(Calendar.MINUTE));
         newMessageDB.updateChildren(messageData);
     }

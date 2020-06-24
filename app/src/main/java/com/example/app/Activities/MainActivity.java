@@ -13,7 +13,12 @@ import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
+
+import com.example.app.Messaging.Customer.DisplayMerchantsActivity;
+import com.example.app.Messaging.Merchant.DisplayCustomersActivity;
 import com.example.app.R;
 import com.example.app.Utilities.PermissionUtils;
 import com.google.android.gms.common.api.ApiException;
@@ -42,7 +47,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         // todo : To be shifted when UI is ready
-        getAllPermissions();
+        getAllPermissions(); // todo
     }
 
     // Get location permissions
