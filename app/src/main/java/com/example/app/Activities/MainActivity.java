@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity
         final SharedPreferences settings = getSharedPreferences("MySharedPref", MODE_PRIVATE);
         if(settings.getString("userType", "customer").equals("customer"))
         {
-            Intent intent = new Intent(MainActivity.this, DisplayMerchantsActivity.class); //todo
+            Intent intent = new Intent(MainActivity.this, customer_main.class); //todo
             startActivity(intent);
             finish();
         }
