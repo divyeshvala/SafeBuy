@@ -46,6 +46,7 @@ public class Frag_safe_merch extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment Frag_safe_merch.
      */
+    //cfm
     // TODO: Rename and change types and number of parameters
     public static Frag_safe_merch newInstance() {
         return new Frag_safe_merch();
