@@ -41,28 +41,29 @@ def handleATMRequests(root, tablepath, city, distance, distanceUnit):
 
     response = getATMLocations(city, distance, distanceUnit)
 
-    for res in response["responseData"]:
+    if response["responseData"] is not None:
+        for res in response["responseData"]:
 
-        print('Found locations',res["foundATMLocations"])
+            print('Found locations',res["foundATMLocations"])
 
-        if res["foundATMLocations"] is not None:
-            for locations in res["foundATMLocations"]:
+            if res["foundATMLocations"] is not None:
+                for locations in res["foundATMLocations"]:
 
-                print(locations["location"]["placeName"], "latitude: ", locations["location"]["coordinates"]["latitude"],
-                        "longitude: ", locations["location"]["coordinates"]["longitude"])
+                    print(locations["location"]["placeName"], "latitude: ", locations["location"]["coordinates"]["latitude"],
+                            "longitude: ", locations["location"]["coordinates"]["longitude"])
 
-                root.child(tablepath).push({
-                    "placeName": locations["location"]["placeName"],
-                    "coordinates": {
-                        "latitude": locations["location"]["coordinates"]["latitude"],
-                        "longitude": locations["location"]["coordinates"]["longitude"],
-                    }
-                })
-        root.child(tablepath).push({
-            "placeName": None,
-            "coordinates": {
-                "latitude": -360,
-                "longitude": -360,
-            }
-        })
+                    root.child(tablepath).push({
+                        "placeName": locations["location"]["placeName"],
+                        "coordinates": {
+                            "latitude": locations["location"]["coordinates"]["latitude"],
+                            "longitude": locations["location"]["coordinates"]["longitude"],
+                        }
+                    })
+            root.child(tablepath).push({
+                "placeName": None,
+                "coordinates": {
+                    "latitude": -360,
+                    "longitude": -360,
+                }
+            })
 
