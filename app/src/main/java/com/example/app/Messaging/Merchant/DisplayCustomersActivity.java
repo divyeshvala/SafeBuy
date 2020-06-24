@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.example.app.Messaging.Chat;
 import com.example.app.Messaging.ChatAdapter;
 import com.example.app.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,13 +24,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DisplayCustomersActivity extends AppCompatActivity implements ChatAdapter.ViewHolder.ClickListener{
-
+public class DisplayCustomersActivity extends AppCompatActivity implements ChatAdapter.ViewHolder.ClickListener
+{
     private static final String TAG = "DisplayMerchants";
     private RecyclerView mRecyclerView;
     private ChatAdapter mAdapter;
     private TextView tv_selection;
     private List<Chat> merchantsList;
+    private String myUid;
     Toolbar toolbar;
     TextView title;
 
@@ -47,27 +49,32 @@ public class DisplayCustomersActivity extends AppCompatActivity implements ChatA
         mRecyclerView.setLayoutManager(new LinearLayoutManager(DisplayCustomersActivity.this));
         mAdapter = new ChatAdapter(DisplayCustomersActivity.this, merchantsList,this);
         mRecyclerView.setAdapter (mAdapter);
-        getMerchantsList();
+
+        myUid = FirebaseAuth.getInstance().getUid();
+
+        getCustomersList();
+
     }
 
-    private void getMerchantsList()
+    private void getCustomersList()
     {
         final DatabaseReference merchantsDB = FirebaseDatabase.getInstance().getReference()
-                .child("merchants").child("merchantId1").child("chatIds"); //todo
+                .child("merchants").child(myUid).child("chatIds");
 
         merchantsDB.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
             {
                 Chat chat = new Chat();
-                chat.setmTime("5:04pm");
+                chat.setTime("");
                 chat.setName(dataSnapshot.child("name").getValue(String.class));
                 chat.setImage(R.drawable.user2);
                 chat.setOnline(true);
                 chat.setLastChat(dataSnapshot.child("phone").getValue(String.class));
-                chat.setId(dataSnapshot.getKey());
+                chat.setUserId(dataSnapshot.child("customerId").getValue(String.class));
+                chat.setChatId(dataSnapshot.getKey());
                 merchantsList.add(chat);
-                mAdapter.notifyDataSetChanged();
+                mAdapter.notifyDataSetChanged(); //todo
                 Log.i(TAG, "Merchant :"+chat.getName());
             }
 
@@ -87,7 +94,8 @@ public class DisplayCustomersActivity extends AppCompatActivity implements ChatA
     {
         Intent intent = new Intent(DisplayCustomersActivity.this, MerchantConversationActivity.class);
         intent.putExtra("customerName", merchantsList.get(position).getName());
-        intent.putExtra("customerId", merchantsList.get(position).getId());
+        intent.putExtra("customerId", merchantsList.get(position).getUserId());
+        intent.putExtra("chatId", merchantsList.get(position).getChatId());
         startActivity(intent);
     }
 

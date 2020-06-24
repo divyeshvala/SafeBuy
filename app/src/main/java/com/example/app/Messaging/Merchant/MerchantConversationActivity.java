@@ -39,6 +39,7 @@ public class MerchantConversationActivity extends AppCompatActivity {
 
         String merchantName = getIntent().getStringExtra("customerName");
         merchantId = getIntent().getStringExtra("customerId");
+        String chatId = getIntent().getStringExtra("chatId");
         //setupToolbarWithUpNav(R.id.toolbar, merchantName, R.drawable.ic_action_back);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
@@ -70,8 +71,8 @@ public class MerchantConversationActivity extends AppCompatActivity {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         communication = new Communication(MerchantConversationActivity.this,
-                messagesList, mAdapter, "todo", "merchant");
-        // todo:
+                messagesList, mAdapter, chatId, "merchant");
+
         communication.getMessages();
 
         Button send = (Button) findViewById(R.id.bt_send);
@@ -82,16 +83,11 @@ public class MerchantConversationActivity extends AppCompatActivity {
             {
                 if (!text.getText().toString().equals(""))
                 {
-                    sendMessage();
+                    communication.sendMessage(text.getText().toString());
+                    text.setText("");
                 }
             }
         });
-    }
-
-    private void sendMessage()
-    {
-        communication.sendMessage(text.getText().toString());
-        text.setText("");
     }
 
     public void setupToolbarWithUpNav(int toolbarId, String titlePage, @DrawableRes int res){

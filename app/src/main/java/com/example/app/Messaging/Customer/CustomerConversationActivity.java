@@ -32,12 +32,15 @@ public class CustomerConversationActivity extends AppCompatActivity {
     private Communication communication;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation);
 
         String merchantName = getIntent().getStringExtra("merchantName");
         merchantId = getIntent().getStringExtra("merchantId");
+        String chatId = getIntent().getStringExtra("chatId");
+
         setupToolbarWithUpNav(R.id.toolbar, merchantName, R.drawable.ic_action_back);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
@@ -70,8 +73,8 @@ public class CustomerConversationActivity extends AppCompatActivity {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         communication = new Communication(CustomerConversationActivity.this,
-                messagesList, mAdapter, "todo", "customer");
-        // todo:
+                messagesList, mAdapter, "chatId", "customer");
+
         communication.getMessages();
 
         Button send = (Button) findViewById(R.id.bt_send);
@@ -82,22 +85,17 @@ public class CustomerConversationActivity extends AppCompatActivity {
             {
                 if (!messageText.getText().toString().equals(""))
                 {
-                    sendMessage();
+                    communication.sendMessage(messageText.getText().toString());
+                    messageText.setText("");
                 }
             }
         });
     }
 
-    private void sendMessage()
-    {
-        communication.sendMessage(messageText.getText().toString());
-        messageText.setText("");
-    }
-
     public void setupToolbarWithUpNav(int toolbarId, String titlePage, @DrawableRes int res){
         toolbar = (Toolbar) findViewById(toolbarId);
-        setSupportActionBar(toolbar);
 
+        setSupportActionBar(toolbar);
         title = (TextView) toolbar.findViewById(R.id.tv_title);
         title.setText(titlePage);
 

@@ -2,58 +2,67 @@ package com.example.app.Messaging;
 
 public class Chat {
 
-    private String mName;
-    private String mLastChat;
-    private String mTime;
-    private int mImage;
+    private String name;
+    private String lastChat;
+    private String time;
+    private int image;
     private boolean online;
-    private String Id;
-
-    public String getId() {
-        return Id;
-    }
-
-    public void setId(String id) {
-        Id = id;
-    }
+    private String userId;
+    private String chatId;
 
     public String getName() {
-        return mName;
+        return name;
     }
 
     public void setName(String name) {
-        mName = name;
+        this.name = name;
     }
 
     public String getLastChat() {
-        return mLastChat;
+        return lastChat;
     }
 
     public void setLastChat(String lastChat) {
-        mLastChat = lastChat;
+        this.lastChat = lastChat;
     }
 
     public String getTime() {
-        return mTime;
+        return time;
     }
 
-    public void setmTime(String time) {
-        mTime = time;
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public int getImage() {
-        return mImage;
+        return image;
     }
 
     public void setImage(int image) {
-        mImage = image;
+        this.image = image;
     }
 
-    public boolean getOnline(){
+    public boolean isOnline() {
         return online;
     }
 
-    public void setOnline(boolean on){
-        online = on;
+    public void setOnline(boolean online) {
+        this.online = online;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getChatId() {
+        return chatId;
+    }
+
+    public void setChatId(String chatId) {
+        this.chatId = chatId;
     }
 }
