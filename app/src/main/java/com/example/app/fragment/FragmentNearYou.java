@@ -11,7 +11,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,13 +25,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.app.Activities.HomeActivity;
 import com.example.app.R;
 import com.example.app.Utilities.GetNearbyATMs;
 import com.example.app.Utilities.LocationObject;
 import com.example.app.Utilities.MyLocationListener;
 import com.example.app.model.Merchant;
-import com.example.app.model.ModelTestData;
 
 import java.util.ArrayList;
 
@@ -51,7 +48,6 @@ public class FragmentNearYou extends Fragment {
     public ArrayList<LocationObject> containmentZonesList;
     private GetNearbyATMs getNearbyATMs;
     private LocationObject mLocation;
-
 
     @Nullable
     @Override

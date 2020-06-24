@@ -5,9 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.util.Log;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,7 +19,6 @@ import com.example.app.R;
 import com.example.app.fragment.FragmentLogin;
 import com.example.app.fragment.FragmentSignUp;
 import com.example.app.fragment.LoginSignupFragmentAdapter;
-import com.example.app.ui.login.SectionsPagerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -29,9 +32,40 @@ public class Login extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // This part whether the user is currently logged in
+        RadioGroup selectUser = findViewById(R.id.id_radioGroup);
+        final RadioButton customer = findViewById(R.id.id_customerUser);
+        RadioButton merchant = findViewById(R.id.id_merchantUser);
 
+        final SharedPreferences settings = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+
+        selectUser.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i)
+            {
+                if(i==customer.getId())
+                {
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("userType", "customer");
+                    editor.apply();
+                }
+                else
+                {
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("userType", "customer");
+                    editor.apply();
+                }
+            }
+        });
+
+        // This part whether the user is currently logged in
         firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+        if(firebaseUser!=null)
+        {
+            Intent intent = new Intent(Login.this, MainActivity.class);
+            startActivity(intent);
+        }
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
@@ -45,7 +79,6 @@ public class Login extends AppCompatActivity
 
                     Toast.makeText(Login.this, "you are logged in", Toast.LENGTH_LONG);
                     Intent intent = new Intent(Login.this, MainActivity.class);
-
                     startActivity(intent);
                 }
                 else{

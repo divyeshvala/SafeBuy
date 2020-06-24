@@ -33,9 +33,8 @@ public class FragmentSignUp extends Fragment implements View.OnClickListener {
     private ProgressBar progressBar;
     private FirebaseAuth firebaseAuth;
 
-
-    public static FragmentSignUp newInstance() {
-
+    public static FragmentSignUp newInstance()
+    {
         return new FragmentSignUp();
     }
 
@@ -88,7 +87,6 @@ public class FragmentSignUp extends Fragment implements View.OnClickListener {
                     }
                     else {
                         progressBar.setVisibility(View.VISIBLE);
-
 
                         firebaseAuth.createUserWithEmailAndPassword(email, password)
                                 .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
