@@ -2,22 +2,25 @@
 
 import requests
 import json
+import os
 
-url = 'https://sandbox.api.visa.com/globalatmlocator/v1/localatms/atmsinquiry'
+url = 'https://sandbox.api.visa.com/merchantlocator/v1/locator'
+
 
 headers = {'Accept': 'application/json'}
 
-json_file = open('/home/kunal/PycharmProjects/SafeBuy/Server/Resources/atm_locator_payload.json',)
+json_file = open('../Resources/merchant_locator_payload.json',)
 
 payload = json.load(json_file)
 
-user_id = 'XB51RTNUVXED4Q8QCL1F21xtGnujtomXrACc_4tXL3WH1ZsdQ'
 
-password = 'AA7AcWiDQ3PLwCmUhflz4rq0MiYw'
+user_id = 'XC2ZRLC7JCX0B2PR5SWK21t2Or5cIWdZsdfe9DAw4vfq30040'
 
-key = '/home/kunal/PycharmProjects/SafeBuy/Server/Resources/atm_locator_api_key.pem'
+password = 'BdjGC5WegJZ13qit60o2'
 
-cert = '/home/kunal/PycharmProjects/SafeBuy/Server/Resources/atm_locator_api_cert.pem'
+key = '../Resources/merchant_locator_api_key.pem'
+
+cert = '../Resources/merchant_locator_api_cert.pem'
 
 resp = requests.post(url=url, cert=(cert, key), auth=(user_id, password), headers=headers, json=payload, timeout=10)
 
