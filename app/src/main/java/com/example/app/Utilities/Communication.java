@@ -25,17 +25,18 @@ public class Communication
     private ConversationRecyclerView mAdapter;
     private String chatId;
     private String userType;
-
+    private String messageSender;
 
     public Communication(Context context, List<MessageObject> messageList,
                          ConversationRecyclerView mAdapter, RecyclerView mRecyclerView,
-                         String chatId, String userType) {
+                         String chatId, String userType, String messageSender) {
         this.context = context;
         this.messageList = messageList;
         this.mAdapter = mAdapter;
         this.chatId = chatId;
         this.userType = userType;
         this.mRecyclerView = mRecyclerView;
+        this.messageSender = messageSender;
     }
 
     public void getMessages()
@@ -69,6 +70,9 @@ public class Communication
                                 mRecyclerView.smoothScrollToPosition(mAdapter.getItemCount() - 1);
                         }
                     }, 500);
+
+                    NotificationSystem notificationSystem = new NotificationSystem();
+                    notificationSystem.sendNewMessageNotification(context, messageSender, text);
                 }
             }
             @Override

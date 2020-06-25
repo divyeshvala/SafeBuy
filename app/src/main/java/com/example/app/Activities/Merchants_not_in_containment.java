@@ -23,5 +23,7 @@ public class Merchants_not_in_containment extends AppCompatActivity {
         adapter2.addFragment(new Frag_safe_merch(), "Safe merchants near you");
         ViewPager viewPager2 = findViewById(R.id.view_pager);
         viewPager2.setAdapter(adapter2);
+
+
     }
 }
