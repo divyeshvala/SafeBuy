@@ -76,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
                     android:layout_marginRight="12dp"
-                    android:text="@string/near_you"
+                    android:text="ATMs"
                     android:textColor="@color/black"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -84,7 +84,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/visited"
+                    android:text="Merchants"
                     android:textColor="@color/grey"
                     android:textSize="24sp"
                     android:textStyle="normal" />
@@ -106,7 +106,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email"
+        app:srcCompat="@drawable/ic_filter_list_black_24dp"
         app:backgroundTint="@color/yellow" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

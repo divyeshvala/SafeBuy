@@ -7,21 +7,5 @@
     android:layout_height="match_parent"
     tools:context=".Activities.MainActivity">
 
-    <Button
-        android:id="@+id/id_merchant"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Merchant"
-        android:layout_centerHorizontal="true"
-        />
-
-    <Button
-        android:id="@+id/id_customer"
-        android:layout_below="@id/id_merchant"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Customer"
-        android:layout_centerHorizontal="true"
-        />
 
 </RelativeLayout>

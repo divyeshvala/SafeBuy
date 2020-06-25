@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -24,49 +26,59 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.app.R;
 import com.example.app.Utilities.GetNearbyATMs;
 import com.example.app.Utilities.LocationObject;
 import com.example.app.Utilities.MyLocationListener;
 import com.example.app.model.Merchant;
-
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
-public class FragmentNearYou extends Fragment {
+public class FragmentNearYou extends Fragment  {
 
     private static final String TAG = "FragmentNearYou";
     private RecyclerView recyclerViewNearYou;
     private ListAdapter mListadapter;
+
     public static FragmentNearYou newInstance() {
         return new FragmentNearYou();
     }
 
     private ArrayList<Merchant> dataList;
     private static final int containmentZoneRadius = 1000;
+    public ArrayList<LocationObject> nearbyATMsList;
+    public ArrayList<LocationObject> nearbycontainmentZonesList;
     public ArrayList<LocationObject> ATMsList;
     public ArrayList<LocationObject> containmentZonesList;
-    private GetNearbyATMs getNearbyATMs;
-    private LocationObject mLocation;
+    private GetNearbyATMs getNearbyATMs, getATMs;
+    private boolean isUsingMyLocation;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_near_you, container, false);
 
+        Log.i(TAG, "inside onCreate.");
+
         recyclerViewNearYou = (RecyclerView) view.findViewById(R.id.recyclerViewNearYou);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerViewNearYou.setLayoutManager(layoutManager);
+        isUsingMyLocation = true;
 
-        mLocation = null;
         dataList = new ArrayList<>();
         mListadapter = new ListAdapter(dataList);
         recyclerViewNearYou.setAdapter(mListadapter);
 
-        ATMsList = new ArrayList<>();
-        containmentZonesList = new ArrayList<>();
-        getNearbyATMs = new GetNearbyATMs(getActivity(), ATMsList, containmentZonesList);
+        nearbyATMsList = new ArrayList<>();
+        nearbycontainmentZonesList = new ArrayList<>();
+        getNearbyATMs = new GetNearbyATMs(getActivity(), nearbyATMsList, nearbycontainmentZonesList,
+                isUsingMyLocation, "2000");
+
+        IntentFilter intentFilter2 = new IntentFilter("ACTION_FILTER_APPLIED");
+        getActivity().registerReceiver(filterReceiver, intentFilter2);
 
         IntentFilter intentFilter1 = new IntentFilter("ACTION_FOUND_ATM_LIST");
         getActivity().registerReceiver(ATMListReceiver, intentFilter1);
@@ -74,40 +86,94 @@ public class FragmentNearYou extends Fragment {
         IntentFilter intentFilter = new IntentFilter("ADDRESS_FOUND");
         getActivity().registerReceiver(locationReceiver, intentFilter);
         setupLocationAPI();
-
         return view;
     }
+
+    private final BroadcastReceiver filterReceiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent)
+        {
+            Log.i(TAG, "Inside filter receiver");
+            String distance = intent.getStringExtra("distance");
+            final String addressLine = intent.getStringExtra("addressLine");
+            try{
+                getActivity().unregisterReceiver(locationReceiver);
+                getActivity().unregisterReceiver(filterReceiver);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            isUsingMyLocation = false;
+
+            if(distance.equals(""))
+                distance = "2000";
+
+            ATMsList = new ArrayList<>();
+            containmentZonesList = new ArrayList<>();
+            getATMs = new GetNearbyATMs(getActivity(), ATMsList, containmentZonesList,
+                    isUsingMyLocation, distance);
+
+            Address address = null;
+            try {
+                Geocoder geocoder = new Geocoder(getActivity(),
+                        Locale.getDefault());
+                List<Address> addresses = geocoder.getFromLocationName(
+                        addressLine,
+                        1
+                );
+                address = addresses.get(0);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            if(address!=null){
+                final Address finalAddress = address;
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        getATMs.getListOfATMs(addressLine, finalAddress.getLatitude(), finalAddress.getLongitude());
+                    }
+                }).start();
+            }
+        }
+    };
 
     private final BroadcastReceiver locationReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent)
         {
-            double lat = intent.getDoubleExtra("latitude", 0);
-            double lon = intent.getDoubleExtra("longitude", 0);
-            String addressLine = intent.getStringExtra("addressLine");
+            final double lat = intent.getDoubleExtra("latitude", 0);
+            final double lon = intent.getDoubleExtra("longitude", 0);
+            final String addressLine = intent.getStringExtra("addressLine");
             getActivity().unregisterReceiver(locationReceiver);
 
-            mLocation = new LocationObject(lat, lon, addressLine);
-
-//            if(doesUserWantOurLocationsATMs)
-//            {
-//                doesUserWantOurLocationsATMs = false;
-//            }
-//
-            //getNearbyATMs.getListOfATMs("vile parle, mumbai", 19.0968, 72.8517);
-            getNearbyATMs.getListOfATMs(addressLine, lat, lon);
+            if(isUsingMyLocation) {
+                new Thread(new Runnable(){
+                    @Override
+                    public void run() {
+                        getNearbyATMs.getListOfATMs(addressLine, lat, lon);
+                    }
+                }).start();
+            }
         }
     };
 
     private final BroadcastReceiver ATMListReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent)
         {
-            Log.i(TAG, "inside ATMListReceiver ");
+            Log.i(TAG, "inside ATMListReceiver, response type : "+intent.getBooleanExtra("isUsingMyLocation", true));
             getActivity().unregisterReceiver(ATMListReceiver);
-            findSafeAndUnsafeATMs();
+
+            if(intent.getBooleanExtra("isUsingMyLocation", true)&& isUsingMyLocation)
+            {
+                findSafeAndUnsafeATMs(nearbyATMsList, nearbycontainmentZonesList);
+            }
+            else
+            {
+                findSafeAndUnsafeATMs(ATMsList, containmentZonesList);
+            }
         }
     };
 
-    private void findSafeAndUnsafeATMs()
+    private void findSafeAndUnsafeATMs(ArrayList<LocationObject> ATMsList, ArrayList<LocationObject> containmentZonesList)
     {
         if(ATMsList.size()==0){
             //unsafeList.setText(unsafeList.getText().toString()+"\nNo ATMs found");
@@ -174,6 +240,7 @@ public class FragmentNearYou extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         try{
+            getActivity().unregisterReceiver(filterReceiver);
             getActivity().unregisterReceiver(locationReceiver);
             getActivity().unregisterReceiver(ATMListReceiver);
         }catch (Exception e){ e.printStackTrace(); }

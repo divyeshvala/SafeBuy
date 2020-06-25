@@ -15,8 +15,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
-
-import com.example.app.Messaging.Customer.DisplayMerchantsActivity;
 import com.example.app.Messaging.Merchant.DisplayCustomersActivity;
 import com.example.app.R;
 import com.example.app.Utilities.PermissionUtils;
@@ -114,7 +112,7 @@ public class MainActivity extends AppCompatActivity
         final SharedPreferences settings = getSharedPreferences("MySharedPref", MODE_PRIVATE);
         if(settings.getString("userType", "customer").equals("customer"))
         {
-            Intent intent = new Intent(MainActivity.this, DisplayMerchantsActivity.class); //todo
+            Intent intent = new Intent(MainActivity.this, customer_main.class); //todo
             startActivity(intent);
             finish();
         }

@@ -22,18 +22,22 @@ import java.util.Map;
 
 public class GetNearbyATMs
 {
-    private static final String DISTANCE_RANGE_METERS = "5000"; // todo: change it based on user input
     private static final String TAG = "GetNearbyATMs";
     private boolean gotResponseForContainmentZones;
     private boolean gotResponseForATMs;
     private Context mContext;
     private ArrayList<LocationObject> ATMsList;
     private ArrayList<LocationObject> containmentZoneList;
+    private boolean isUsingMyLocation;
+    private String distance;
 
-    public GetNearbyATMs(Context mContext, ArrayList<LocationObject> ATMsList, ArrayList<LocationObject> containmentZoneList) {
+    public GetNearbyATMs(Context mContext, ArrayList<LocationObject> ATMsList,
+                         ArrayList<LocationObject> containmentZoneList, boolean isUsingMyLocation, String distance) {
         this.mContext = mContext;
         this.ATMsList = ATMsList;
         this.containmentZoneList = containmentZoneList;
+        this.isUsingMyLocation = isUsingMyLocation;
+        this.distance = distance;
     }
 
     public void getListOfATMs(String addressLine, double latitude, double longitude)
@@ -45,7 +49,7 @@ public class GetNearbyATMs
                 .getReference().child("NearbyATMRequest").push();
 
         Map<String, Object> messageData = new HashMap<>();
-        messageData.put("distance", DISTANCE_RANGE_METERS);
+        messageData.put("distance", distance);
         messageData.put("distanceUnit", "m");
         messageData.put("latitude", latitude);
         messageData.put("longitude", longitude);
@@ -76,6 +80,7 @@ public class GetNearbyATMs
                                     .child("NearbyATMRequest").child(newRequestDB.getKey()).removeValue();
 
                             Intent intent = new Intent("ACTION_FOUND_ATM_LIST");
+                            intent.putExtra("isUsingMyLocation", isUsingMyLocation);
                             mContext.sendBroadcast(intent);
                             //responseDB.removeEventListener(this);
                         }
@@ -137,6 +142,7 @@ public class GetNearbyATMs
                                             .child("NearbyATMRequest").child(newRequestDB.getKey()).removeValue();
 
                                     Intent intent = new Intent("ACTION_FOUND_ATM_LIST");
+                                    intent.putExtra("isUsingMyLocation", isUsingMyLocation);
                                     mContext.sendBroadcast(intent);
                                     //responseDB.removeEventListener(this);
                                 }
@@ -152,6 +158,7 @@ public class GetNearbyATMs
                                     .child("NearbyATMRequest").child(newRequestDB.getKey()).removeValue();
 
                             Intent intent = new Intent("ACTION_FOUND_ATM_LIST");
+                            intent.putExtra("isUsingMyLocation", isUsingMyLocation);
                             mContext.sendBroadcast(intent);
                             //responseDB.removeEventListener(this);
                         }
@@ -168,4 +175,6 @@ public class GetNearbyATMs
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
     }
+
+
 }

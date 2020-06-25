@@ -73,7 +73,7 @@ public class CustomerConversationActivity extends AppCompatActivity {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         communication = new Communication(CustomerConversationActivity.this,
-                messagesList, mAdapter, mRecyclerView, chatId, "customer");
+                messagesList, mAdapter, mRecyclerView, chatId, "customer", merchantName);
 
         communication.getMessages();
 

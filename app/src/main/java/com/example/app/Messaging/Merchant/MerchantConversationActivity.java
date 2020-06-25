@@ -37,7 +37,7 @@ public class MerchantConversationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merchant_conversation);
 
-        String merchantName = getIntent().getStringExtra("customerName");
+        String customerName = getIntent().getStringExtra("customerName");
         merchantId = getIntent().getStringExtra("customerId");
         String chatId = getIntent().getStringExtra("chatId");
         //setupToolbarWithUpNav(R.id.toolbar, merchantName, R.drawable.ic_action_back);
@@ -77,7 +77,7 @@ public class MerchantConversationActivity extends AppCompatActivity {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         communication = new Communication(MerchantConversationActivity.this,
-                messagesList, mAdapter, mRecyclerView, chatId, "merchant");
+                messagesList, mAdapter, mRecyclerView, chatId, "merchant", customerName);
 
         communication.getMessages();
 
