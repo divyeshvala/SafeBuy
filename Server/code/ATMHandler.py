@@ -16,7 +16,7 @@ def handlerATMClients(root):
 
                 # print(curr_request['resolved'])
 
-                if curr_request["resolved"] == 'false':
+                if "resolved" in curr_request and curr_request["resolved"] == 'false':
                     tablepath1 = path1.format(request)
                     tablepath2 = path2.format(request)
 
