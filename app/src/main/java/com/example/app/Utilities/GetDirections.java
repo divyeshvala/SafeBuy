@@ -41,49 +41,63 @@ public class GetDirections
         this.mMap = mMap;
     }
 
-    public void getDirectionsToThisLocation()
+    public void getDirectionsToThisLocation(LatLng origin, LatLng destination)
     {
+        mOrigin = origin;
+        mDestination = destination;
         mMarkerPoints = new ArrayList<>();
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng point) {
-                // Already two locations
-                if(mMarkerPoints.size()>1){
-                    mMarkerPoints.clear();
-                    mMap.clear();
-                }
+        MarkerOptions originOptions = new MarkerOptions();
+        originOptions.position(mOrigin);
+        originOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+        mMap.addMarker(originOptions);
 
-                // Adding new item to the ArrayList
-                mMarkerPoints.add(point);
+        MarkerOptions destOptions = new MarkerOptions();
+        destOptions.position(mDestination);
+        destOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+        mMap.addMarker(destOptions);
 
-                // Creating MarkerOptions
-                MarkerOptions options = new MarkerOptions();
+        drawRoute();
 
-                // Setting the position of the marker
-                options.position(point);
-
-                /*
-                 * For the start location, the color of marker is GREEN and
-                 * for the end location, the color of marker is RED.
-                 */
-                if(mMarkerPoints.size()==1){
-                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                }else if(mMarkerPoints.size()==2){
-                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                }
-
-                // Add new marker to the Google Map Android API V2
-                mMap.addMarker(options);
-
-                // Checks, whether start and end locations are captured
-                if(mMarkerPoints.size() >= 2)
-                {
-                    mOrigin = mMarkerPoints.get(0);
-                    mDestination = mMarkerPoints.get(1);
-                    drawRoute();
-                }
-            }
-        });
+//        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+//            @Override
+//            public void onMapClick(LatLng point) {
+//                // Already two locations
+//                if(mMarkerPoints.size()>1){
+//                    mMarkerPoints.clear();
+//                    mMap.clear();
+//                }
+//
+//                // Adding new item to the ArrayList
+//                mMarkerPoints.add(point);
+//
+//                // Creating MarkerOptions
+//                MarkerOptions options = new MarkerOptions();
+//
+//                // Setting the position of the marker
+//                options.position(point);
+//
+//                /*
+//                 * For the start location, the color of marker is GREEN and
+//                 * for the end location, the color of marker is RED.
+//                 */
+//                if(mMarkerPoints.size()==1){
+//                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+//                }else if(mMarkerPoints.size()==2){
+//                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+//                }
+//
+//                // Add new marker to the Google Map Android API V2
+//                mMap.addMarker(options);
+//
+//                // Checks, whether start and end locations are captured
+//                if(mMarkerPoints.size() >= 2)
+//                {
+//                    mOrigin = mMarkerPoints.get(0);
+//                    mDestination = mMarkerPoints.get(1);
+//                    drawRoute();
+//                }
+//            }
+//        });
     }
 
     private void drawRoute()

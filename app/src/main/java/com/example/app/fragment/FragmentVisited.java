@@ -55,17 +55,17 @@ public class FragmentVisited extends Fragment implements ChatAdapter.ViewHolder.
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_visited, container, false);
 
-//        merchantsList = new ArrayList<>();
-//        tv_selection = (TextView) view.findViewById(R.id.tv_selection);
-//        mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-//        mRecyclerView.setHasFixedSize(true);
-//        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-//        mAdapter = new ChatAdapter(getActivity(), merchantsList,this);
-//        mRecyclerView.setAdapter (mAdapter);
-//
-//        myUid = FirebaseAuth.getInstance().getUid();
-//
-//        getMerchantsList();
+        merchantsList = new ArrayList<>();
+        tv_selection = (TextView) view.findViewById(R.id.tv_selection);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mAdapter = new ChatAdapter(getActivity(), merchantsList,this);
+        mRecyclerView.setAdapter (mAdapter);
+
+        myUid = FirebaseAuth.getInstance().getUid();
+
+        getMerchantsList();
 
         return view;
     }

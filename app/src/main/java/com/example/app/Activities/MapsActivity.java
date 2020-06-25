@@ -31,11 +31,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private boolean permissionDenied = false;
+    private LatLng mOrigin, mDestination;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        mOrigin = new LatLng(getIntent().getDoubleExtra("originLatitude", 0), getIntent().getDoubleExtra("originLongitude", 0));
+        mDestination = new LatLng(getIntent().getDoubleExtra("destinationLatitude", 0), getIntent().getDoubleExtra("destinationLongitude", 0));
+
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -49,12 +54,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mOrigin,16));
 
         enableMyLocation();
 
-        // todo: remove it later.
         GetDirections getDirections = new GetDirections(MapsActivity.this, mMap);
-        getDirections.getDirectionsToThisLocation();
+        getDirections.getDirectionsToThisLocation(mOrigin, mDestination);
     }
 
     private final BroadcastReceiver locationReceiver = new BroadcastReceiver() {
@@ -62,7 +67,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         {
             double lat = intent.getDoubleExtra("latitude", 0);
             double lon = intent.getDoubleExtra("longitude", 0);
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lon),13));
+            //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lon),13));
             unregisterReceiver(locationReceiver); // todo :
         }
     };
