@@ -23,4 +23,7 @@
     <dimen name="h5">10sp</dimen>
     <dimen name="maxwidth">170dp</dimen>
     <dimen name="normalText">16sp</dimen>
+
+    <dimen name="radio_button_conner_radius">5dp</dimen>
+    <dimen name="radio_button_stroke_border">1dp</dimen>
 </resources>
