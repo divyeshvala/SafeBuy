@@ -68,6 +68,7 @@
         android:layout_gravity="center"
         android:paddingLeft="25dp"
         android:layout_width="@dimen/card_width"
+        android:elevation="@dimen/cardview_default_elevation"
         android:layout_height="60dp">
 
         <ImageView
@@ -90,6 +91,7 @@
         android:paddingLeft="25dp"
         android:layout_width="@dimen/card_width"
         android:layout_gravity="center"
+        android:elevation="@dimen/cardview_default_elevation"
         android:layout_height="60dp">
         <ImageView
             android:layout_width="36dp"
