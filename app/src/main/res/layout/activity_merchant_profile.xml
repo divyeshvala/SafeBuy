@@ -15,6 +15,13 @@
         android:orientation="vertical">
 
         <ImageView
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="4dp"
+            android:src="@drawable/ic_back" />
+
+        <ImageView
             android:id="@+id/profile"
             android:layout_width="80dp"
             android:layout_height="80dp"
@@ -84,7 +91,7 @@
             android:paddingLeft="20dp"
             android:text="+266 225 225"/>
     </LinearLayout>
-    <LinearLayout
+    <RelativeLayout
         android:background="@drawable/customborder"
         android:layout_marginTop="25dp"
         android:orientation="horizontal"
@@ -96,7 +103,8 @@
         <ImageView
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:src="@drawable/ic_transactions"/>
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_next"/>
         <TextView
             android:textStyle="bold"
 
@@ -104,8 +112,38 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="20dp"
+            android:layout_centerVertical="true"
+            android:textColor="@color/deepBlue"
             android:text="Transactions"/>
-    </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:background="@drawable/customborder"
+        android:layout_marginTop="25dp"
+        android:orientation="horizontal"
+        android:paddingLeft="25dp"
+        android:layout_width="@dimen/card_width"
+        android:layout_gravity="center"
+        android:elevation="@dimen/cardview_default_elevation"
+        android:layout_height="60dp">
+
+        <TextView
+            android:textStyle="bold"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:textColor="@color/red"
+            android:text="Logout"/>
+        <ImageView
+            android:layout_width="55dp"
+            android:layout_height="45dp"
+            android:layout_alignParentRight="true"
+
+            android:background="@color/white"
+            android:src="@drawable/ic_logout"/>
+    </RelativeLayout>
 
     <Button
         android:id="@+id/login_register"
