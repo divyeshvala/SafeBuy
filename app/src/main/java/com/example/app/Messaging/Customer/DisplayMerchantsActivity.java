@@ -10,9 +10,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+
+import com.example.app.Activities.MainActivity;
+import com.example.app.Activities.Merchants_not_in_containment;
 import com.example.app.Messaging.Chat;
 import com.example.app.Messaging.ChatAdapter;
+import com.example.app.Messaging.Merchant.DisplayCustomersActivity;
 import com.example.app.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -36,7 +41,7 @@ public class DisplayMerchantsActivity extends AppCompatActivity implements ChatA
     private String myUid;
     Toolbar toolbar;
     TextView title;
-
+    private Button button_gtm; //cfm
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +60,14 @@ public class DisplayMerchantsActivity extends AppCompatActivity implements ChatA
         myUid = FirebaseAuth.getInstance().getUid();
 
         getMerchantsList();
+        button_gtm=findViewById(R.id.button2);
+        button_gtm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DisplayMerchantsActivity.this, Merchants_not_in_containment.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void getMerchantsList()

@@ -10,7 +10,7 @@ def getATMLocations(placeName, distance, distanceUnit):
 
     headers = {'Accept': 'application/json'}
 
-    json_file = open('/home/kunal/PycharmProjects/SafeBuy/Server/Resources/atm_locator_payload.json',)
+    json_file = open('../Resources/atm_locator_payload.json',)
 
     payload = json.load(json_file)
 
@@ -26,9 +26,9 @@ def getATMLocations(placeName, distance, distanceUnit):
 
     password = 'AA7AcWiDQ3PLwCmUhflz4rq0MiYw'
 
-    key = '/home/kunal/PycharmProjects/SafeBuy/Server/Resources/atm_locator_api_key.pem'
+    key = '../Resources/atm_locator_api_key.pem'
 
-    cert = '/home/kunal/PycharmProjects/SafeBuy/Server/Resources/atm_locator_api_cert.pem'
+    cert = '../Resources/atm_locator_api_cert.pem'
 
     resp = requests.post(url=url, cert=(cert, key), auth=(user_id, password), headers=headers, json=payload, timeout=10)
 
@@ -41,28 +41,29 @@ def handleATMRequests(root, tablepath, city, distance, distanceUnit):
 
     response = getATMLocations(city, distance, distanceUnit)
 
-    for res in response["responseData"]:
+    if response["responseData"] is not None:
+        for res in response["responseData"]:
 
-        print('Found locations',res["foundATMLocations"])
+            print('Found locations',res["foundATMLocations"])
 
-        if res["foundATMLocations"] is not None:
-            for locations in res["foundATMLocations"]:
+            if res["foundATMLocations"] is not None:
+                for locations in res["foundATMLocations"]:
 
-                print(locations["location"]["placeName"], "latitude: ", locations["location"]["coordinates"]["latitude"],
-                        "longitude: ", locations["location"]["coordinates"]["longitude"])
+                    print(locations["location"]["placeName"], "latitude: ", locations["location"]["coordinates"]["latitude"],
+                            "longitude: ", locations["location"]["coordinates"]["longitude"])
 
-                root.child(tablepath).push({
-                    "placeName": locations["location"]["placeName"],
-                    "coordinates": {
-                        "latitude": locations["location"]["coordinates"]["latitude"],
-                        "longitude": locations["location"]["coordinates"]["longitude"],
-                    }
-                })
-        root.child(tablepath).push({
-            "placeName": None,
-            "coordinates": {
-                "latitude": -360,
-                "longitude": -360,
-            }
-        })
+                    root.child(tablepath).push({
+                        "placeName": locations["location"]["placeName"],
+                        "coordinates": {
+                            "latitude": locations["location"]["coordinates"]["latitude"],
+                            "longitude": locations["location"]["coordinates"]["longitude"],
+                        }
+                    })
+            root.child(tablepath).push({
+                "placeName": None,
+                "coordinates": {
+                    "latitude": -360,
+                    "longitude": -360,
+                }
+            })
 

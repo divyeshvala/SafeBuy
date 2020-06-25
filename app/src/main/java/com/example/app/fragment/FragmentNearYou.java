@@ -97,7 +97,6 @@ public class FragmentNearYou extends Fragment  {
             final String addressLine = intent.getStringExtra("addressLine");
             try{
                 getActivity().unregisterReceiver(locationReceiver);
-                getActivity().unregisterReceiver(filterReceiver);
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -220,7 +219,7 @@ public class FragmentNearYou extends Fragment  {
     private void setupLocationAPI()
     {
         LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        LocationListener locationListener = new MyLocationListener(getActivity());
+        LocationListener locationListener = new MyLocationListener(getActivity(), "");
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
         {

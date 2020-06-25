@@ -72,7 +72,7 @@ public class FilterBottomSheetFragment extends BottomSheetDialogFragment {
                     Toast.makeText(getActivity(), "Please enter the location", Toast.LENGTH_LONG).show();
                 }
                 else{
-                    //bottomSheetListener.onButtonClicked(locationText, distanceText);
+                    bottomSheetListener.onButtonClicked(locationText, distanceText);
                     Intent intent = new Intent("ACTION_FILTER_APPLIED");
                     intent.putExtra("addressLine", locationText);
                     intent.putExtra("distance", distanceText);
@@ -87,13 +87,13 @@ public class FilterBottomSheetFragment extends BottomSheetDialogFragment {
         void onButtonClicked(String location, String distance);
     }
 
-//    @Override
-//    public void onAttach(@NonNull Context context) {
-//        super.onAttach(context);
-//        try{
-//            bottomSheetListener = (BottomSheetListener) context;
-//        }catch (ClassCastException e){
-//            e.printStackTrace();
-//        }
-//    }
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try{
+            bottomSheetListener = (BottomSheetListener) context;
+        }catch (ClassCastException e){
+            e.printStackTrace();
+        }
+    }
 }

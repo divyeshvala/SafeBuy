@@ -2,9 +2,13 @@
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
+import json
 
-cred = credentials.Certificate('/home/kunal/PycharmProjects/SafeBuy/Server/Resources/safebuy-23dc8-firebase-adminsdk'
-                               '-tzqju-b6fbe2e44e.json')
+json_file = open('./Resources/safebuy-23dc8-firebase-adminsdk-tzqju-b6fbe2e44e.json',)
+
+payload = json.load(json_file)
+
+cred = credentials.Certificate(payload)
 
 app = firebase_admin.initialize_app(cred, {'databaseURL': 'https://safebuy-23dc8.firebaseio.com/'})
 

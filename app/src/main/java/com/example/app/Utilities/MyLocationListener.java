@@ -16,10 +16,11 @@ import java.util.Locale;
 public class MyLocationListener implements LocationListener {
 
     private static final String TAG = "MyLocationListener";
-
+    private String send;
     private Context mContext;
-    public MyLocationListener(Context mContext) {
+    public MyLocationListener(Context mContext,String send) {
         this.mContext = mContext;
+        this.send=send;
     }
 
     @Override
