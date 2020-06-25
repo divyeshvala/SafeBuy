@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">App</string>
+    <string name="app_name">SafeBuy</string>
     <string name="title_activity_maps">Map</string>
 
     <!--    Permissions    -->
