@@ -106,7 +106,7 @@ public class FragmentNearYou extends Fragment  {
             final String addressLine = intent.getStringExtra("addressLine");
             try{
                 getActivity().unregisterReceiver(locationReceiver);
-            }catch (Exception e){
+            }catch (Exception e) {
                 e.printStackTrace();
             }
             isUsingMyLocation = false;
@@ -176,11 +176,14 @@ public class FragmentNearYou extends Fragment  {
         {
             Log.i(TAG, "inside ATMListReceiver, response type : "+intent.getBooleanExtra("isUsingMyLocation", true));
 
-            if(intent.getBooleanExtra("isUsingMyLocation", true)&& isUsingMyLocation)
+            dataList.clear();
+            mListadapter.notifyDataSetChanged();
+
+            if(intent.getBooleanExtra("isUsingMyLocation", true) && isUsingMyLocation)
             {
                 findSafeAndUnsafeATMs(nearbyATMsList, nearbycontainmentZonesList);
             }
-            else
+            else if(!intent.getBooleanExtra("isUsingMyLocation", true))
             {
                 Log.i(TAG, "custom location");
 ;               findSafeAndUnsafeATMs(ATMsList, containmentZonesList);
@@ -244,13 +247,13 @@ public class FragmentNearYou extends Fragment  {
         {
             if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(),Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 locationManager.requestLocationUpdates(
-                        LocationManager.GPS_PROVIDER, 5000, 1, locationListener);
+                        LocationManager.GPS_PROVIDER, 50000, 5, locationListener);
             }
         }
         else
         {
             locationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER, 5000, 1, locationListener);
+                    LocationManager.GPS_PROVIDER, 50000, 5, locationListener);
         }
     }
 
