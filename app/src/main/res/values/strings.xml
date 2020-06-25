@@ -18,6 +18,8 @@
     <string name="near_you">Near You</string>
     <string name="tab_text_1">tab1</string>
     <string name="tab_text_2">tab2</string>
+    <string name="validate">Validate</string>
+    <string name="received_list">Received List</string>
 
     <string name="facebook_application_id" translatable="false">YOUR_APP_ID</string>
     <string name="facebook_login_protocol_scheme" translatable="false">fbYOUR_APP_ID</string>

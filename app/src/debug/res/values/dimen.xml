@@ -15,6 +15,7 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="appbar_padding">16dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
+    <dimen name="card_width">340dp</dimen>
 
     <dimen name="h1">18sp</dimen>
     <dimen name="h2">16sp</dimen>
