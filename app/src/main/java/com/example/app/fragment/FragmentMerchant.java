@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.app.CustomUI.Divider;
 import com.example.app.Messaging.Chat;
 import com.example.app.Messaging.ChatAdapter;
 import com.example.app.Messaging.Customer.CustomerConversationActivity;
@@ -41,7 +42,7 @@ import java.util.Map;
 
 public class FragmentMerchant extends Fragment implements ChatAdapter.ViewHolder.ClickListener {
 
-    private static final String TAG = "FragmentVisited";
+    private static final String TAG = "FragmentMerchant";
     private RecyclerView mRecyclerView;
     private ChatAdapter mAdapter;
     private TextView tv_selection;
@@ -67,6 +68,7 @@ public class FragmentMerchant extends Fragment implements ChatAdapter.ViewHolder
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new ChatAdapter(getActivity(), merchantsList,this);
         mRecyclerView.setAdapter (mAdapter);
+        mRecyclerView.addItemDecoration(new Divider(getContext().getDrawable(R.drawable.recyclerview_divider) ));
 
         myUid = FirebaseAuth.getInstance().getUid();
 

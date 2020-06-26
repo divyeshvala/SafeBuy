@@ -46,7 +46,7 @@ import java.util.Locale;
 
 public class FragmentATM extends Fragment
 {
-    private static final String TAG = "FragmentNearYou";
+    private static final String TAG = "FragmentATM";
     private RecyclerView recyclerViewNearYou;
     private ListAdapter mListadapter;
     private ProgressBar progressBar;
