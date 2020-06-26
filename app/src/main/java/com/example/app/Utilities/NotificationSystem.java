@@ -6,12 +6,9 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
-
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-
 import com.example.app.Messaging.Merchant.DisplayCustomersActivity;
 import com.example.app.R;
 
@@ -34,12 +31,11 @@ public class NotificationSystem
                 0, activityIntent, 0);
 
         Notification notification = new NotificationCompat.Builder(context, "channel1")
-                .setSmallIcon(R.drawable.com_facebook_favicon_blue)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(user)
                 .setContentText(textMessage)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .setColor(Color.BLUE)
                 .setContentIntent(contentIntent)
                 .setAutoCancel(true)
                 .setOnlyAlertOnce(true)

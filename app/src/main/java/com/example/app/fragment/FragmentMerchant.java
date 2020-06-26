@@ -16,11 +16,16 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.app.CustomUI.Divider;
 import com.example.app.Messaging.Chat;
 import com.example.app.Messaging.ChatAdapter;
 import com.example.app.Messaging.Customer.CustomerConversationActivity;
-import com.example.app.Messaging.Customer.DisplayMerchantsActivity;
 import com.example.app.R;
+import com.google.android.gms.common.api.Status;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -30,13 +35,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FragmentVisited extends Fragment implements ChatAdapter.ViewHolder.ClickListener {
+public class FragmentMerchant extends Fragment implements ChatAdapter.ViewHolder.ClickListener {
 
-    private static final String TAG = "FragmentVisited";
+    private static final String TAG = "FragmentMerchant";
     private RecyclerView mRecyclerView;
     private ChatAdapter mAdapter;
     private TextView tv_selection;
@@ -45,15 +51,15 @@ public class FragmentVisited extends Fragment implements ChatAdapter.ViewHolder.
     Toolbar toolbar;
     TextView title;
 
-    public static FragmentVisited newInstance()
+    public static FragmentMerchant newInstance()
     {
-        return new FragmentVisited();
+        return new FragmentMerchant();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_visited, container, false);
+        View view = inflater.inflate(R.layout.fragment_merchant, container, false);
 
         merchantsList = new ArrayList<>();
         tv_selection = (TextView) view.findViewById(R.id.tv_selection);
@@ -62,8 +68,35 @@ public class FragmentVisited extends Fragment implements ChatAdapter.ViewHolder.
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new ChatAdapter(getActivity(), merchantsList,this);
         mRecyclerView.setAdapter (mAdapter);
+        mRecyclerView.addItemDecoration(new Divider(getContext().getDrawable(R.drawable.recyclerview_divider) ));
 
         myUid = FirebaseAuth.getInstance().getUid();
+
+        if (!Places.isInitialized()) {
+            Places.initialize(getActivity(), getString(R.string.google_maps_key));
+        }
+
+        // Initialize the AutocompleteSupportFragment.
+        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+                getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+
+        // Specify the types of place data to return.
+        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
+
+        // Set up a PlaceSelectionListener to handle the response.
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(final Place place) {
+                Log.i(TAG, "Place: " + place.getName() + ", " + place.getAddress());
+
+            }
+
+            @Override
+            public void onError(Status status) {
+                // TODO: Handle the error.
+                Log.i(TAG, "An error occurred: " + status);
+            }
+        });
 
         getMerchantsList();
 

@@ -2,6 +2,10 @@ import threading
 
 from Server.code.ATMHandler import handlerATMClients
 from Server.code.MerchantHandler import handleMerchantClients
+
+# from ATMHandler import handlerATMClients
+# from MerchantHandler import handleMerchantClients
+
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db

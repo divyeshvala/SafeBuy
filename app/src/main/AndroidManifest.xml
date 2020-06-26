@@ -27,7 +27,6 @@
         <activity android:name=".Messaging.Merchant.DisplayOrders" />
         <activity android:name=".Messaging.Customer.CustomerConversationActivity" />
         <activity android:name=".Messaging.Customer.DisplayMerchantsActivity" />
-        <activity android:name=".Activities.SignUpActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -49,8 +48,12 @@
             android:label="@string/title_activity_login"
             android:theme="@style/NoTheme" />
         <activity
-            android:name=".Activities.customer_main"
+            android:name=".Activities.CustomerMain"
             android:label="@string/title_activity_customer_main"
+            android:theme="@style/NoTheme" />
+        <activity
+            android:name=".Activities.CustomerProfile"
+            android:label="@string/title_activity_customer_profile"
             android:theme="@style/NoTheme" />
     </application>
 

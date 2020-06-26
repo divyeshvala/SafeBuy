@@ -12,16 +12,22 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.widget.ProgressBar;
+import android.util.Log;
 import android.widget.Toast;
+
+import com.example.app.Messaging.Chat;
 import com.example.app.R;
 import com.example.app.Utilities.GetDirections;
 import com.example.app.Utilities.PermissionUtils;
+import com.example.app.model.LocationObject;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
@@ -32,6 +38,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private boolean permissionDenied = false;
     private LatLng mOrigin, mDestination;
+    private ArrayList<String> containmentZoneLatLngs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +47,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mOrigin = new LatLng(getIntent().getDoubleExtra("originLatitude", 0), getIntent().getDoubleExtra("originLongitude", 0));
         mDestination = new LatLng(getIntent().getDoubleExtra("destinationLatitude", 0), getIntent().getDoubleExtra("destinationLongitude", 0));
-
+        containmentZoneLatLngs = getIntent().getStringArrayListExtra("containmentZoneLatLngs");
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -58,9 +65,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         enableMyLocation();
 
+        // todo: testing
+        for(String object : containmentZoneLatLngs)
+        {
+            LatLng latLng = getLatLng(object);
+            Log.i(TAG,"containmentZoneLatLngs :"+latLng.latitude+":"+latLng.longitude);
+            mMap.addCircle(new CircleOptions()
+                    .center(latLng)
+                    .radius(50)
+                    .strokeWidth(0f)
+                    .fillColor(0x83E53935));
+        }
+
         GetDirections getDirections = new GetDirections(MapsActivity.this, mMap);
         getDirections.getDirectionsToThisLocation(mOrigin, mDestination);
     }
+
+    private LatLng getLatLng(String object)
+    {
+        int i;
+        for(i=0; i<object.length(); i++)
+        {
+            if(object.charAt(i)=='_')
+                break;
+        }
+        return new LatLng(Double.parseDouble(object.substring(0, i)),
+                Double.parseDouble(object.substring(i+1)));
+    }
+
 
     private final BroadcastReceiver locationReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent)

@@ -1,7 +1,10 @@
 from firebase_admin import db
+
 from Server.code.NearbyATMRequestHandler import handleATMRequests
 from Server.code.NearbyContainmentRequestHandler import handleContainmentrequests
 
+# from NearbyATMRequestHandler import handleATMRequests
+# from NearbyContainmentRequestHandler import handleContainmentrequests
 
 def handlerATMClients(root):
     path1 = 'NearbyATMRequest/{}/ATMResult'
@@ -26,10 +29,10 @@ def handlerATMClients(root):
 
                     handleContainmentrequests(root, tablepath2, curr_request["longitude"], curr_request["latitude"],
                                                      curr_request["distance"])
-                    curr_request.update({'resolved': 'true'})
 
                     handleATMRequests(root, tablepath1, curr_request["placeName"], curr_request["distance"],
                                              curr_request["distanceUnit"])
+                    curr_request.update({'resolved': 'true'})
         #            t1 = threading.Thread(target=handleATMRequests, args = (root, tablepath1, curr_request["placeName"],
         #                                                                    curr_request["distance"], curr_request["distanceUnit"],))
 
