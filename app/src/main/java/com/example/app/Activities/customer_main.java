@@ -53,6 +53,13 @@ public class customer_main extends AppCompatActivity implements FilterBottomShee
                 bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
             }
         });
+
+        findViewById(R.id.id_tempProfile).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(customer_main.this, CustomerProfile.class));
+            }
+        });
     }
 
     @Override

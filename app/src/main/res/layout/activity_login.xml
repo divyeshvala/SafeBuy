@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="12dp"
-                android:text="Merchant" />
+                android:text="Customer" />
 
             <RadioButton
                 android:id="@+id/id_merchantUser"
@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="12dp"
-                android:text="Customer" />
+                android:text="Merchant" />
         </com.example.app.CustomUI.SegmentedGroup>
 
         <LinearLayout
@@ -64,7 +64,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
-                android:layout_marginRight="12dp"
                 android:text="Login"
                 android:textColor="@color/white"
                 android:textSize="32sp"
