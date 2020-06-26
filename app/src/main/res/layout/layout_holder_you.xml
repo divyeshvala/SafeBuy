@@ -9,13 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:gravity="center_vertical">
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/user2"
-            android:layout_marginRight="@dimen/space10"/>
         <TextView
             android:id="@+id/tv_chat_text"
             android:layout_toLeftOf="@id/tv_time"
@@ -34,10 +29,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/space5"
-            android:drawableLeft="@drawable/ic_clock"
             android:text="5:04pm"
             android:textColor="@color/colorTextInfo"
-            android:textSize="@dimen/h4"
+            android:textSize="@dimen/h5"
             android:textAppearance="@style/CardView.Light"
             android:layout_centerVertical="true"/>
     </LinearLayout>

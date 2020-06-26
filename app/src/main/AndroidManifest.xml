@@ -25,7 +25,8 @@
         </activity>
         <activity android:name=".Messaging.Merchant.MerchantConversationActivity" />
         <activity android:name=".Messaging.Merchant.DisplayOrders" />
-        <activity android:name=".Messaging.Customer.CustomerConversationActivity" />
+        <activity android:name=".Messaging.Customer.CustomerConversationActivity"
+            android:theme="@style/NoTheme"/>
         <activity android:name=".Messaging.Customer.DisplayMerchantsActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
