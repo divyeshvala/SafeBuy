@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 //Main Screen of the customer
@@ -28,6 +29,9 @@ public class CustomerMain extends AppCompatActivity implements FilterBottomSheet
         setContentView(R.layout.activity_customer_main);
 
         Log.i("cusomer_main", "Inside customer main");
+
+        RelativeLayout relativeLayout = findViewById(R.id.banner);
+        relativeLayout.getBackground().setAlpha(200);
 
         //Two fragments are created, one for the merchants near you and the other for merchants that are already visited
         adapter = new CustomerMainFragmentAdapter(getSupportFragmentManager());

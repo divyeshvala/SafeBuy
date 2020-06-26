@@ -32,10 +32,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:fontFamily="@font/roboto_black"
+                android:fontFamily="@font/roboto_bold"
                 android:text="Magna Solution"
                 android:textColor="@color/darkGrey"
-                android:textSize="18sp"
+                android:textSize="22sp"
                 card_view:layout_constraintStart_toStartOf="parent"
                 card_view:layout_constraintTop_toTopOf="parent" />
 
@@ -47,10 +47,10 @@
                 android:drawableLeft="@drawable/dot_green"
                 android:drawablePadding="6dp"
                 android:fontFamily="@font/roboto_light"
-                android:text="open"
+                android:text="Open"
                 android:textAlignment="center"
                 android:textColor="#424242"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 card_view:layout_constraintBottom_toBottomOf="@+id/name"
                 card_view:layout_constraintStart_toEndOf="@+id/name"
                 card_view:layout_constraintTop_toTopOf="@+id/name" />
@@ -87,34 +87,38 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="200">
+
             <TextView
                 android:id="@+id/shop"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="99"
-                android:textSize="@dimen/normalText"
-                android:text="Shop"
                 android:background="@color/deepBlue"
-                android:textColor="@color/white"
+                android:fontFamily="@font/roboto_light"
+                android:padding="@dimen/activity_horizontal_margin"
+                android:text="Shop"
                 android:textAlignment="center"
-                android:padding="@dimen/activity_horizontal_margin"/>
+                android:textColor="@color/white"
+                android:textSize="@dimen/normalText" />
             <View
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:background="@color/white"/>
+
             <TextView
                 android:id="@+id/direction"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="99"
-                android:textSize="@dimen/normalText"
                 android:layout_marginStart="2dp"
-                android:text="Directions"
+                android:layout_weight="99"
                 android:background="@color/deepBlue"
-                android:textColor="@color/white"
+                android:fontFamily="@font/roboto_light"
+                android:padding="@dimen/activity_horizontal_margin"
+                android:text="Directions"
                 android:textAlignment="center"
-                android:padding="@dimen/activity_horizontal_margin"/>
+                android:textColor="@color/white"
+                android:textSize="@dimen/normalText" />
 
         </LinearLayout>
 
