@@ -10,10 +10,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.app.Messaging.ConversationRecyclerView;
 import com.example.app.R;
 import com.example.app.Utilities.Communication;
+import com.example.app.fragment.FilterBottomSheetFragment;
 import com.example.app.model.MessageObject;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
@@ -35,13 +39,18 @@ public class CustomerConversationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_conversation);
+        setContentView(R.layout.content_conversation);
 
         String merchantName = getIntent().getStringExtra("merchantName");
         merchantId = getIntent().getStringExtra("merchantId");
         String chatId = getIntent().getStringExtra("chatId");
 
-        setupToolbarWithUpNav(R.id.toolbar, merchantName, R.drawable.ic_action_back);
+//        setupToolbarWithUpNav(R.id.toolbar, merchantName, R.drawable.ic_action_back);
+
+        TextView textViewTitle = findViewById(R.id.textViewTitle);
+        textViewTitle.setText(merchantName);
+
+
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -77,12 +86,24 @@ public class CustomerConversationActivity extends AppCompatActivity {
 
         communication.getMessages();
 
-        Button send = (Button) findViewById(R.id.bt_send);
-        send.setOnClickListener(new View.OnClickListener()
-        {
+//        Button send = (Button) findViewById(R.id.bt_send);
+//        send.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                if (!messageText.getText().toString().equals(""))
+//                {
+//                    communication.sendMessage(messageText.getText().toString());
+//                    messageText.setText("");
+//                }
+//            }
+//        });
+
+        final FloatingActionButton fab = findViewById(R.id.bt_send);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 if (!messageText.getText().toString().equals(""))
                 {
                     communication.sendMessage(messageText.getText().toString());
@@ -90,6 +111,21 @@ public class CustomerConversationActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+//        messageText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View view, boolean hasFocus) {
+//                if (hasFocus) {
+//                    fab.setImageResource(R.drawable.ic_send_white);
+//                    Toast.makeText(getApplicationContext(), "Got the focus", Toast.LENGTH_LONG).show();
+//                } else {
+//                    fab.setImageResource(R.drawable.ic_card_white);
+//                    Toast.makeText(getApplicationContext(), "Lost the focus", Toast.LENGTH_LONG).show();
+//                }
+//            }
+//
+//        });
     }
 
     public void setupToolbarWithUpNav(int toolbarId, String titlePage, @DrawableRes int res){
