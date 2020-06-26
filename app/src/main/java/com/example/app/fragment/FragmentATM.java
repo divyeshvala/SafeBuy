@@ -44,15 +44,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-public class FragmentNearYou extends Fragment
+public class FragmentATM extends Fragment
 {
     private static final String TAG = "FragmentNearYou";
     private RecyclerView recyclerViewNearYou;
     private ListAdapter mListadapter;
     private ProgressBar progressBar;
 
-    public static FragmentNearYou newInstance() {
-        return new FragmentNearYou();
+    public static FragmentATM newInstance() {
+        return new FragmentATM();
     }
 
     private ArrayList<ATMObject> dataList;
@@ -69,7 +69,7 @@ public class FragmentNearYou extends Fragment
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_near_you, container, false);
+        View view = inflater.inflate(R.layout.fragment_atm, container, false);
 
         Log.i(TAG, "inside onCreate.");
 

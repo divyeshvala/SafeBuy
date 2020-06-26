@@ -1,6 +1,10 @@
 from firebase_admin import db
+
 from Server.code.NearbyContainmentRequestHandler import handleContainmentrequests
 from Server.code.NearbyMerchantRequestHandler import handleMerchantRequests
+
+# from NearbyContainmentRequestHandler import handleContainmentrequests
+# from NearbyMerchantRequestHandler import handleMerchantRequests
 
 
 def handleMerchantClients(root):

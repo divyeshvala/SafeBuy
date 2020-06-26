@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="10"
-    tools:context=".Activities.customer_main">
+    tools:context=".Activities.CustomerMain">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -71,6 +71,7 @@
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
+                    android:id="@+id/atmTextview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
@@ -81,6 +82,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/merchantTextview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Merchants"
