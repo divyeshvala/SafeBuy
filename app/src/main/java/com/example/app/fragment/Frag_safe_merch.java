@@ -24,7 +24,7 @@ import android.widget.Toast;
 import com.example.app.R;
 import com.example.app.Utilities.GetNearbyATMs;
 import com.example.app.Utilities.GetNearbyMerchs;
-import com.example.app.Utilities.LocationObject;
+import com.example.app.model.LocationObject;
 import com.example.app.Utilities.MyLocationListener;
 
 import java.util.ArrayList;

@@ -6,6 +6,8 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.util.Log;
 import androidx.annotation.NonNull;
+
+import com.example.app.model.LocationObject;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

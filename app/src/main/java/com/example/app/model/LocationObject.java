@@ -1,4 +1,4 @@
-package com.example.app.Utilities;
+package com.example.app.model;
 
 public class LocationObject {
 

@@ -71,8 +71,8 @@ public class Communication
                         }
                     }, 500);
 
-                    NotificationSystem notificationSystem = new NotificationSystem();
-                    notificationSystem.sendNewMessageNotification(context, messageSender, text);
+                    //NotificationSystem notificationSystem = new NotificationSystem();
+                    //notificationSystem.sendNewMessageNotification(context, messageSender, text);
                 }
             }
             @Override

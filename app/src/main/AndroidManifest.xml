@@ -27,7 +27,6 @@
         <activity android:name=".Messaging.Merchant.DisplayOrders" />
         <activity android:name=".Messaging.Customer.CustomerConversationActivity" />
         <activity android:name=".Messaging.Customer.DisplayMerchantsActivity" />
-        <activity android:name=".Activities.SignUpActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

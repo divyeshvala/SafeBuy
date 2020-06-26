@@ -16,10 +16,12 @@
     <color name="yellow">#faaa13</color>
     <color name="white">#ffffff</color>
     <color name="colorMessageMe">#FC3768</color>
-    <color name="colorMessageYou"></color>
+    <color name="colorMessageYou">#8A95E6</color>
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#fff</color>
 
     <!-- for custome radio group    -->
     <color name="radio_button_selected_color">#ff33b5e5</color>
     <color name="radio_button_unselected_color">#e0e0e0</color>
+
+    <color name="red_zone_color">#83E53935</color>
 </resources>

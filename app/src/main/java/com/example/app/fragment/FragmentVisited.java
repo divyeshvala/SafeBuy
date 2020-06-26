@@ -1,6 +1,8 @@
 package com.example.app.fragment;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +23,13 @@ import com.example.app.Messaging.ChatAdapter;
 import com.example.app.Messaging.Customer.CustomerConversationActivity;
 import com.example.app.Messaging.Customer.DisplayMerchantsActivity;
 import com.example.app.R;
+import com.example.app.Utilities.GetNearbyATMs;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -29,9 +38,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class FragmentVisited extends Fragment implements ChatAdapter.ViewHolder.ClickListener {
@@ -64,6 +76,32 @@ public class FragmentVisited extends Fragment implements ChatAdapter.ViewHolder.
         mRecyclerView.setAdapter (mAdapter);
 
         myUid = FirebaseAuth.getInstance().getUid();
+
+        if (!Places.isInitialized()) {
+            Places.initialize(getActivity(), getString(R.string.google_maps_key));
+        }
+
+        // Initialize the AutocompleteSupportFragment.
+        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+                getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+
+        // Specify the types of place data to return.
+        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
+
+        // Set up a PlaceSelectionListener to handle the response.
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(final Place place) {
+                Log.i(TAG, "Place: " + place.getName() + ", " + place.getAddress());
+
+            }
+
+            @Override
+            public void onError(Status status) {
+                // TODO: Handle the error.
+                Log.i(TAG, "An error occurred: " + status);
+            }
+        });
 
         getMerchantsList();
 

@@ -2,6 +2,8 @@ package com.example.app.Utilities;
 
 import android.content.Context;
 
+import com.example.app.model.LocationObject;
+
 import java.util.ArrayList;
 
 public class GetNearbyMerchs {

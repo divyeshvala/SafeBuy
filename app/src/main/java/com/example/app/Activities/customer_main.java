@@ -8,6 +8,11 @@ import com.example.app.fragment.CustomerMainFragmentAdapter;
 import com.example.app.fragment.FilterBottomSheetFragment;
 import com.example.app.fragment.FragmentNearYou;
 import com.example.app.fragment.FragmentVisited;
+import com.google.android.gms.common.api.Status;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,9 +20,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
+import java.util.Arrays;
+
 //Main Screen of the customer
 public class customer_main extends AppCompatActivity implements FilterBottomSheetFragment.BottomSheetListener {
 
+    private static final String TAG = "customer_main";
     private CustomerMainFragmentAdapter adapter;
     FilterBottomSheetFragment bottomSheetFragment;
 
