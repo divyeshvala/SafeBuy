@@ -51,6 +51,10 @@
             android:name=".Activities.customer_main"
             android:label="@string/title_activity_customer_main"
             android:theme="@style/NoTheme" />
+        <activity
+            android:name=".Activities.CustomerProfile"
+            android:label="@string/title_activity_customer_profile"
+            android:theme="@style/NoTheme" />
     </application>
 
 </manifest>
