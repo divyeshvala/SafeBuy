@@ -48,7 +48,7 @@
             android:label="@string/title_activity_login"
             android:theme="@style/NoTheme" />
         <activity
-            android:name=".Activities.customer_main"
+            android:name=".Activities.CustomerMain"
             android:label="@string/title_activity_customer_main"
             android:theme="@style/NoTheme" />
         <activity

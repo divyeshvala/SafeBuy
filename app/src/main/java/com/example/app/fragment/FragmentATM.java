@@ -17,11 +17,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -44,19 +46,19 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-public class FragmentNearYou extends Fragment
+public class FragmentATM extends Fragment
 {
-    private static final String TAG = "FragmentNearYou";
+    private static final String TAG = "FragmentATM";
     private RecyclerView recyclerViewNearYou;
     private ListAdapter mListadapter;
     private ProgressBar progressBar;
 
-    public static FragmentNearYou newInstance() {
-        return new FragmentNearYou();
+    public static FragmentATM newInstance() {
+        return new FragmentATM();
     }
 
     private ArrayList<ATMObject> dataList;
-    private static final int containmentZoneRadius = 1000;
+    private static final int containmentZoneRadius = 100;
     public ArrayList<LocationObject> nearbyATMsList;
     public ArrayList<LocationObject> nearbycontainmentZonesList;
     public ArrayList<LocationObject> ATMsList;
@@ -69,7 +71,7 @@ public class FragmentNearYou extends Fragment
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_near_you, container, false);
+        View view = inflater.inflate(R.layout.fragment_atm, container, false);
 
         Log.i(TAG, "inside onCreate.");
 
@@ -129,7 +131,7 @@ public class FragmentNearYou extends Fragment
                 containmentZonesList = new ArrayList<>();
 
                 getATMs = new GetNearbyATMs(getActivity(), ATMsList, containmentZonesList,
-                        isUsingMyLocation, "100"); //todo
+                        isUsingMyLocation, "500"); //todo
 
                 Address address = null;
                 try {
@@ -232,14 +234,17 @@ public class FragmentNearYou extends Fragment
         if(ATMsList.size()==0){
             //unsafeList.setText(unsafeList.getText().toString()+"\nNo ATMs found");
             //safeList.setText(unsafeList.getText().toString()+"\nNo ATMs found");
-            dataList.add(new ATMObject("There are no ATMs near you.", "", 0, -360, -360));
+            dataList.add(new ATMObject("There are no ATMs near you.", "", 0, -360, -360, true));
             mListadapter.notifyDataSetChanged();
         }
         // check which ATMs are in safe area.
         for(LocationObject atmObject : ATMsList)
         {
             float distance = getDistance(atmObject.getLatitude(), atmObject.getLongitude(),
-                    mLatLng.latitude, mLatLng.longitude);
+                    mLatLng.latitude, mLatLng.longitude)/1000;
+
+            String address = getAddress(atmObject.getLatitude(), atmObject.getLongitude());
+
             for( LocationObject zoneObject : containmentZonesList )
             {
                 float distanceBTW = getDistance(atmObject.getLatitude(), atmObject.getLongitude(),
@@ -247,24 +252,41 @@ public class FragmentNearYou extends Fragment
 
                 if(distanceBTW<=containmentZoneRadius)  // in containment zone.
                 {
-                    dataList.add(new ATMObject(atmObject.getPlaceName(), atmObject.getLatitude()+":"+atmObject.getLongitude(), distance, atmObject.getLatitude(), atmObject.getLongitude()));
+                    dataList.add(new ATMObject(atmObject.getPlaceName(), address, distance, atmObject.getLatitude(), atmObject.getLongitude(), false));
                     mListadapter.notifyDataSetChanged();
                     //mListadapter.notifyItemInserted(dataList.size()-1);
                 }
                 else     // outside containment zone
                 {
-                    dataList.add(new ATMObject(atmObject.getPlaceName(), atmObject.getLatitude()+":"+atmObject.getLongitude(), distance, atmObject.getLatitude(), atmObject.getLongitude()));
+                    dataList.add(new ATMObject(atmObject.getPlaceName(), address, distance, atmObject.getLatitude(), atmObject.getLongitude(), true));
                     mListadapter.notifyDataSetChanged();
                     //mListadapter.notifyItemInserted(dataList.size()-1);
                 }
             }
             if(containmentZonesList.size()==0)
             {
-                dataList.add(new ATMObject(atmObject.getPlaceName(), atmObject.getLatitude()+":"+atmObject.getLongitude(), distance, atmObject.getLatitude(), atmObject.getLongitude()));
+                dataList.add(new ATMObject(atmObject.getPlaceName(), address, distance, atmObject.getLatitude(), atmObject.getLongitude(), true));
                 mListadapter.notifyDataSetChanged();
             }
         }
         progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    private String getAddress(double latitude, double longitude)
+    {
+        Address address = null;
+        try {
+            Geocoder geocoder = new Geocoder(getActivity(),
+                    Locale.getDefault());
+            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+            address = addresses.get(0);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(address!=null)
+            return address.getFeatureName()+", "+address.getSubLocality()+", "+address.getLocality();
+        return "";
     }
 
     private float getDistance(double latitude, double longitude, double latitude1, double longitude1)
@@ -318,21 +340,21 @@ public class FragmentNearYou extends Fragment
         public class ViewHolder extends RecyclerView.ViewHolder {
             TextView textViewName;
             TextView textViewAddress;
-            TextView textViewOpen;
             TextView textViewDistance;
+            ConstraintLayout atmCardLayout;
 
             public ViewHolder(View itemView) {
                 super(itemView);
                 this.textViewName = (TextView) itemView.findViewById(R.id.name);
                 this.textViewAddress = (TextView) itemView.findViewById(R.id.address);
-                this.textViewOpen = (TextView) itemView.findViewById(R.id.open);
                 this.textViewDistance = (TextView) itemView.findViewById(R.id.distance);
+                this.atmCardLayout = (ConstraintLayout) itemView.findViewById(R.id.id_atmCard_layout);
             }
         }
 
         @Override
         public ListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_merchant, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_atm, parent, false);
 
             ViewHolder viewHolder = new ViewHolder(view);
             return viewHolder;
@@ -342,8 +364,10 @@ public class FragmentNearYou extends Fragment
         public void onBindViewHolder(ListAdapter.ViewHolder holder, final int position) {
             holder.textViewName.setText(dataList.get(position).getName());
             holder.textViewAddress.setText(dataList.get(position).getAddress());
-            holder.textViewOpen.setText("");
-            holder.textViewDistance.setText(String.valueOf(dataList.get(position).getDistance()));
+            holder.textViewDistance.setText( String.format(Locale.getDefault(),"%.1f", dataList.get(position).getDistance())+"km");
+
+            //if(!dataList.get(position).isSafe())
+                //holder.atmCardLayout.setBackground(getResources().getDrawable(R.drawable.red_back_up_round));
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

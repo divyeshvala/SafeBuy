@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="10"
-    tools:context=".Activities.customer_main">
+    tools:context=".Activities.CustomerMain">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,37 +14,47 @@
         android:orientation="vertical"
         android:weightSum="10">
 
-        <RelativeLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="3"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            android:background="@color/deepBlue">
+            android:layout_weight="2"
+            android:background="@drawable/lighthouse">
+            <RelativeLayout
+                android:id="@+id/banner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:background="@color/lightBlue"
+                >
 
-            <ImageView
-                android:id="@+id/id_logo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/logo"
-                android:layout_centerInParent="true" />
+                <ImageView
+                    android:id="@+id/id_logo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="center"
+                    android:scaleX="0.7"
+                    android:scaleY="0.7"
+                    android:src="@drawable/logo"
+                    android:layout_centerInParent="true" />
 
-            <ImageView
-                android:id="@+id/id_tempProfile"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/user"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true" />
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/user"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true" />
 
-        </RelativeLayout>
+            </RelativeLayout>
+        </FrameLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="7"
+            android:layout_weight="8"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
@@ -72,6 +82,7 @@
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
+                    android:id="@+id/atmTextview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
@@ -82,6 +93,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/merchantTextview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Merchants"

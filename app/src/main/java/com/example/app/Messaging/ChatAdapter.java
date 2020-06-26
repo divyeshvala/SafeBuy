@@ -35,7 +35,7 @@ public class ChatAdapter extends SelectableAdapter<ChatAdapter.ViewHolder> {
     public ChatAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.list_item_chat, null);
+                R.layout.cardview_merchant, null);
 
         ViewHolder viewHolder = new ViewHolder(itemLayoutView,clickListener);
 
@@ -45,22 +45,18 @@ public class ChatAdapter extends SelectableAdapter<ChatAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
 
-        viewHolder.tvName.setText(mArrayList.get(position).getName());
-        if (isSelected(position)) {
-            viewHolder.checked.setChecked(true);
-            viewHolder.checked.setVisibility(View.VISIBLE);
-        }else{
-            viewHolder.checked.setChecked(false);
-            viewHolder.checked.setVisibility(View.GONE);
-        }
-        viewHolder.tvTime.setText(mArrayList.get(position).getTime());
-        viewHolder.userPhoto.setImageResource(mArrayList.get(position).getImage());
+        viewHolder.merchantName.setText(mArrayList.get(position).getName());
+//        if (isSelected(position)) {}
+//        viewHolder.userPhoto.setImageResource(mArrayList.get(position).getImage());
         if (mArrayList.get(position).isOnline()){
-            viewHolder.onlineView.setVisibility(View.VISIBLE);
-        }else
-            viewHolder.onlineView.setVisibility(View.INVISIBLE);
+            viewHolder.merchantOpen.setText(mContext.getResources().getString(R.string.open));
+            viewHolder.merchantOpen.setCompoundDrawablesWithIntrinsicBounds(R.drawable.dot_green, 0, 0, 0);
+        }else{
+            viewHolder.merchantOpen.setText(mContext.getResources().getString(R.string.closed));
+            viewHolder.merchantOpen.setCompoundDrawablesWithIntrinsicBounds(R.drawable.dot_red, 0, 0, 0);
+        }
 
-        viewHolder.tvLastChat.setText(mArrayList.get(position).getLastChat());
+//        viewHolder.tvLastChat.setText(mArrayList.get(position).getLastChat());
     }
 
     @Override
@@ -68,15 +64,21 @@ public class ChatAdapter extends SelectableAdapter<ChatAdapter.ViewHolder> {
         return mArrayList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener,View.OnLongClickListener  {
+    public static class ViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener  {
 
-        public TextView tvName;
-        public TextView tvTime;
-        public TextView tvLastChat;
-        public ImageView userPhoto;
+        public TextView merchantName;
+        public TextView merchantAddress;
+        public TextView merchantOpen;
+        public TextView merchantDistance;
+        public TextView showShop;
+        public TextView showDirections;
+
+//        public TextView tvTime;
+//        public TextView tvLastChat;
+//        public ImageView userPhoto;
         public boolean online = false;
-        private final View onlineView;
-        public CheckBox checked;
+//        private final View onlineView;
+//        public CheckBox checked;
         private ClickListener listener;
         //private final View selectedOverlay;
 
@@ -86,17 +88,23 @@ public class ChatAdapter extends SelectableAdapter<ChatAdapter.ViewHolder> {
 
             this.listener = listener;
 
-            tvName = (TextView) itemLayoutView.findViewById(R.id.tv_user_name);
+            merchantName = (TextView) itemLayoutView.findViewById(R.id.name);
+            merchantAddress = (TextView) itemLayoutView.findViewById(R.id.address);
+            merchantOpen = (TextView) itemLayoutView.findViewById(R.id.open);
+            merchantDistance = (TextView) itemLayoutView.findViewById(R.id.distance);
+            showShop = (TextView) itemLayoutView.findViewById(R.id.shop);
+            showDirections = (TextView) itemLayoutView.findViewById(R.id.direction);
+
             //selectedOverlay = (View) itemView.findViewById(R.id.selected_overlay);
-            tvTime = (TextView) itemLayoutView.findViewById(R.id.tv_time);
-            tvLastChat = (TextView) itemLayoutView.findViewById(R.id.tv_last_chat);
-            userPhoto = (ImageView) itemLayoutView.findViewById(R.id.iv_user_photo);
-            onlineView = (View) itemLayoutView.findViewById(R.id.online_indicator);
-            checked = (CheckBox) itemLayoutView.findViewById(R.id.chk_list);
+//            tvTime = (TextView) itemLayoutView.findViewById(R.id.tv_time);
+//            tvLastChat = (TextView) itemLayoutView.findViewById(R.id.tv_last_chat);
+//            userPhoto = (ImageView) itemLayoutView.findViewById(R.id.iv_user_photo);
+//            onlineView = (View) itemLayoutView.findViewById(R.id.online_indicator);
+//            checked = (CheckBox) itemLayoutView.findViewById(R.id.chk_list);
 
             itemLayoutView.setOnClickListener(this);
 
-            itemLayoutView.setOnLongClickListener (this);
+//            itemLayoutView.setOnLongClickListener (this);
         }
 
         @Override
@@ -105,13 +113,14 @@ public class ChatAdapter extends SelectableAdapter<ChatAdapter.ViewHolder> {
                 listener.onItemClicked(getAdapterPosition ());
             }
         }
-        @Override
-        public boolean onLongClick (View view) {
-            if (listener != null) {
-                return listener.onItemLongClicked(getAdapterPosition ());
-            }
-            return false;
-        }
+
+//        @Override
+//        public boolean onLongClick (View view) {
+//            if (listener != null) {
+//                return listener.onItemLongClicked(getAdapterPosition ());
+//            }
+//            return false;
+//        }
 
         public interface ClickListener {
             public void onItemClicked(int position);

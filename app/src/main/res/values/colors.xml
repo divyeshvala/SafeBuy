@@ -24,4 +24,7 @@
     <color name="radio_button_unselected_color">#e0e0e0</color>
 
     <color name="red_zone_color">#83E53935</color>
+    <color name="green">#00ff00</color>
+    <color name="darkGrey">#212121</color>
+    <color name="lightBlue">#4fc3f7</color>
 </resources>
