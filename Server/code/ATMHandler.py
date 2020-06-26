@@ -16,7 +16,7 @@ def handlerATMClients(root):
 
                 # print(curr_request['resolved'])
 
-                if curr_request["resolved"] == 'false':
+                if "resolved" in curr_request and curr_request["resolved"] == 'false':
                     tablepath1 = path1.format(request)
                     tablepath2 = path2.format(request)
 
@@ -26,10 +26,10 @@ def handlerATMClients(root):
 
                     handleContainmentrequests(root, tablepath2, curr_request["longitude"], curr_request["latitude"],
                                                      curr_request["distance"])
-                    curr_request.update({'resolved': 'true'})
 
                     handleATMRequests(root, tablepath1, curr_request["placeName"], curr_request["distance"],
                                              curr_request["distanceUnit"])
+                    curr_request.update({'resolved': 'true'})
         #            t1 = threading.Thread(target=handleATMRequests, args = (root, tablepath1, curr_request["placeName"],
         #                                                                    curr_request["distance"], curr_request["distanceUnit"],))
 
