@@ -1,5 +1,6 @@
 package com.example.app.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.app.R;
@@ -68,6 +69,7 @@ public class CustomerMain extends AppCompatActivity implements FilterBottomSheet
                 bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
             }
         });
+
     }
 
     @Override

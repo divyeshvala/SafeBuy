@@ -7,13 +7,23 @@ public class ATMObject
     private float distance;
     private double latitude;
     private double longitude;
+    private boolean isSafe;
 
-    public ATMObject(String name, String address, float distance, double latitude, double longitude) {
+    public ATMObject(String name, String address, float distance, double latitude, double longitude, boolean isSafe) {
         this.name = name;
         this.address = address;
         this.distance = distance;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.isSafe = isSafe;
+    }
+
+    public boolean isSafe() {
+        return isSafe;
+    }
+
+    public void setSafe(boolean safe) {
+        isSafe = safe;
     }
 
     public String getName() {

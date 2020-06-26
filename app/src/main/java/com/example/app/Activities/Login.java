@@ -34,7 +34,7 @@ public class Login extends AppCompatActivity
 
         RadioGroup selectUser = findViewById(R.id.id_radioGroup);
         final RadioButton customer = findViewById(R.id.id_customerUser);
-        RadioButton merchant = findViewById(R.id.id_merchantUser);
+        final RadioButton merchant = findViewById(R.id.id_merchantUser);
 
         final SharedPreferences settings = getSharedPreferences("MySharedPref", MODE_PRIVATE);
 
@@ -42,17 +42,21 @@ public class Login extends AppCompatActivity
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i)
             {
+                Log.i("Login", "something selected");
+
                 if(i==customer.getId())
                 {
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putString("userType", "customer");
                     editor.apply();
+                    Log.i("Login", "Customer selected");
                 }
                 else
                 {
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putString("userType", "merchant");
                     editor.apply();
+                    Log.i("Login", "merchant selected");
                 }
             }
         });

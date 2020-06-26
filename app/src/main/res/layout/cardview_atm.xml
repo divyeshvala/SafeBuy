@@ -18,6 +18,7 @@
         android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/id_atmCard_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/white_back_up_round"
@@ -38,22 +39,6 @@
                 android:textSize="18sp"
                 card_view:layout_constraintStart_toStartOf="parent"
                 card_view:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/open"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:drawableLeft="@drawable/dot_green"
-                android:drawablePadding="6dp"
-                android:fontFamily="@font/roboto_light"
-                android:text="open"
-                android:textAlignment="center"
-                android:textColor="#424242"
-                android:textSize="12sp"
-                card_view:layout_constraintBottom_toBottomOf="@+id/name"
-                card_view:layout_constraintStart_toEndOf="@+id/name"
-                card_view:layout_constraintTop_toTopOf="@+id/name" />
 
             <TextView
                 android:id="@+id/address"
@@ -82,7 +67,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
         <TextView
             android:id="@+id/direction"
             android:layout_width="match_parent"
@@ -94,8 +78,6 @@
             android:textColor="@color/white"
             android:textAlignment="center"
             android:padding="@dimen/activity_horizontal_margin"/>
-
-
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
