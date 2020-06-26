@@ -1,8 +1,6 @@
 package com.example.app.fragment;
 
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,11 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.app.Messaging.Chat;
 import com.example.app.Messaging.ChatAdapter;
 import com.example.app.Messaging.Customer.CustomerConversationActivity;
-import com.example.app.Messaging.Customer.DisplayMerchantsActivity;
 import com.example.app.R;
-import com.example.app.Utilities.GetNearbyATMs;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
@@ -38,15 +33,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
-public class FragmentVisited extends Fragment implements ChatAdapter.ViewHolder.ClickListener {
+public class FragmentMerchant extends Fragment implements ChatAdapter.ViewHolder.ClickListener {
 
     private static final String TAG = "FragmentVisited";
     private RecyclerView mRecyclerView;
@@ -57,15 +50,15 @@ public class FragmentVisited extends Fragment implements ChatAdapter.ViewHolder.
     Toolbar toolbar;
     TextView title;
 
-    public static FragmentVisited newInstance()
+    public static FragmentMerchant newInstance()
     {
-        return new FragmentVisited();
+        return new FragmentMerchant();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_visited, container, false);
+        View view = inflater.inflate(R.layout.fragment_merchant, container, false);
 
         merchantsList = new ArrayList<>();
         tv_selection = (TextView) view.findViewById(R.id.tv_selection);

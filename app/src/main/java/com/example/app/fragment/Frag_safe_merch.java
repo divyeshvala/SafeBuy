@@ -22,7 +22,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.app.R;
-import com.example.app.Utilities.GetNearbyATMs;
 import com.example.app.Utilities.GetNearbyMerchs;
 import com.example.app.model.LocationObject;
 import com.example.app.Utilities.MyLocationListener;
@@ -40,7 +39,7 @@ public class Frag_safe_merch extends Fragment {
     public ArrayList<LocationObject> ATMsList;
     public ArrayList<LocationObject> containmentZonesList;
     private GetNearbyMerchs getNearbyMerchs;
-    private FragmentNearYou fgny;
+    private FragmentATM fgny;
     private String send2;
     public Frag_safe_merch() {
         // Required empty public constructor
