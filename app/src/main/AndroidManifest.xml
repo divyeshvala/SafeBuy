@@ -51,7 +51,13 @@
         <activity
             android:name=".Activities.CustomerMain"
             android:label="@string/title_activity_customer_main"
-            android:theme="@style/NoTheme" />
+            android:theme="@style/NoTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".Activities.CustomerProfile"
             android:label="@string/title_activity_customer_profile"

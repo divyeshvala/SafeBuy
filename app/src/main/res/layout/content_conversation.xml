@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/deepBlue"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_alignParentTop="true">
 
         <TextView
             android:id="@+id/textViewTitle"
@@ -33,28 +33,27 @@
         android:id="@+id/bt_send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/deepBlue"
         android:src="@drawable/ic_card_white"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         app:elevation="@dimen/space10"
         app:tint="@color/white"
-        app:fabCustomSize="48dp"
-        android:layout_margin="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:fabSize="normal"
+        app:backgroundTint="@color/yellow"
+        android:layout_margin="12dp" />
 
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="70dp"
+        android:layout_marginEnd="76dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
         android:layout_marginStart="12dp"
         android:layout_marginBottom="@dimen/space10"
-        android:translationZ="4dp"
         android:background="@drawable/bg_white_rounded"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/bt_send"
-        app:layout_constraintStart_toStartOf="parent">
+        >
 
         <ImageButton
             android:id="@+id/bt_attachment"
@@ -64,6 +63,7 @@
             android:layout_centerVertical="true"
             android:background="@android:color/transparent"
             android:padding="@dimen/space10"
+            android:onClick="addList"
             app:srcCompat="@drawable/ic_attachment" />
 
         <EditText
@@ -87,7 +87,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/title"
-        android:layout_alignParentTop="true"
         android:overScrollMode="never"
-        app:layout_constraintTop_toBottomOf="@+id/title" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_above="@id/relativeLayout"
+        android:translationZ="-2dp" />
+</RelativeLayout>

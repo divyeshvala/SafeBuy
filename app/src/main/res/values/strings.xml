@@ -34,5 +34,6 @@
     <string name="title_activity_customer_profile">Customer Profile</string>
     <string name="open">Open</string>
     <string name="closed">Closed</string>
+    <string name="add_item">Add Item</string>
 
 </resources>

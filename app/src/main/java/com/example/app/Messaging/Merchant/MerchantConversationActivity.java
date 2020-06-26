@@ -41,6 +41,8 @@ public class MerchantConversationActivity extends AppCompatActivity {
         merchantId = getIntent().getStringExtra("customerId");
         String chatId = getIntent().getStringExtra("chatId");
         //setupToolbarWithUpNav(R.id.toolbar, merchantName, R.drawable.ic_action_back);
+        TextView textViewTitle = findViewById(R.id.textViewTitle);
+        textViewTitle.setText(customerName);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -96,15 +98,4 @@ public class MerchantConversationActivity extends AppCompatActivity {
         });
     }
 
-    public void setupToolbarWithUpNav(int toolbarId, String titlePage, @DrawableRes int res){
-        toolbar = (Toolbar) findViewById(toolbarId);
-        setSupportActionBar(toolbar);
-
-        title = (TextView) toolbar.findViewById(R.id.tv_title);
-        title.setText(titlePage);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(res);
-        getSupportActionBar().setTitle("");
-    }
 }
