@@ -87,7 +87,7 @@ public class CustomerMain extends AppCompatActivity implements FilterBottomSheet
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(CustomerMain.this, CustomerProfile.class));
+                startActivity(new Intent(CustomerMain.this, profile.class));
             }
         });
     }
