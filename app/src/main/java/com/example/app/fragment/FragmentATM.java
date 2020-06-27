@@ -43,8 +43,11 @@ import com.google.android.libraries.places.widget.listener.PlaceSelectionListene
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.PriorityQueue;
 
 public class FragmentATM extends Fragment
 {
@@ -236,6 +239,7 @@ public class FragmentATM extends Fragment
             dataList.add(new ATMObject("There are no ATMs near you.", "", 0, -360, -360, true));
             mListadapter.notifyDataSetChanged();
         }
+        boolean isInContainment;
         // check which ATMs are in safe area.
         for(LocationObject atmObject : ATMsList)
         {
@@ -244,6 +248,7 @@ public class FragmentATM extends Fragment
 
             String address = getAddress(atmObject.getLatitude(), atmObject.getLongitude());
 
+            isInContainment = false;
             for( LocationObject zoneObject : containmentZonesList )
             {
                 float distanceBTW = getDistance(atmObject.getLatitude(), atmObject.getLongitude(),
@@ -251,16 +256,14 @@ public class FragmentATM extends Fragment
 
                 if(distanceBTW<=containmentZoneRadius)  // in containment zone.
                 {
+                    isInContainment = true;
                     dataList.add(new ATMObject(atmObject.getPlaceName(), address, distance, atmObject.getLatitude(), atmObject.getLongitude(), false));
-                    mListadapter.notifyDataSetChanged();
-                    //mListadapter.notifyItemInserted(dataList.size()-1);
+                    break;
                 }
-                else     // outside containment zone
-                {
-                    dataList.add(new ATMObject(atmObject.getPlaceName(), address, distance, atmObject.getLatitude(), atmObject.getLongitude(), true));
-                    mListadapter.notifyDataSetChanged();
-                    //mListadapter.notifyItemInserted(dataList.size()-1);
-                }
+            }
+            if(!isInContainment)  // outside containment zone
+            {
+                dataList.add(new ATMObject(atmObject.getPlaceName(), address, distance, atmObject.getLatitude(), atmObject.getLongitude(), true));
             }
             if(containmentZonesList.size()==0)
             {

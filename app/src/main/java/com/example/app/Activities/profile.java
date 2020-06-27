@@ -18,6 +18,5 @@ public class profile extends AppCompatActivity {
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction().replace(R.id.holder,new customer_profile()).commit();
 
-
     }
 }

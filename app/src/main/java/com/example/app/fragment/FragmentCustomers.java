@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -133,7 +132,6 @@ public class FragmentCustomers extends Fragment  {
                 @Override
                 public void onClick(View v)
                 {
-
                     Intent intent = new Intent(getActivity(), MerchantConversationActivity.class);
                     intent.putExtra("customerName", dataList.get(position).getName());
                     intent.putExtra("customerId", dataList.get(position).getUserId());
