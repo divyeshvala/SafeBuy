@@ -58,11 +58,10 @@
                 android:id="@+id/distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
                 android:fontFamily="@font/roboto_medium"
-                android:text="+450"
-
-                android:textSize="14sp"
+                android:text="-450"
+                android:textColor="@color/green"
+                android:textSize="28sp"
                 card_view:layout_constraintBottom_toBottomOf="@+id/name"
                 card_view:layout_constraintEnd_toEndOf="parent"
                 card_view:layout_constraintTop_toTopOf="@+id/name" />
