@@ -237,7 +237,6 @@ public class FragmentATM extends Fragment
         if(ATMsList.size()==0){
             //todo
             dataList.add(new ATMObject("There are no ATMs near you.", "", 0, -360, -360, true));
-            mListadapter.notifyDataSetChanged();
         }
         boolean isInContainment;
         // check which ATMs are in safe area.
@@ -268,7 +267,6 @@ public class FragmentATM extends Fragment
             if(containmentZonesList.size()==0)
             {
                 dataList.add(new ATMObject(atmObject.getPlaceName(), address, distance, atmObject.getLatitude(), atmObject.getLongitude(), true));
-                mListadapter.notifyDataSetChanged();
             }
         }
         progressBar.setVisibility(View.INVISIBLE);
@@ -281,6 +279,7 @@ public class FragmentATM extends Fragment
         @Override
         public int compare(ATMObject o1, ATMObject o2)
         {
+            Log.i(TAG, "inside compare");
             if(o1.isSafe() && o2.isSafe())
             {
                 return o1.getDistance()<o2.getDistance() ? 1 : 0;

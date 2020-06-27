@@ -69,7 +69,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         for(String object : containmentZoneLatLngs)
         {
             LatLng latLng = getLatLng(object);
-            Log.i(TAG,"containmentZoneLatLngs :"+latLng.latitude+":"+latLng.longitude);
             mMap.addCircle(new CircleOptions()
                     .center(latLng)
                     .radius(50)

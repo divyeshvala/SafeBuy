@@ -62,11 +62,12 @@ public class GetNearbyATMs
         final DatabaseReference responseDB = FirebaseDatabase.getInstance().getReference()
                 .child("NearbyATMRequest").child(newRequestDB.getKey());
 
-        responseDB.addListenerForSingleValueEvent(new ValueEventListener() {
+        responseDB.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
             {
-                if(dataSnapshot.exists())
+                if( dataSnapshot.child("resolvedATM").getValue(String.class)!=null &&
+                        dataSnapshot.child("resolvedContainment").getValue(String.class)!=null )
                 {
                     if( dataSnapshot.child("resolvedATM").getValue(String.class).equals("true") &&
                             dataSnapshot.child("resolvedContainment").getValue(String.class).equals("true"))
