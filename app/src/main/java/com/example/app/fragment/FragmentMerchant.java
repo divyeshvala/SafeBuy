@@ -89,6 +89,7 @@ public class FragmentMerchant extends Fragment implements ChatAdapter.ViewHolder
             public void onPlaceSelected(final Place place) {
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getAddress());
 
+
             }
 
             @Override
