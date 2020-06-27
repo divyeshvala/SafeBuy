@@ -9,7 +9,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="wrap_content"
         android:background="@color/deepBlue"
         android:orientation="vertical">
 
@@ -43,18 +43,6 @@
             android:text="Wiliam@gmail.com"
             android:textColor="#fff"
             android:textSize="15sp"
-            />
-
-        <TextView
-            android:layout_width="@dimen/card_width"
-            android:layout_height="216dp"
-            android:layout_marginVertical="20dp"
-            android:layout_below="@+id/profile"
-            android:layout_centerHorizontal="true"
-            android:text="Wiliam@gmail.com"
-            android:background="@drawable/customborder"
-            android:textColor="#fff"
-            android:textSize="21sp"
             />
 
     </RelativeLayout>
