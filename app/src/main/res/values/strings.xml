@@ -35,5 +35,7 @@
     <string name="open">Open</string>
     <string name="closed">Closed</string>
     <string name="add_item">Add Item</string>
+    <string name="firstName">First Name</string>
+    <string name="lastName">Last Name</string>
 
 </resources>
