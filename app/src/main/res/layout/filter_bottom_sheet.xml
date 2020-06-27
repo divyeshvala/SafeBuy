@@ -21,31 +21,12 @@
         android:layout_marginBottom="24dp"/>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/location"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/location"
-        style="@style/WhiteInputText"
-        app:layout_constraintTop_toBottomOf="@+id/username">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:textCursorDrawable="@color/white"
-            android:textSize="@dimen/normalText"
-            />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
         style="@style/WhiteDropDown"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/category"
         android:id="@+id/category"
-        android:layout_marginTop="12dp">
+        android:layout_marginTop="5dp">
 
         <AutoCompleteTextView
             android:id="@+id/filled_exposed_dropdown"
@@ -107,7 +88,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginLeft="12dp">
+            android:layout_marginStart="12dp">
             <CheckBox
                 android:id="@+id/checkBoxOpen"
                 android:layout_width="wrap_content"

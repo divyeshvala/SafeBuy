@@ -41,10 +41,11 @@
                     android:layout_centerInParent="true" />
 
                 <ImageView
+                    android:id="@+id/id_customerProfile"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:src="@drawable/user"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_alignParentTop="true" />
 
             </RelativeLayout>

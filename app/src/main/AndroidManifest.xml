@@ -14,8 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Activities.MerchantMain"></activity>
         <activity android:name=".Activities.Merchants_not_in_containment" />
-        <activity android:name=".Messaging.Merchant.DisplayCustomersActivity" />
         <activity android:name=".Activities.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,9 +25,9 @@
         </activity>
         <activity android:name=".Messaging.Merchant.MerchantConversationActivity" />
         <activity android:name=".Messaging.Merchant.DisplayOrders" />
-        <activity android:name=".Messaging.Customer.CustomerConversationActivity"
-            android:theme="@style/NoTheme"/>
-        <activity android:name=".Messaging.Customer.DisplayMerchantsActivity" />
+        <activity
+            android:name=".Messaging.Customer.CustomerConversationActivity"
+            android:theme="@style/NoTheme" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -51,10 +51,12 @@
         <activity
             android:name=".Activities.CustomerMain"
             android:label="@string/title_activity_customer_main"
-            android:theme="@style/NoTheme" >
+            android:theme="@style/NoTheme">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
@@ -62,6 +64,7 @@
             android:name=".Activities.CustomerProfile"
             android:label="@string/title_activity_customer_profile"
             android:theme="@style/NoTheme" />
+        <activity android:name=".Activities.MerchantProfile" />
     </application>
 
 </manifest>

@@ -7,20 +7,25 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.app.Activities.MapsActivity;
 import com.example.app.CustomUI.Divider;
 import com.example.app.Messaging.Chat;
 import com.example.app.Messaging.ChatAdapter;
 import com.example.app.Messaging.Customer.CustomerConversationActivity;
 import com.example.app.R;
+import com.example.app.model.ATMObject;
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
@@ -38,18 +43,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
-public class FragmentMerchant extends Fragment implements ChatAdapter.ViewHolder.ClickListener {
+public class FragmentMerchant extends Fragment {
 
     private static final String TAG = "FragmentMerchant";
-    private RecyclerView mRecyclerView;
-    private ChatAdapter mAdapter;
-    private TextView tv_selection;
-    private List<Chat> merchantsList;
+    private ListAdapter mListadapter;
+    private ProgressBar progressBar;
+    private ArrayList<Chat> merchantsList;
     private String myUid;
-    Toolbar toolbar;
-    TextView title;
 
     public static FragmentMerchant newInstance()
     {
@@ -62,14 +65,15 @@ public class FragmentMerchant extends Fragment implements ChatAdapter.ViewHolder
         View view = inflater.inflate(R.layout.fragment_merchant, container, false);
 
         merchantsList = new ArrayList<>();
-        tv_selection = (TextView) view.findViewById(R.id.tv_selection);
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new ChatAdapter(getActivity(), merchantsList,this);
-        mRecyclerView.setAdapter (mAdapter);
-        mRecyclerView.addItemDecoration(new Divider(getContext().getDrawable(R.drawable.recyclerview_divider) ));
-
+        RecyclerView recyclerViewNearYou = (RecyclerView) view.findViewById(R.id.recyclerViewNearYou);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerViewNearYou.setLayoutManager(layoutManager);
+        progressBar = view.findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.VISIBLE);
+        merchantsList = new ArrayList<>();
+        mListadapter = new ListAdapter(merchantsList);
+        recyclerViewNearYou.setAdapter(mListadapter);
         myUid = FirebaseAuth.getInstance().getUid();
 
         if (!Places.isInitialized()) {
@@ -88,6 +92,7 @@ public class FragmentMerchant extends Fragment implements ChatAdapter.ViewHolder
             @Override
             public void onPlaceSelected(final Place place) {
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getAddress());
+
 
             }
 
@@ -121,8 +126,10 @@ public class FragmentMerchant extends Fragment implements ChatAdapter.ViewHolder
                 chat.setUserId(dataSnapshot.getKey());
                 merchantsList.add(chat);
                 //mAdapter.notifyDataSetChanged();
-                mAdapter.notifyItemInserted(merchantsList.size()-1); //todo
+                mListadapter.notifyItemInserted(merchantsList.size()-1); //todo
                 Log.i(TAG, "Merchant :"+chat.getName());
+
+                progressBar.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -131,57 +138,6 @@ public class FragmentMerchant extends Fragment implements ChatAdapter.ViewHolder
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) { }
             @Override
             public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) { }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) { }
-        });
-    }
-
-    @Override
-    public void onItemClicked(final int position)
-    {
-        // see if there is already chatId with this merchant. If not then create it.
-        final DatabaseReference mDB = FirebaseDatabase.getInstance().getReference()
-                .child("customers").child(myUid).child("chatIds");
-
-        final String merchantId = merchantsList.get(position).getUserId();
-
-        mDB.addListenerForSingleValueEvent(new ValueEventListener()
-        {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-            {
-                boolean exists = false;
-                if(dataSnapshot.exists())
-                {
-                    for(DataSnapshot chatIdSnapshot : dataSnapshot.getChildren())
-                    {
-                        if(chatIdSnapshot.child("merchantId").getValue(String.class).equals(merchantId))
-                        {
-                            exists = true;
-                            String mChatId = chatIdSnapshot.getKey();
-                            GoToNextActivity(merchantsList.get(position), mChatId);
-                        }
-                    }
-                }
-                if(!exists)
-                {
-                    DatabaseReference newChatId = mDB.push();
-                    Map<String, Object> data = new HashMap<>();
-                    data.put("merchantId", merchantsList.get(position).getUserId());
-                    data.put("name", merchantsList.get(position).getName());
-                    newChatId.updateChildren(data);
-
-                    DatabaseReference merchantDB = FirebaseDatabase.getInstance().getReference()
-                            .child("merchants").child(merchantsList.get(position).getUserId()).child("chatIds").child(newChatId.getKey());
-
-                    data = new HashMap<>();
-                    data.put("customerId", myUid);
-                    data.put("name", FirebaseAuth.getInstance().getCurrentUser().getEmail());
-                    merchantDB.updateChildren(data);
-
-                    GoToNextActivity(merchantsList.get(position), newChatId.getKey());
-                }
-            }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
@@ -196,29 +152,118 @@ public class FragmentMerchant extends Fragment implements ChatAdapter.ViewHolder
         startActivity(intent);
     }
 
-    @Override
-    public boolean onItemLongClicked(int position) {
-        toggleSelection(position);
-        return true;
-    }
+    public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
+        private ArrayList<Chat> dataList;
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return false;
-    }
+        private ListAdapter(ArrayList<Chat> data) {
+            this.dataList = data;
+        }
 
-    private void toggleSelection(int position) {
-        mAdapter.toggleSelection (position);
-        if (mAdapter.getSelectedItemCount()>0){
-            tv_selection.setVisibility(View.VISIBLE);
-        }else
-            tv_selection.setVisibility(View.GONE);
+        private class ViewHolder extends RecyclerView.ViewHolder {
+            TextView textViewName;
+            TextView textViewAddress;
+            TextView textViewDistance;
+            //TextView isOpen;
+            TextView directions;
+            TextView shop;
 
-        getActivity().runOnUiThread(new Runnable() {
-            public void run()
-            {
-                tv_selection.setText("Delete ("+mAdapter.getSelectedItemCount()+")");
+            private ViewHolder(View itemView) {
+                super(itemView);
+                this.textViewName = itemView.findViewById(R.id.name);
+                this.textViewAddress = itemView.findViewById(R.id.address);
+                this.textViewDistance = itemView.findViewById(R.id.distance);
+                //this.isOpen = itemView.findViewById(R.id.open);
+                this.directions = itemView.findViewById(R.id.direction);
+                this.shop = itemView.findViewById(R.id.shop);
             }
-        });
+        }
+
+        @NonNull
+        @Override
+        public ListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_merchant, parent, false);
+
+            return new ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder holder, final int position) {
+            holder.textViewName.setText(dataList.get(position).getName());
+            holder.textViewAddress.setText("404, Southside lane");
+            holder.textViewDistance.setText("3km");
+            //holder.isOpen.setText("open");
+
+            //if(!dataList.get(position).isSafe())
+            //holder.atmCardLayout.setBackground(getResources().getDrawable(R.drawable.red_back_up_round));
+
+            holder.shop.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v)
+                {
+                    Toast.makeText(getActivity(), "Item " + position + " is clicked.", Toast.LENGTH_SHORT).show();
+
+                    // see if there is already chatId with this merchant. If not then create it.
+                    final DatabaseReference mDB = FirebaseDatabase.getInstance().getReference()
+                            .child("customers").child(myUid).child("chatIds");
+
+                    final String merchantId = merchantsList.get(position).getUserId();
+
+                    mDB.addListenerForSingleValueEvent(new ValueEventListener()
+                    {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                        {
+                            boolean exists = false;
+                            if(dataSnapshot.exists())
+                            {
+                                for(DataSnapshot chatIdSnapshot : dataSnapshot.getChildren())
+                                {
+                                    if(chatIdSnapshot.child("merchantId").getValue(String.class).equals(merchantId))
+                                    {
+                                        exists = true;
+                                        String mChatId = chatIdSnapshot.getKey();
+                                        GoToNextActivity(merchantsList.get(position), mChatId);
+                                    }
+                                }
+                            }
+                            if(!exists)
+                            {
+                                DatabaseReference newChatId = mDB.push();
+                                Map<String, Object> data = new HashMap<>();
+                                data.put("merchantId", merchantsList.get(position).getUserId());
+                                data.put("name", merchantsList.get(position).getName());
+                                newChatId.updateChildren(data);
+
+                                DatabaseReference merchantDB = FirebaseDatabase.getInstance().getReference()
+                                        .child("merchants").child(merchantsList.get(position).getUserId()).child("chatIds").child(newChatId.getKey());
+
+                                data = new HashMap<>();
+                                data.put("customerId", myUid);
+                                data.put("name", FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                                merchantDB.updateChildren(data);
+
+                                GoToNextActivity(merchantsList.get(position), newChatId.getKey());
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) { }
+                    });
+                }
+            });
+
+            holder.directions.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v)
+                {
+                    Toast.makeText(getActivity(), "Coming soon", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return dataList.size();
+        }
     }
 }

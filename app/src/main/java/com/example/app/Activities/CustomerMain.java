@@ -15,6 +15,7 @@ import com.example.app.Utilities.util;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,7 +26,6 @@ public class CustomerMain extends AppCompatActivity implements FilterBottomSheet
     private static final String TAG = "customer_main";
     private CustomerMainFragmentAdapter adapter;
     FilterBottomSheetFragment bottomSheetFragment;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +83,13 @@ public class CustomerMain extends AppCompatActivity implements FilterBottomSheet
             }
         });
 
+        ImageView profile = findViewById(R.id.id_customerProfile);
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(CustomerMain.this, CustomerProfile.class));
+            }
+        });
     }
 
     void handleSendText(Intent intent) {
@@ -92,9 +99,9 @@ public class CustomerMain extends AppCompatActivity implements FilterBottomSheet
     }
 
     @Override
-    public void onButtonClicked(String location, String distance)
+    public void onButtonClicked()
     {
-        Log.i("customer_main", "Here :\n"+location+"\n"+distance);
+        Log.i("customer_main", "Here :");
         bottomSheetFragment.dismiss();
     }
 }

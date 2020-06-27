@@ -3,27 +3,20 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="90dp"
     android:background="@drawable/bg_item_list">
-    <CheckBox
-        android:id="@+id/chk_list"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:button="@drawable/checkbox"
-        android:layout_marginLeft="@dimen/space10"
-        android:layout_centerVertical="true"
-        android:visibility="gone"/>
+
     <RelativeLayout
         android:id="@+id/rl_photo"
-        android:layout_toRightOf="@id/chk_list"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/space10"
         android:layout_marginRight="@dimen/space10">
+
         <ImageView
             android:id="@+id/iv_user_photo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/userpic"/>
+            android:src="@drawable/ic_person_black_24dp"/>
         <TextView
             android:layout_width="28dp"
             android:layout_height="28dp"
@@ -36,12 +29,14 @@
             android:textColor="@color/colorAccent"
             android:textAppearance="@style/CardView.Light"
             android:background="@drawable/bg_unread"/>
+
     </RelativeLayout>
     <LinearLayout
+        android:id="@+id/id_chatLayout"
         android:layout_width="match_parent"
         android:layout_height="90dp"
-        android:paddingRight="@dimen/space10"
-        android:layout_toRightOf="@+id/rl_photo"
+        android:paddingEnd="@dimen/space10"
+        android:layout_toEndOf="@+id/rl_photo"
         android:background="@drawable/bg_bottom_grey"
         android:gravity="center_vertical">
         <RelativeLayout
@@ -49,27 +44,19 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical">
             <TextView
-                android:id="@+id/tv_user_name"
+                android:id="@+id/id_userName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Laura Owens"
                 style="@style/h2"
                 android:textAppearance="@style/CardView.Light"/>
-            <View
-                android:id="@+id/online_indicator"
-                android:layout_toRightOf="@id/tv_user_name"
-                android:layout_alignTop="@id/tv_user_name"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="@dimen/space5"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:background="@drawable/bg_online"/>
+
             <TextView
-                android:id="@+id/tv_last_chat"
-                android:layout_below="@id/tv_user_name"
+                android:id="@+id/id_address"
+                android:layout_below="@id/id_userName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hi, Joe, looks great! :)"
+                android:text="404, southside lane"
                 android:textSize="@dimen/h3"
                 android:textColor="@color/colorTextInfo"
                 android:layout_marginTop="3dp"
@@ -81,8 +68,7 @@
                 android:text="5:04pm"
                 android:textColor="@color/colorTextBlack"
                 android:textSize="@dimen/h4"
-                android:layout_alignTop="@id/online_indicator"
-                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
                 android:textAppearance="@style/CardView.Light"/>
         </RelativeLayout>
