@@ -1,7 +1,7 @@
 # SafeBuy
 ## Stay safe and buy
 ### Theme
-* Carholders
+* Cardholders
 
 ### Introduction
 * An application which provides its customers the location of safe ATMs and Merchants.Also customer can buy anything from merchant if he/she wants.
