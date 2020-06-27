@@ -32,7 +32,7 @@ public class MerchantMain extends AppCompatActivity {
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MerchantMain.this, MerchantProfile.class));
+                startActivity(new Intent(MerchantMain.this, profile.class));
             }
         });
     }

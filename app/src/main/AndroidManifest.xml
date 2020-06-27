@@ -61,10 +61,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.CustomerProfile"
+            android:name=".Activities.profile"
             android:label="@string/title_activity_customer_profile"
             android:theme="@style/NoTheme" />
-        <activity android:name=".Activities.MerchantProfile" />
     </application>
 
 </manifest>

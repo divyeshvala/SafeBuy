@@ -100,6 +100,34 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
             communication.sendMessage("My List:\n=======\n"+util.listItems);
             util.listItems = "";
             Toast.makeText(this, "Your List has been Sent", Toast.LENGTH_SHORT).show();
+
+
+            AlertDialog.Builder builder;
+            builder = new AlertDialog.Builder(this);
+            //Uncomment the below code to Set the message and title from the strings.xml file
+            builder.setMessage("Do you want it delivered ?") .setTitle("");
+            //Setting message manually and performing action on button click
+            builder.setCancelable(false)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Toast.makeText(getApplicationContext(),"Action for delivery",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            //  Action for 'NO' Button
+                            dialog.cancel();
+                            Toast.makeText(getApplicationContext(),"Pickup Chosen",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+            //Creating dialog box
+            AlertDialog alert = builder.create();
+            //Setting the title manually
+//        alert.setTitle("AlertDialogExample");
+            alert.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            alert.show();
         }
 
 
@@ -246,6 +274,34 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
             communication.sendMessage(final_list);
         }
 
+        AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(this);
+        //Uncomment the below code to Set the message and title from the strings.xml file
+        builder.setMessage("Do you want it delivered ?") .setTitle("");
+        //Setting message manually and performing action on button click
+        builder.setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Toast.makeText(getApplicationContext(),"Action for delivery",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //  Action for 'NO' Button
+                        dialog.cancel();
+                        Toast.makeText(getApplicationContext(),"Pickup Chosen",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+        //Creating dialog box
+        AlertDialog alert = builder.create();
+        //Setting the title manually
+//        alert.setTitle("AlertDialogExample");
+        alert.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        alert.show();
+
         addListBottomSheetFragment.dismiss();
     }
+
 }

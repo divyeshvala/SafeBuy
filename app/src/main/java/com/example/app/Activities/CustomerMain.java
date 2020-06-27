@@ -46,8 +46,9 @@ public class CustomerMain extends AppCompatActivity implements FilterBottomSheet
 
         //Two fragments are created, one for the merchants near you and the other for merchants that are already visited
         adapter = new CustomerMainFragmentAdapter(getSupportFragmentManager());
-        adapter.addFragment(FragmentATM.newInstance(), "ATM");
         adapter.addFragment(FragmentMerchant.newInstance(), "Merchants");
+        adapter.addFragment(FragmentATM.newInstance(), "ATM");
+
 
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(adapter);
@@ -60,12 +61,12 @@ public class CustomerMain extends AppCompatActivity implements FilterBottomSheet
                 TextView atmTextview = findViewById(R.id.atmTextview);
                 TextView merchantTextview = findViewById(R.id.merchantTextview);
                 if(position == 0){
-                    atmTextview.setTextColor(getResources().getColor(R.color.black));
-                    merchantTextview.setTextColor(getResources().getColor(R.color.grey));
-                }
-                else{
                     atmTextview.setTextColor(getResources().getColor(R.color.grey));
                     merchantTextview.setTextColor(getResources().getColor(R.color.black));
+                }
+                else{
+                    atmTextview.setTextColor(getResources().getColor(R.color.black));
+                    merchantTextview.setTextColor(getResources().getColor(R.color.grey));
                 }
             }
         });
@@ -84,7 +85,7 @@ public class CustomerMain extends AppCompatActivity implements FilterBottomSheet
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(CustomerMain.this, CustomerProfile.class));
+                startActivity(new Intent(CustomerMain.this, profile.class));
             }
         });
     }
