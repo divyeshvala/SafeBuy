@@ -119,6 +119,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@drawable/ic_filter_list_black_24dp"
-        app:backgroundTint="@color/yellow" />
+        app:backgroundTint="@color/yellow"
+        app:tint="@color/white"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

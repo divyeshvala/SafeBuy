@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="12dp"
+    android:paddingEnd="12dp"
+    android:id="@+id/linearLayoutListItem"
+    android:orientation="horizontal">
+    <TextView
+        android:id="@+id/listItemNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1."
+        android:textAlignment="center"
+        android:textSize="@dimen/h3"
+        android:textColor="@color/white"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"/>
+
+    <EditText
+        android:id="@+id/et_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:fontFamily="@font/roboto_regular"
+        android:hint="Add your item here"
+        android:inputType="textCapSentences"
+        android:maxLines="1"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="@dimen/h3" />
+</LinearLayout>

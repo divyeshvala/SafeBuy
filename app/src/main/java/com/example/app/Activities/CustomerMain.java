@@ -11,11 +11,13 @@ import com.example.app.fragment.FragmentMerchant;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
+import com.example.app.Utilities.util;
 
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 //Main Screen of the customer
 public class CustomerMain extends AppCompatActivity implements FilterBottomSheetFragment.BottomSheetListener {
@@ -24,12 +26,23 @@ public class CustomerMain extends AppCompatActivity implements FilterBottomSheet
     private CustomerMainFragmentAdapter adapter;
     FilterBottomSheetFragment bottomSheetFragment;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_main);
 
         Log.i("cusomer_main", "Inside customer main");
+
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if ("text/plain".equals(type)) {
+                handleSendText(intent); // Handle text being sent
+            }
+        }
 
         RelativeLayout relativeLayout = findViewById(R.id.banner);
         relativeLayout.getBackground().setAlpha(200);
@@ -70,6 +83,12 @@ public class CustomerMain extends AppCompatActivity implements FilterBottomSheet
             }
         });
 
+    }
+
+    void handleSendText(Intent intent) {
+        String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+        util.listItems = sharedText;
+        Toast.makeText(this, "Select a merchant", Toast.LENGTH_SHORT).show();
     }
 
     @Override
