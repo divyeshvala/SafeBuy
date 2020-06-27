@@ -9,7 +9,8 @@ import android.content.Intent;
 import android.os.Build;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-import com.example.app.Messaging.Merchant.DisplayCustomersActivity;
+
+import com.example.app.Activities.CustomerMain;
 import com.example.app.R;
 
 public class NotificationSystem
@@ -26,7 +27,7 @@ public class NotificationSystem
             NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
-        Intent activityIntent = new Intent(context, DisplayCustomersActivity.class);
+        Intent activityIntent = new Intent(context, CustomerMain.class);
         PendingIntent contentIntent = PendingIntent.getActivity(context,
                 0, activityIntent, 0);
 

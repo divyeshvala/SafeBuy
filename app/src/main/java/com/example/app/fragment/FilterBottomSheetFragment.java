@@ -23,6 +23,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class FilterBottomSheetFragment extends BottomSheetDialogFragment {
 
@@ -65,7 +66,6 @@ public class FilterBottomSheetFragment extends BottomSheetDialogFragment {
         edittextFilledDistanceValues.setAdapter(distance_adapter);
         //set default value
 
-        final TextInputLayout location = view.findViewById(R.id.location);
         final TextInputLayout distance = view.findViewById(R.id.distance);
         final Button applyFilterBTN = view.findViewById(R.id.id_apply_filter_btn);
 
@@ -73,27 +73,20 @@ public class FilterBottomSheetFragment extends BottomSheetDialogFragment {
             @Override
             public void onClick(View view)
             {
-                String locationText = location.getEditText().getText().toString();
                 String distanceText = distance.getEditText().getText().toString();
 
-                if(locationText.equals(""))
-                {
-                    Toast.makeText(getActivity(), "Please enter the location", Toast.LENGTH_LONG).show();
-                }
-                else{
-                    bottomSheetListener.onButtonClicked(locationText, distanceText);
-                    Intent intent = new Intent("ACTION_FILTER_APPLIED");
-                    intent.putExtra("addressLine", locationText);
-                    intent.putExtra("distance", distanceText);
-                    getActivity().sendBroadcast(intent);
-                }
+                bottomSheetListener.onButtonClicked();
+                Intent intent = new Intent("ACTION_FILTER_APPLIED");
+                intent.putExtra("distance", distanceText);
+                Objects.requireNonNull(getActivity()).sendBroadcast(intent);
+
             }
         });
         return view;
     }
 
     public interface BottomSheetListener{
-        void onButtonClicked(String location, String distance);
+        void onButtonClicked();
     }
 
     @Override

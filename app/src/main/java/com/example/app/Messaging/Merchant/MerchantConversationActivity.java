@@ -14,6 +14,7 @@ import com.example.app.Messaging.ConversationRecyclerView;
 import com.example.app.R;
 import com.example.app.Utilities.Communication;
 import com.example.app.model.MessageObject;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
@@ -83,7 +84,7 @@ public class MerchantConversationActivity extends AppCompatActivity {
 
         communication.getMessages();
 
-        Button send = (Button) findViewById(R.id.bt_send);
+        FloatingActionButton send = findViewById(R.id.bt_send);
         send.setOnClickListener(new View.OnClickListener()
         {
             @Override

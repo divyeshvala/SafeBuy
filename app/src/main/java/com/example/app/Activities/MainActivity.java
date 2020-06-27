@@ -15,7 +15,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
-import com.example.app.Messaging.Merchant.DisplayCustomersActivity;
+
 import com.example.app.R;
 import com.example.app.Utilities.PermissionUtils;
 import com.google.android.gms.common.api.ApiException;
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity
         else
         {
             Log.i(TAG, "as a merchant");
-            Intent intent = new Intent(MainActivity.this, DisplayCustomersActivity.class);
+            Intent intent = new Intent(MainActivity.this, MerchantMain.class);
             startActivity(intent);
             finish();
         }

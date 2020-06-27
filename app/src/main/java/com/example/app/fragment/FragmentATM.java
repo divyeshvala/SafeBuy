@@ -232,8 +232,7 @@ public class FragmentATM extends Fragment
         }
 
         if(ATMsList.size()==0){
-            //unsafeList.setText(unsafeList.getText().toString()+"\nNo ATMs found");
-            //safeList.setText(unsafeList.getText().toString()+"\nNo ATMs found");
+            //todo
             dataList.add(new ATMObject("There are no ATMs near you.", "", 0, -360, -360, true));
             mListadapter.notifyDataSetChanged();
         }
@@ -373,7 +372,7 @@ public class FragmentATM extends Fragment
                 @Override
                 public void onClick(View v)
                 {
-                    Toast.makeText(getActivity(), "Item " + position + " is clicked.", Toast.LENGTH_SHORT).show();
+
                     Intent intent = new Intent(getActivity(), MapsActivity.class);
                     intent.putExtra("originLatitude", mLatLng.latitude);
                     intent.putExtra("originLongitude", mLatLng.longitude);
