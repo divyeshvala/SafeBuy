@@ -10,6 +10,7 @@ from Server.code.NearbyMerchantRequestHandler import handleMerchantRequests
 def handleMerchantClients(root):
     path1 = 'NearbyMerchantRequest/{}/MerchantResult'
     path2 = 'NearbyMerchantRequest/{}/ContainmentResult'
+    path3 = 'NearbyMerchantRequest/{}'
 
     while True:
         req = db.reference('NearbyMerchantRequest').get()
@@ -20,8 +21,10 @@ def handleMerchantClients(root):
 
                 # print(curr_request['resolved'])
 
-                if "resolved" in curr_request and curr_request["resolved"] == 'false':
-                    tablepath1 = path1.format(request)
+                tablepath3 = path3.format(request);
+
+
+                if "resolvedContainment" in curr_request and curr_request["resolvedContainment"] == 'false':
                     tablepath2 = path2.format(request)
 
                     # print(tablepath1, tablepath2)
@@ -30,16 +33,12 @@ def handleMerchantClients(root):
 
                     handleContainmentrequests(root, tablepath2, curr_request["longitude"], curr_request["latitude"],
                                                      curr_request["distance"])
-                    curr_request.update({'resolved': 'true'})
+                    root.child(path3).update({'resolvedContainment': 'true'})
 
+                if "resolvedMerchant" in curr_request and curr_request["resolvedMerchant"] == 'false':
+
+                    tablepath1 = path1.format(request)
                     handleMerchantRequests(root, tablepath1, curr_request["merchantCategoryCode"], curr_request["distance"],
                                              curr_request["distanceUnit"], curr_request["latitude"], curr_request["longitude"])
-        #            t1 = threading.Thread(target=handleATMRequests, args = (root, tablepath1, curr_request["placeName"],
-        #                                                                    curr_request["distance"], curr_request["distanceUnit"],))
 
-        #            t2 = threading.Thread(target=handleContainmentrequests, args = (root, tablepath2,curr_request["longitude"],
-        #                                           curr_request["latitude"], curr_request["distance"], ))
-
-        #            t1.start()
-        #            t2.start()
-
+                    root.child(path3).update({'resolvedMerchant': 'true'})
