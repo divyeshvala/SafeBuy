@@ -64,39 +64,15 @@ public class Login extends AppCompatActivity
         // This part whether the user is currently logged in
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-
         if(firebaseUser!=null)
         {
             Intent intent = new Intent(Login.this, MainActivity.class);
             startActivity(intent);
         }
 
-        authStateListener = new FirebaseAuth.AuthStateListener() {
-            FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-
-                if(firebaseUser != null){
-                    // if user is logged in
-                    // goto main activity
-
-                    Toast.makeText(Login.this, "you are logged in", Toast.LENGTH_LONG);
-                    Intent intent = new Intent(Login.this, MainActivity.class);
-                    startActivity(intent);
-                }
-                else{
-                    Toast.makeText(Login.this, "Log in", Toast.LENGTH_LONG);
-                }
-
-            }
-        };
-
-        // if user is not logged  you need to login or signup
-
         LoginSignupFragmentAdapter adapter = new LoginSignupFragmentAdapter(getSupportFragmentManager());
         adapter.addFragment(FragmentLogin.newInstance(), "Login");
-        adapter.addFragment(FragmentSignUp.newInstance(), "Signup");
+        adapter.addFragment(FragmentSignUp.newInstance(), "SignUp");
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(adapter);
 
@@ -117,13 +93,5 @@ public class Login extends AppCompatActivity
                 }
             }
         });
-
-        /*new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startActivity(new Intent(Login.this, MainActivity.class));
-                finish();
-            }
-        }, 5000);*/
     }
 }

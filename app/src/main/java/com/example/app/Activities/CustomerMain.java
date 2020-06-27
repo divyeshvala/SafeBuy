@@ -2,7 +2,6 @@ package com.example.app.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-
 import com.example.app.R;
 import com.example.app.fragment.CustomerMainFragmentAdapter;
 import com.example.app.fragment.FilterBottomSheetFragment;
@@ -12,7 +11,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.app.Utilities.util;
-
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,7 +18,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-//Main Screen of the customer
 public class CustomerMain extends AppCompatActivity implements FilterBottomSheetFragment.BottomSheetListener {
 
     private static final String TAG = "customer_main";
