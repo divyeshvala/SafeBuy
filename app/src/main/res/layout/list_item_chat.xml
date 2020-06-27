@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="90dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
+    android:id="@+id/id_chatLayout"
     android:background="@drawable/bg_item_list">
 
     <RelativeLayout
@@ -17,6 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/ic_person_black_24dp"/>
+
         <TextView
             android:layout_width="28dp"
             android:layout_height="28dp"
@@ -31,46 +37,44 @@
             android:background="@drawable/bg_unread"/>
 
     </RelativeLayout>
-    <LinearLayout
-        android:id="@+id/id_chatLayout"
-        android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:paddingEnd="@dimen/space10"
-        android:layout_toEndOf="@+id/rl_photo"
-        android:background="@drawable/bg_bottom_grey"
-        android:gravity="center_vertical">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical">
-            <TextView
-                android:id="@+id/id_userName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Laura Owens"
-                style="@style/h2"
-                android:textAppearance="@style/CardView.Light"/>
 
-            <TextView
-                android:id="@+id/id_address"
-                android:layout_below="@id/id_userName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="404, southside lane"
-                android:textSize="@dimen/h3"
-                android:textColor="@color/colorTextInfo"
-                android:layout_marginTop="3dp"
-                android:textAppearance="@style/CardView.Light"/>
-            <TextView
-                android:id="@+id/tv_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="5:04pm"
-                android:textColor="@color/colorTextBlack"
-                android:textSize="@dimen/h4"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                android:textAppearance="@style/CardView.Light"/>
-        </RelativeLayout>
-    </LinearLayout>
+    <RelativeLayout
+        android:layout_toEndOf="@id/rl_photo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical">
+        <TextView
+            android:id="@+id/id_userName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Laura Owens"
+            style="@style/h2"
+            android:textStyle="bold"
+            android:layout_marginStart="5dp"
+            android:textAppearance="@style/CardView.Light"/>
+
+        <TextView
+            android:id="@+id/id_address"
+            android:layout_below="@id/id_userName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="404, southside lane"
+            android:textSize="@dimen/h3"
+            android:textColor="@color/colorTextInfo"
+            android:layout_marginTop="3dp"
+            android:layout_marginStart="7dp"
+            />
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5:04pm"
+            android:layout_marginEnd="5dp"
+            android:textColor="@color/colorTextBlack"
+            android:textSize="@dimen/h4"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:textAppearance="@style/CardView.Light"/>
+    </RelativeLayout>
 </RelativeLayout>

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -62,6 +63,7 @@ public class FragmentCustomers extends Fragment  {
 
     private void getCustomersList()
     {
+        Log.i(TAG, "myUid : "+myUid);
         final DatabaseReference merchantsDB = FirebaseDatabase.getInstance().getReference()
                 .child("merchants").child(myUid).child("chatIds");
 
@@ -74,7 +76,7 @@ public class FragmentCustomers extends Fragment  {
                 chat.setName(dataSnapshot.child("name").getValue(String.class));
                 chat.setImage(R.drawable.user2);
                 chat.setOnline(true);
-                chat.setLastChat(dataSnapshot.child("phone").getValue(String.class));
+                chat.setLastChat("New order!!!");
                 chat.setUserId(dataSnapshot.child("customerId").getValue(String.class));
                 chat.setChatId(dataSnapshot.getKey());
                 customersList.add(chat);
@@ -104,12 +106,12 @@ public class FragmentCustomers extends Fragment  {
         private class ViewHolder extends RecyclerView.ViewHolder {
             TextView textViewName;
             TextView textViewAddress;
-            LinearLayout cardLayout;
+            RelativeLayout cardLayout;
 
             private ViewHolder(View itemView) {
                 super(itemView);
-                this.textViewName = (TextView) itemView.findViewById(R.id.id_userName);
-                this.textViewAddress = (TextView) itemView.findViewById(R.id.id_address);
+                this.textViewName = itemView.findViewById(R.id.id_userName);
+                this.textViewAddress = itemView.findViewById(R.id.id_address);
                 this.cardLayout = itemView.findViewById(R.id.id_chatLayout);
             }
         }

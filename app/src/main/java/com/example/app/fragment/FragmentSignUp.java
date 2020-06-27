@@ -1,8 +1,10 @@
 package com.example.app.fragment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,9 +28,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class FragmentSignUp extends Fragment implements View.OnClickListener {
 
-    private TextInputLayout txtEmail, txtPassword;
+    private TextInputLayout txtEmail, txtPassword, tvFirstName, tvLastName;
+
     private ProgressBar progressBar;
     private FirebaseAuth firebaseAuth;
 
@@ -44,6 +49,8 @@ public class FragmentSignUp extends Fragment implements View.OnClickListener {
 
         txtEmail = view.findViewById(R.id.username);
         txtPassword = view.findViewById(R.id.password);
+        tvFirstName = view.findViewById(R.id.firstName);
+        tvLastName = view.findViewById(R.id.lastName);
         Button registerBTN = view.findViewById(R.id.login_register);
         progressBar = view.findViewById(R.id.loading);
         firebaseAuth = FirebaseAuth.getInstance();
@@ -56,20 +63,19 @@ public class FragmentSignUp extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
-        System.out.println("Button clicked");
-
         if (v.getId() == R.id.login_register) {
 
             String email = txtEmail.getEditText().getText().toString().trim();
             String password = txtPassword.getEditText().getText().toString().trim();
+            final String firstName = tvFirstName.getEditText().getText().toString().trim();
+            final String lastName = tvLastName.getEditText().getText().toString().trim();
 
-            System.out.println("Email : " + email);
-            System.out.println("Password : " + password);
-
-            if (TextUtils.isEmpty(email)) {
-                Toast.makeText(getActivity(), "Please Enter Email", Toast.LENGTH_SHORT).show();
+            if(TextUtils.isEmpty(firstName) && TextUtils.isEmpty(lastName)){
+                Toast.makeText(getActivity(), "Please your name", Toast.LENGTH_SHORT).show();
+            }else if (TextUtils.isEmpty(email)) {
+                Toast.makeText(getActivity(), "Please enter your mail", Toast.LENGTH_SHORT).show();
             } else if (TextUtils.isEmpty(password)) {
-                Toast.makeText(getActivity(), "Please Enter Password", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Please enter your password", Toast.LENGTH_SHORT).show();
             } else if (password.length() < 6) {
                 Toast.makeText(getActivity(), "Password is too short", Toast.LENGTH_SHORT).show();
             } else {
@@ -82,12 +88,15 @@ public class FragmentSignUp extends Fragment implements View.OnClickListener {
 
                                 if (task.isSuccessful())
                                 {
+                                    Log.i("SignUp", "task successfull");
+                                    final SharedPreferences settings = getActivity().getSharedPreferences("MySharedPref", MODE_PRIVATE);
+
                                     final DatabaseReference newRequestDB = FirebaseDatabase.getInstance()
-                                            .getReference().child(FirebaseAuth.getInstance().getUid());
+                                            .getReference().child(settings.getString("userType", "customer")+"s").child(FirebaseAuth.getInstance().getUid());
 
                                     Map<String, Object> messageData = new HashMap<>();
-                                    messageData.put("firstName", "XYZ");  //todo
-                                    messageData.put("lastName", "ABC");
+                                    messageData.put("firstName", firstName);
+                                    messageData.put("lastName", lastName);
                                     newRequestDB.updateChildren(messageData);
                                     Toast.makeText(getActivity(), "Sign Up Successful", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(getActivity(), MainActivity.class);

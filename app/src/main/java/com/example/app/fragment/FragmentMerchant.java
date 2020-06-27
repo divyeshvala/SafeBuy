@@ -118,10 +118,10 @@ public class FragmentMerchant extends Fragment {
             {
                 Chat chat = new Chat();
                 chat.setTime("");
-                chat.setName(dataSnapshot.child("name").getValue(String.class));
+                chat.setName(dataSnapshot.child("firstName").getValue(String.class)+" "+dataSnapshot.child("lastName").getValue(String.class));
                 chat.setImage(R.drawable.user2);
                 chat.setOnline(true);
-                chat.setLastChat(dataSnapshot.child("phone").getValue(String.class));
+                chat.setLastChat("7171773737");
                 chat.setUserId(dataSnapshot.getKey());
                 merchantsList.add(chat);
                 //mAdapter.notifyDataSetChanged();
@@ -227,21 +227,29 @@ public class FragmentMerchant extends Fragment {
                             }
                             if(!exists)
                             {
-                                DatabaseReference newChatId = mDB.push();
+                                final DatabaseReference newChatId = mDB.push();
                                 Map<String, Object> data = new HashMap<>();
                                 data.put("merchantId", merchantsList.get(position).getUserId());
                                 data.put("name", merchantsList.get(position).getName());
                                 newChatId.updateChildren(data);
 
-                                DatabaseReference merchantDB = FirebaseDatabase.getInstance().getReference()
-                                        .child("merchants").child(merchantsList.get(position).getUserId()).child("chatIds").child(newChatId.getKey());
+                                FirebaseDatabase.getInstance().getReference()
+                                        .child("customers").child(myUid).addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        Map<String, Object> data1 = new HashMap<>();
+                                        data1.put("customerId", myUid);
+                                        data1.put("name", dataSnapshot.child("firstName").getValue(String.class)+" "+dataSnapshot.child("lastName").getValue(String.class));
 
-                                data = new HashMap<>();
-                                data.put("customerId", myUid);
-                                data.put("name", FirebaseAuth.getInstance().getCurrentUser().getEmail());
-                                merchantDB.updateChildren(data);
+                                        DatabaseReference merchantDB = FirebaseDatabase.getInstance().getReference()
+                                                .child("merchants").child(merchantsList.get(position).getUserId()).child("chatIds").child(newChatId.getKey());
+                                        merchantDB.updateChildren(data1);
 
-                                GoToNextActivity(merchantsList.get(position), newChatId.getKey());
+                                        GoToNextActivity(merchantsList.get(position), newChatId.getKey());
+                                    }
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) { }
+                                });
                             }
                         }
                         @Override
@@ -255,7 +263,6 @@ public class FragmentMerchant extends Fragment {
                 public void onClick(View v)
                 {
                     Toast.makeText(getActivity(), "Coming soon", Toast.LENGTH_SHORT).show();
-
                 }
             });
         }

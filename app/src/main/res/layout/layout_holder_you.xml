@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:padding="@dimen/space5"
+    android:layout_marginStart="5dp"
     android:layout_marginEnd="@dimen/spaceLR">
     <LinearLayout
         android:layout_width="wrap_content"
@@ -19,7 +20,7 @@
             android:padding="@dimen/space10"
             android:text="Hi, joe how are you, do you like to join our party in next week because you don't like party?"
             android:textColor="@color/colorTextBlack"
-            android:textSize="@dimen/h3"
+            android:textSize="@dimen/h2"
             android:textAppearance="@style/CardView.Light"
             android:background="@drawable/bg_chat_you"/>
         <TextView
