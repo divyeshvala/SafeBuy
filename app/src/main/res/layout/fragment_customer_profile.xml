@@ -1,11 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+<LinearLayout
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:isScrollContainer="true"
     tools:context=".Activities.profile"
-    android:background="@color/colorTextHint"
+    android:background="@color/white"
     android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="@dimen/card_width"
+        android:layout_height="216dp"
+        android:layout_marginVertical="20dp"
+        android:layout_gravity="center"
+        android:layout_below="@+id/profile"
+        android:layout_centerHorizontal="true"
+        android:background="@color/white"
+        android:textColor="#fff"
+        android:textSize="21sp"
+        >
+        <com.manojbhadane.PaymentCardView
+            android:id="@+id/creditCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cv_submitBtnText="Done"
+            app:cv_cardTitle="Add Card"/>
+    </LinearLayout>
 
     <LinearLayout
         android:background="@drawable/customborder"
@@ -54,5 +79,25 @@
             android:text="Transactions"/>
     </LinearLayout>
 
+    <LinearLayout
+        android:background="@drawable/customborder"
+        android:layout_marginTop="25dp"
+        android:orientation="horizontal"
+        android:paddingLeft="25dp"
+        android:layout_width="@dimen/card_width"
+        android:layout_gravity="center"
+
+        android:layout_height="60dp">
+        <TextView
+            android:textStyle="bold"
+            android:textColor="@color/red"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:text="Logout"/>
+    </LinearLayout>
+
 
 </LinearLayout>
+</ScrollView>
