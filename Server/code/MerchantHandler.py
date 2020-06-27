@@ -32,7 +32,7 @@ def handleMerchantClients(root):
                                                      curr_request["distance"])
                     curr_request.update({'resolved': 'true'})
 
-                    handleMerchantRequests(root, tablepath1, curr_request["merchantName"], curr_request["distance"],
+                    handleMerchantRequests(root, tablepath1, curr_request["merchantCategoryCode"], curr_request["distance"],
                                              curr_request["distanceUnit"], curr_request["latitude"], curr_request["longitude"])
         #            t1 = threading.Thread(target=handleATMRequests, args = (root, tablepath1, curr_request["placeName"],
         #                                                                    curr_request["distance"], curr_request["distanceUnit"],))

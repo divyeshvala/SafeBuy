@@ -2,7 +2,7 @@ import requests
 import json
 
 
-def getMerchantLocations(merchanntName, range, unit, lat, lon):
+def getMerchantLocations(merchantCategoryCode, range, unit, lat, lon):
     url = 'https://sandbox.api.visa.com/merchantlocator/v1/locator'
 
     headers = {'Accept': 'application/json'}
@@ -19,7 +19,7 @@ def getMerchantLocations(merchanntName, range, unit, lat, lon):
 
     cert = '../Resources/merchant_locator_api_cert.pem'
 
-    payload["searchAttrList"]["merchantName"] = merchanntName
+    payload["searchAttrList"]["merchantCategoryCode"] = merchantCategoryCode
     payload["searchAttrList"]["distance"] = range
     payload["searchAttrList"]["latitude"] = lat
     payload["searchAttrList"]["longitude"] = lon
@@ -32,8 +32,8 @@ def getMerchantLocations(merchanntName, range, unit, lat, lon):
     return data
 
 
-def handleMerchantRequests(root, tablepath, merchanntName, range, unit, lat, lon):
-    response = getMerchantLocations(merchanntName, range, unit, lat, lon)
+def handleMerchantRequests(root, tablepath, merchantCategoryCode, range, unit, lat, lon):
+    response = getMerchantLocations(merchantCategoryCode, range, unit, lat, lon)
 
     if response["merchantLocatorServiceResponse"]["response"] is not None:
         for res in response["merchantLocatorServiceResponse"]["response"]:

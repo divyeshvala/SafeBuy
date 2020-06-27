@@ -6,12 +6,12 @@
     "startIndex": "0"
   },
   "searchAttrList": {
-    "merchantName": "STARBUCKS",
+    "merchantCategoryCode": ["3501","3502","3503","3504","3505","3507","3508","3509"],
     "merchantCountryCode": "840",
-    "latitude": "37.363922",
-    "longitude": "-121.929163",
-    "distance": "2",
-    "distanceUnit": "KM"
+    "latitude": "29.4241219",
+    "longitude": "-98.49362819999999",
+    "distance": "100",
+    "distanceUnit": "m"
   },
   "responseAttrList": [
   "GNLOCATOR"
