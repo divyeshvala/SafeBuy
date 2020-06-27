@@ -227,6 +227,7 @@ public class Frag_safe_merch extends Fragment {
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
+
             TextView textViewName;
             TextView textViewAddress;
             TextView textViewOpen;
