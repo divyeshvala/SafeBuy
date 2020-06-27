@@ -16,7 +16,7 @@ public class profile extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction().replace(R.id.holder,new customer_profile()).addToBackStack(null).commit();
+        fm.beginTransaction().replace(R.id.holder,new customer_profile()).commit();
 
 
     }
