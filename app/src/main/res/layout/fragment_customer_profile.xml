@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.profile"
+    android:background="@color/colorTextHint"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:background="@drawable/customborder"
+        android:layout_marginTop="25dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:paddingLeft="25dp"
+        android:layout_width="@dimen/card_width"
+        android:layout_height="60dp">
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_phone"/>
+        <TextView
+            android:textStyle="bold"
+
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:text="+266 225 225"/>
+    </LinearLayout>
+    <LinearLayout
+        android:background="@drawable/customborder"
+        android:layout_marginTop="25dp"
+        android:orientation="horizontal"
+        android:paddingLeft="25dp"
+        android:layout_width="@dimen/card_width"
+        android:layout_gravity="center"
+
+        android:layout_height="60dp">
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:id="@+id/transactions"
+            android:clickable="true"
+            android:src="@drawable/ic_transactions"/>
+        <TextView
+            android:textStyle="bold"
+
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:text="Transactions"/>
+    </LinearLayout>
+
+
+</LinearLayout>
