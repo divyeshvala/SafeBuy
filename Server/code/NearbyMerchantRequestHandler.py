@@ -51,12 +51,5 @@ def handleMerchantRequests(root, tablepath, merchantCategoryCode, range, unit, l
                 "cateogary": res["responseValues"]["merchantCategoryCodeDesc"]
             })
 
-    root.child(tablepath).push({
-        "visaStoreName": None,
-        "distance": None,
-        "latitude": -360,
-        "longitude": -360,
-        "cateogary": None
-    })
 
 #handleMerchantRequests("STARBUCKS", 2, "KM", "37.363922", "-121.929163")
