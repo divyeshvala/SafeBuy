@@ -59,11 +59,4 @@ def handleATMRequests(root, tablepath, city, distance, distanceUnit):
                             "longitude": locations["location"]["coordinates"]["longitude"],
                         }
                     })
-            root.child(tablepath).push({
-                "placeName": None,
-                "coordinates": {
-                    "latitude": -360,
-                    "longitude": -360,
-                }
-            })
 
