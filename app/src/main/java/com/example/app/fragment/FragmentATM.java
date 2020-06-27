@@ -272,6 +272,22 @@ public class FragmentATM extends Fragment
             }
         }
         progressBar.setVisibility(View.INVISIBLE);
+
+        Collections.sort(dataList, new CustomComparator());
+        mListadapter.notifyDataSetChanged();
+    }
+
+    public class CustomComparator implements Comparator<ATMObject> {
+        @Override
+        public int compare(ATMObject o1, ATMObject o2)
+        {
+            if(o1.isSafe() && o2.isSafe())
+            {
+                return o1.getDistance()<o2.getDistance() ? 1 : 0;
+            }
+
+            return o1.isSafe() ? 1 : 0;
+        }
     }
 
     private String getAddress(double latitude, double longitude)
@@ -344,6 +360,7 @@ public class FragmentATM extends Fragment
             TextView textViewAddress;
             TextView textViewDistance;
             ConstraintLayout atmCardLayout;
+            TextView directions;
 
             public ViewHolder(View itemView) {
                 super(itemView);
@@ -351,6 +368,7 @@ public class FragmentATM extends Fragment
                 this.textViewAddress = (TextView) itemView.findViewById(R.id.address);
                 this.textViewDistance = (TextView) itemView.findViewById(R.id.distance);
                 this.atmCardLayout = (ConstraintLayout) itemView.findViewById(R.id.id_atmCard_layout);
+                this.directions = itemView.findViewById(R.id.direction);
             }
         }
 
@@ -368,8 +386,9 @@ public class FragmentATM extends Fragment
             holder.textViewAddress.setText(dataList.get(position).getAddress());
             holder.textViewDistance.setText( String.format(Locale.getDefault(),"%.1f", dataList.get(position).getDistance())+"km");
 
-            //if(!dataList.get(position).isSafe())
-                //holder.atmCardLayout.setBackground(getResources().getDrawable(R.drawable.red_back_up_round));
+            if(!dataList.get(position).isSafe()){
+                holder.atmCardLayout.setBackground(getResources().getDrawable(R.drawable.red_back_up_round));
+            }
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
