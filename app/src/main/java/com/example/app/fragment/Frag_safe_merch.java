@@ -40,6 +40,7 @@ import static com.facebook.login.widget.ProfilePictureView.TAG;
  * create an instance of this fragment.
  */
 public class Frag_safe_merch extends Fragment {
+
     private RecyclerView rcview;
     private LocationObject mLocation;
     public ArrayList<LocationObject> MerchsList;
