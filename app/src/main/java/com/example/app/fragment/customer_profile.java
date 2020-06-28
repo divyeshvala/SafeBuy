@@ -69,7 +69,10 @@ public class customer_profile extends Fragment {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getActivity(), Login.class));
+                Intent i = new Intent(getActivity(), Login.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
+                getActivity().finish();
             }
         });
         return rootView;
