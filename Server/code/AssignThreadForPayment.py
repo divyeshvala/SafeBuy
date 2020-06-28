@@ -4,7 +4,7 @@ from firebase_admin import db
 from Server.code.PushPaymentHandler import handlePaymentClient
 
 
-def assignThreadForPayment(root):
+def assignThreadForPaymentRequests(root):
     path1 = 'PaymentRequest/{}/Result'
     path2 = 'PaymentRquest/{}'
 
