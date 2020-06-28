@@ -40,7 +40,7 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
     public RecyclerView mRecyclerView;
     public ConversationRecyclerView mAdapter;
     private EditText messageText;
-    private String merchantId;
+    private String merchantId, paymentResponse;
     private FirebaseUser currentUser;
     public List<MessageObject> messagesList = new ArrayList<>();
     private Communication communication;
@@ -168,7 +168,7 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
                                             }
 
                                             PaymentHandler paymentHandler = new PaymentHandler(CustomerConversationActivity.this,
-                                                    senderPAN, "", userInput.getText().toString(), "");
+                                                    senderPAN, "", userInput.getText().toString(), "", paymentResponse);
                                             paymentHandler.getTransactionStatus();
 
                                             //todo: register a receiver.
@@ -176,9 +176,11 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
                                             // get user input and set it to result
                                             // edit text
 
-
-                                            pay_message = pay_message.concat(userInput.getText().toString());
-                                            communication.sendMessage(formatPaymentMessage("PAID:" + pay_message));
+                                            if(paymentResponse.equals("Approved and completed successfully"))
+                                            {
+                                                pay_message = pay_message.concat(userInput.getText().toString());
+                                                communication.sendMessage(formatPaymentMessage("PAID:" + pay_message));
+                                            }
                                             dialog.dismiss();
                                         }
                                     })

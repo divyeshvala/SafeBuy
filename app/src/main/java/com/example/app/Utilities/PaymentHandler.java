@@ -27,12 +27,13 @@ public class PaymentHandler
     private String paymentResponse;
     private String amount, transactionCurrencyCode;
 
-    public PaymentHandler(Context context, String senderPAN, String receiverPAN,String amount,String transactionCurrencyCode){
+    public PaymentHandler(Context context, String senderPAN, String receiverPAN,String amount,String transactionCurrencyCode, String paymentResponse){
         this.context = context;
         this.senderPAN = senderPAN;
         this.receiverPAN = receiverPAN;
         this.amount = amount;
         this.transactionCurrencyCode = transactionCurrencyCode;
+        this.paymentResponse = paymentResponse;
     }
 
     public void getTransactionStatus(){
