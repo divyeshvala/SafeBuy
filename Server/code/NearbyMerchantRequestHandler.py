@@ -29,6 +29,7 @@ def getMerchantLocations(merchantCategoryCode, range, unit, lat, lon):
 
     data = json.loads(resp.content)
 
+    print(data)
     return data
 
 
@@ -52,4 +53,4 @@ def handleMerchantRequests(root, tablepath, merchantCategoryCode, range, unit, l
             })
 
 
-#getMerchantLocations(5814, 2, "KM", "37.363922", "-121.929163")
+getMerchantLocations(['5814'], 2, "M", "37.363922", "-121.929163")
