@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.app.R;
 import com.example.app.fragment.customer_profile;
+import com.example.app.fragment.fragment_merchant_profile;
 
 public class profile extends AppCompatActivity {
 

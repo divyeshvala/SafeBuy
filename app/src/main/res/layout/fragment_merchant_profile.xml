@@ -96,7 +96,7 @@
 
 
     <Button
-        android:id="@+id/login_register"
+        android:id="@+id/validate"
         android:layout_width="wrap_content"
         android:layout_height="43dp"
         android:elevation="@dimen/cardview_default_elevation"

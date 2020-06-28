@@ -13,7 +13,6 @@ import com.example.app.R;
 
 public class customer_profile extends Fragment {
 
-
     ImageView im;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
