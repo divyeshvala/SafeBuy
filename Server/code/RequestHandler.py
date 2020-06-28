@@ -1,7 +1,6 @@
 import threading
 
-from Server.code.MerchantHandler import handleMerchantClients
-
+from Server.code.AssignThreadForMerchant import assignThreadForMerchantRequests
 from Server.code.AssignThreadForATM import assignThreadForATMRequests
 
 import firebase_admin
@@ -18,9 +17,10 @@ app = firebase_admin.initialize_app(cred, {'databaseURL': 'https://safebuy-23dc8
 root = db.reference()
 
 
-merchanthandlerthread = threading.Thread(target=handleMerchantClients, args=(root,))
+merchanthandlerthread = threading.Thread(target=assignThreadForMerchantRequests, args=(root,))
 
 atmhandlerthread = threading.Thread(target=assignThreadForATMRequests, args=(root, ))
+
 merchanthandlerthread.start()
 atmhandlerthread.start()
 
