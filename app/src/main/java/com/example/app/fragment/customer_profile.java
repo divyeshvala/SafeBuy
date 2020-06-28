@@ -1,15 +1,24 @@
 package com.example.app.fragment;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.app.Activities.Login;
 import com.example.app.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.manojbhadane.PaymentCardView;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class customer_profile extends Fragment {
 

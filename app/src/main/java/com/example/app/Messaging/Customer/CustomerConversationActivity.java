@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -49,6 +50,7 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
     private int flagMode = MODE_PAY;
     public static String pay_message = "";
     Context mContext;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -153,14 +155,28 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
                                         public void onClick(DialogInterface dialog, int id)
                                         {
                                             //todo: for payment
+                                            sharedPreferences = mContext.getSharedPreferences
+                                                    ("MySharedPref", Context.MODE_PRIVATE);
+
+                                            String senderPAN = sharedPreferences.getString("cardNumber", "-1");
+
+                                            if(senderPAN.equals("-1")){
+                                                Toast.makeText(mContext, "Please add your card details in your profile",
+                                                        Toast.LENGTH_SHORT);
+
+                                                dialog.dismiss();
+                                            }
+
                                             PaymentHandler paymentHandler = new PaymentHandler(CustomerConversationActivity.this,
-                                                    "", "");
+                                                    senderPAN, "", userInput.getText().toString(), "");
                                             paymentHandler.getTransactionStatus();
 
                                             //todo: register a receiver.
 
                                             // get user input and set it to result
                                             // edit text
+
+
                                             pay_message = pay_message.concat(userInput.getText().toString());
                                             communication.sendMessage(formatPaymentMessage("PAID:" + pay_message));
                                             dialog.dismiss();

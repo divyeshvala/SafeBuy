@@ -3,6 +3,7 @@ package com.example.app.Utilities;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,11 +25,14 @@ public class PaymentHandler
     private Context context;
     private String receiverPAN, senderPAN;
     private String paymentResponse;
+    private String amount, transactionCurrencyCode;
 
-    public PaymentHandler(Context context, String senderPAN, String receiverPAN){
+    public PaymentHandler(Context context, String senderPAN, String receiverPAN,String amount,String transactionCurrencyCode){
         this.context = context;
         this.senderPAN = senderPAN;
         this.receiverPAN = receiverPAN;
+        this.amount = amount;
+        this.transactionCurrencyCode = transactionCurrencyCode;
     }
 
     public void getTransactionStatus(){
@@ -40,6 +44,8 @@ public class PaymentHandler
 
         requestMessage.put("senderPAN", senderPAN);
         requestMessage.put("receiverPAN", receiverPAN);
+        requestMessage.put("amount", amount);
+        requestMessage.put("transactionCurrencyCode", transactionCurrencyCode);
 
         databaseReference.updateChildren(requestMessage);
 
@@ -78,6 +84,8 @@ public class PaymentHandler
                 if(dataSnapshot.exists()){
                     paymentResponse = dataSnapshot.child("response").getValue(String.class);
                     Log.i(TAG, "got the Response" + paymentResponse);
+
+                    Toast.makeText(context, paymentResponse, Toast.LENGTH_SHORT);
                 }
             }
             @Override
