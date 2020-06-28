@@ -42,7 +42,7 @@
       </value>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.8 (SafeBuy)" project-jdk-type="Python SDK" />
   <component name="ProjectType">
     <option name="id" value="Android" />
   </component>

@@ -52,4 +52,4 @@ def handleMerchantRequests(root, tablepath, merchantCategoryCode, range, unit, l
             })
 
 
-#handleMerchantRequests("STARBUCKS", 2, "KM", "37.363922", "-121.929163")
+#getMerchantLocations(5814, 2, "KM", "37.363922", "-121.929163")

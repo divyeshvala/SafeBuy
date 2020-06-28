@@ -23,7 +23,6 @@ root = db.reference()
 merchanthandlerthread = threading.Thread(target=handleMerchantClients, args=(root,))
 
 atmhandlerthread = threading.Thread(target=handlerATMClients, args=(root, ))
-
 merchanthandlerthread.start()
 atmhandlerthread.start()
 

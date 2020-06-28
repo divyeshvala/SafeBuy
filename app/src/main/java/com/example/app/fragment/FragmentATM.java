@@ -34,6 +34,7 @@ import com.example.app.Utilities.GetNearbyATMs;
 import com.example.app.model.LocationObject;
 import com.example.app.Utilities.MyLocationListener;
 import com.example.app.model.ATMObject;
+//import com.facebook.places.Places;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
@@ -185,6 +186,7 @@ public class FragmentATM extends Fragment
     private final BroadcastReceiver locationReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent)
         {
+            Log.i(TAG, "inside locationReceiver, response type : "+intent.getBooleanExtra("isUsingMyLocation", true));
             final double lat = intent.getDoubleExtra("latitude", 0);
             final double lon = intent.getDoubleExtra("longitude", 0);
             final String addressLine = intent.getStringExtra("addressLine");
@@ -199,7 +201,8 @@ public class FragmentATM extends Fragment
                 new Thread(new Runnable(){
                     @Override
                     public void run() {
-                        getNearbyATMs.getListOfATMs(addressLine, lat, lon);
+                        //getNearbyATMs.getListOfATMs(addressLine, lat, lon);
+                        getNearbyATMs.getListOfATMs("vile parle, mumbai", 19.0968, 72.8517);
                     }
                 }).start();
             }
@@ -321,7 +324,7 @@ public class FragmentATM extends Fragment
     private void setupLocationAPI()
     {
         LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        LocationListener locationListener = new MyLocationListener(getActivity(), "");
+        LocationListener locationListener = new MyLocationListener(getActivity(), "ADDRESS_FOUND");
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
         {

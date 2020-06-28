@@ -11,6 +11,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,6 +21,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,8 +33,12 @@ import com.example.app.model.LocationObject;
 import com.example.app.Utilities.MyLocationListener;
 import com.example.app.model.Merchant;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 import static com.facebook.login.widget.ProfilePictureView.TAG;
 
@@ -40,7 +48,6 @@ import static com.facebook.login.widget.ProfilePictureView.TAG;
  * create an instance of this fragment.
  */
 public class Frag_safe_merch extends Fragment {
-
     private RecyclerView rcview;
     private LocationObject mLocation;
     public ArrayList<LocationObject> MerchsList;
@@ -54,6 +61,13 @@ public class Frag_safe_merch extends Fragment {
     public ArrayList<LocationObject> nearbyMerchsList;
     private boolean isUsingMyLocation;
     private LatLng mLatLng;
+    private BottomSheetListener bottomSheetListener;
+    public int categoryCode;
+    Map<String,Integer > map=new HashMap<>();
+    String[] category = new String[] {"Fast Food Restaurants", "Pharmacies", "Book Stores"};
+    String categoryDesc;
+    String distanceUnit;
+    Integer distance;
     public Frag_safe_merch() {
         // Required empty public constructor
     }
@@ -99,7 +113,53 @@ public class Frag_safe_merch extends Fragment {
         send2="ADDRESS_FOUND2";
         IntentFilter intentFilter = new IntentFilter(send2);
         getActivity().registerReceiver(locationReceiver, intentFilter);
-        setupLocationAPI(send2);
+
+        //Drop Down layout starts
+        map.put("Fast Food Restaurants",5814);
+        map.put("Books Stores",5942);
+        map.put("Pharmacies",5912);
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<>(
+                        getContext(),
+                        R.layout.dropdown_menu_popup_item,
+                        category);
+        final AutoCompleteTextView editTextFilledExposedDropdown =
+                view.findViewById(R.id.filled_exposed_dropdown);
+        editTextFilledExposedDropdown.setAdapter(adapter);
+
+        String[] distance_format = new String[] {"km", "m"};
+        ArrayAdapter<String> distance_adapter =
+                new ArrayAdapter<>(
+                        getContext(),
+                        R.layout.dropdown_menu_popup_item,
+                        distance_format);
+        final AutoCompleteTextView edittextFilledDistanceValues =
+                view.findViewById(R.id.distance_dropdown);
+        edittextFilledDistanceValues.setText(distance_format[0]);
+        edittextFilledDistanceValues.setAdapter(distance_adapter);
+
+        final TextInputLayout distancef = view.findViewById(R.id.distance);
+        final Button applyFilterBTN = view.findViewById(R.id.id_apply_filter_btn);
+        applyFilterBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                categoryDesc=editTextFilledExposedDropdown.getText().toString();
+                distanceUnit=edittextFilledDistanceValues.getText().toString();
+                categoryCode=map.get(categoryDesc);
+                distance = Integer.valueOf(distancef.getEditText().getText().toString());
+                //bottomSheetListener.onButtonClicked();
+                if(distanceUnit=="km"){
+                    distanceUnit="KM";
+                }
+                else{
+                    distanceUnit="M";
+                }
+                System.out.println(categoryDesc+" "+categoryCode+" "+distanceUnit+" "+distance);
+                //setupLocationAPI(send2);
+                findSafeAndUnsafeMerchs(MerchsList,nearbycontainmentZonesList);
+            }
+        });
         return view;
     }
     private final BroadcastReceiver locationReceiver = new BroadcastReceiver() {
@@ -132,7 +192,7 @@ public class Frag_safe_merch extends Fragment {
                     public void run() {
                         //getNearbyATMs.getListOfATMs(addressLine, lat, lon);
 
-                        getNearbyMerchs.getListOfMerchs("Three World Financial Center, 230 Vesey St, New York, NY 10281, USA", 40.7127, -74.0153);
+                        getNearbyMerchs.getListOfMerchs("Testing", 40.7127, -74.0153,categoryCode,distance,distanceUnit);
                     }
                 }).start();
             }
@@ -188,13 +248,19 @@ public class Frag_safe_merch extends Fragment {
     }
     private void findSafeAndUnsafeMerchs(ArrayList<LocationObject> MerchsList, ArrayList<LocationObject> containmentZonesList)
     {
+        System.out.println("InthesafeATMfunction");
+        dataList.add(new Merchant("Starbucks", "Dhoond lo", true, ""));
+        mListadapter.notifyDataSetChanged();
+        /*
         if(MerchsList.size()==0){
             //unsafeList.setText(unsafeList.getText().toString()+"\nNo ATMs found");
             //safeList.setText(unsafeList.getText().toString()+"\nNo ATMs found");
             dataList.add(new Merchant("There are no ATMs near you.", "", true, ""));
             mListadapter.notifyDataSetChanged();
         }
+        */
         // check which ATMs are in safe area.
+        /*
         for(LocationObject merchObject : MerchsList)
         {
 //            for(LocationObject zoneObject : containmentZonesList )
@@ -217,6 +283,7 @@ public class Frag_safe_merch extends Fragment {
             //if(containmentZonesList.size()==0)
             //  safeList.setText(safeList.getText().toString()+"\n"+atmObject.getPlaceName());
         }
+        */
         //progressBar.setVisibility(View.INVISIBLE);
     }
     public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
@@ -227,7 +294,6 @@ public class Frag_safe_merch extends Fragment {
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-
             TextView textViewName;
             TextView textViewAddress;
             TextView textViewOpen;
@@ -268,6 +334,18 @@ public class Frag_safe_merch extends Fragment {
         @Override
         public int getItemCount() {
             return dataList.size();
+        }
+    }
+    public interface BottomSheetListener{
+        void onButtonClicked();
+    }
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try{
+            bottomSheetListener = (BottomSheetListener) context;
+        }catch (ClassCastException e){
+            e.printStackTrace();
         }
     }
 }

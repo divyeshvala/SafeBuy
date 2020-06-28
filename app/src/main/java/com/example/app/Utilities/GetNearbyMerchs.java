@@ -24,7 +24,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public class GetNearbyMerchs {
-    private static final String DISTANCE_RANGE_METERS = "5000";
+    private static Integer DISTANCE_RANGE_METERS = 2;
     private static final String TAG = "GetNearbyMerchs";
     private boolean gotResponseForContainmentZones;
     private boolean gotResponseForMerchs;
@@ -33,6 +33,7 @@ public class GetNearbyMerchs {
     private ArrayList<LocationObject> containmentZoneList;
     private boolean isUsingMyLocation;
     private String distance;
+    private List<Integer> va = new ArrayList<>();
 
 
     public GetNearbyMerchs(Context mContext, ArrayList<LocationObject> MerchsList, ArrayList<LocationObject> containmentZoneList, boolean isUsingMyLocation, String distance) {
@@ -42,20 +43,28 @@ public class GetNearbyMerchs {
         this.isUsingMyLocation = isUsingMyLocation;
         this.distance = distance;
     }
-    public void getListOfMerchs(String addressLine, double latitude, double longitude)
+    public void getListOfMerchs(String addressLine, double latitude, double longitude,int categoryCode,int distance,String distance_unit)
     {
+        //testing code starts
+//        latitude=37.363922;
+//        longitude=-121.921986;
+//        addressLine="Testing place";
+        //testing code ends
         Log.i(TAG, "Entering getnearbymerchs");
+        DISTANCE_RANGE_METERS=distance;
         gotResponseForMerchs = false;
         gotResponseForContainmentZones = true;
+        va.add(categoryCode);
         // send request
         final DatabaseReference newRequestDB = FirebaseDatabase.getInstance()
                 .getReference().child("NearbyMerchantRequest").push();
 
         Map<String, Object> messageData = new HashMap<>();
-        messageData.put("distance", DISTANCE_RANGE_METERS);
-        messageData.put("distanceUnit", "m");
+        messageData.put("merchantCategoryCode", va);
         messageData.put("latitude", latitude);
         messageData.put("longitude", longitude);
+        messageData.put("distance", DISTANCE_RANGE_METERS);
+        messageData.put("distanceUnit", distance_unit);
         messageData.put("placeName", addressLine);
         messageData.put("resolved", "false");
         newRequestDB.updateChildren(messageData);
@@ -104,76 +113,76 @@ public class GetNearbyMerchs {
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
 
-        // response for containment zones
-//        responseDB.child("ContainmentResult").addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
-//            {
-//                if(dataSnapshot.exists())
-//                {
-//                    int numberOfNearbyZones = dataSnapshot.child("numberOfNearbyZones").getValue(Integer.class);
-//                    if(numberOfNearbyZones>0) {
-//                        for (DataSnapshot places : dataSnapshot.child("containmentZoneNames").getChildren())
-//                        {
-//                            String place = places.getValue(String.class);
-//                            if(place!=null && !place.equals(""))
-//                            {
-//                                try {
-//                                    Geocoder geocoder = new Geocoder(mContext,
-//                                            Locale.getDefault());
-//                                    List<Address> addresses = geocoder.getFromLocationName(
-//                                            place,
-//                                            1
-//                                    );
-//                                    Address address = addresses.get(0);
-//                                    Log.i(TAG, "Got containment response :" + address.getLatitude() + " " + address.getLongitude() + " ");
-//
-//                                    containmentZoneList.add(new LocationObject(address.getLatitude(),
-//                                            address.getLongitude(), place));
-//
-//                                } catch (IOException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//                            numberOfNearbyZones--;
-//                            if(numberOfNearbyZones<=0)
-//                            {
-//                                gotResponseForContainmentZones = true;
-//                                if(gotResponseForATMs) {
-//                                    // deleting the request after getting the response.
-//                                    FirebaseDatabase.getInstance().getReference()
-//                                            .child("NearbyATMRequest").child(newRequestDB.getKey()).removeValue();
-//
-//                                    Intent intent = new Intent("ACTION_FOUND_ATM_LIST");
-//                                    mContext.sendBroadcast(intent);
-//                                    //responseDB.removeEventListener(this);
-//                                }
-//                            }
-//                        }
-//                    }
-//                    else
-//                    {
-//                        gotResponseForContainmentZones = true;
-//                        if(gotResponseForATMs) {
-//                            // deleting the request after getting the response.
-//                            FirebaseDatabase.getInstance().getReference()
-//                                    .child("NearbyATMRequest").child(newRequestDB.getKey()).removeValue();
-//
-//                            Intent intent = new Intent("ACTION_FOUND_ATM_LIST");
-//                            mContext.sendBroadcast(intent);
-//                            //responseDB.removeEventListener(this);
-//                        }
-//                    }
-//                }
-//            }
-//            @Override
-//            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) { }
-//            @Override
-//            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) { }
-//            @Override
-//            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) { }
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) { }
-//        });
+//         response for containment zones
+        responseDB.child("ContainmentResult").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
+            {
+                if(dataSnapshot.exists())
+                {
+                    int numberOfNearbyZones = dataSnapshot.child("numberOfNearbyZones").getValue(Integer.class);
+                    if(numberOfNearbyZones>0) {
+                        for (DataSnapshot places : dataSnapshot.child("containmentZoneNames").getChildren())
+                        {
+                            String place = places.getValue(String.class);
+                            if(place!=null && !place.equals(""))
+                            {
+                                try {
+                                    Geocoder geocoder = new Geocoder(mContext,
+                                            Locale.getDefault());
+                                    List<Address> addresses = geocoder.getFromLocationName(
+                                            place,
+                                            1
+                                    );
+                                    Address address = addresses.get(0);
+                                    Log.i(TAG, "Got containment response :" + address.getLatitude() + " " + address.getLongitude() + " ");
+
+                                    containmentZoneList.add(new LocationObject(address.getLatitude(),
+                                            address.getLongitude(), place));
+
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            numberOfNearbyZones--;
+                            if(numberOfNearbyZones<=0)
+                            {
+                                gotResponseForContainmentZones = true;
+                                if(gotResponseForMerchs) {
+                                    // deleting the request after getting the response.
+                                    FirebaseDatabase.getInstance().getReference()
+                                            .child("NearbyATMRequest").child(newRequestDB.getKey()).removeValue();
+
+                                    Intent intent = new Intent("ACTION_FOUND_ATM_LIST");
+                                    mContext.sendBroadcast(intent);
+                                    //responseDB.removeEventListener(this);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        gotResponseForContainmentZones = true;
+                        if(gotResponseForMerchs) {
+                            // deleting the request after getting the response.
+                            FirebaseDatabase.getInstance().getReference()
+                                    .child("NearbyATMRequest").child(newRequestDB.getKey()).removeValue();
+
+                            Intent intent = new Intent("ACTION_FOUND_ATM_LIST");
+                            mContext.sendBroadcast(intent);
+                            //responseDB.removeEventListener(this);
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) { }
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) { }
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) { }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
+        });
     }
 }
