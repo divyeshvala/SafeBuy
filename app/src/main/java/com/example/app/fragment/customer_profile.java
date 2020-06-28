@@ -31,6 +31,30 @@ public class customer_profile extends Fragment {
 
             }
         });
-        return rootView;
+        
+        PaymentCardView paymentCardView = rootView.findViewById(R.id.creditCard);
+        final SharedPreferences settings = getActivity().getSharedPreferences("MySharedPref", MODE_PRIVATE);
+
+        paymentCardView.setCardTitle("PAN");
+        paymentCardView.setOnPaymentCardEventListener(new PaymentCardView.OnPaymentCardEventListener() {
+            @Override
+            public void onCardDetailsSubmit(String month, String year, String cardNumber, String cvv)
+            {
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putString("month", month);
+                editor.putString("year", year);
+                editor.putString("cardNumber", cardNumber);
+                editor.putString("cvv", cvv);
+                editor.apply();
+
+                Log.i("profile", month+year+cardNumber+cvv);
+            }
+            @Override
+            public void onError(String error) { }
+            @Override
+            public void onCancelClick() { }
+        });
+
+        
     }
 }
