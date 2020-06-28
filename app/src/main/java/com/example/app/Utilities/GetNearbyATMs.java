@@ -57,7 +57,6 @@ public class GetNearbyATMs
         messageData.put("resolvedContainment", "false");
         newRequestDB.updateChildren(messageData);
         Log.i(TAG, "newRequestDB.getKey() :"+newRequestDB.getKey());
-
         // get response
         final DatabaseReference responseDB = FirebaseDatabase.getInstance().getReference()
                 .child("NearbyATMRequest").child(newRequestDB.getKey());

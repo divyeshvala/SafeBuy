@@ -28,4 +28,5 @@
     <color name="green">#00ff00</color>
     <color name="darkGrey">#212121</color>
     <color name="lightBlue">#4fc3f7</color>
+    <color name="profile_background">#f7f9f7</color>
 </resources>

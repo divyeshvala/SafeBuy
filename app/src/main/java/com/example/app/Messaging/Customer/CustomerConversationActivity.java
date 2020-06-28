@@ -1,17 +1,12 @@
 package com.example.app.Messaging.Customer;
 
-import androidx.annotation.DrawableRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -28,6 +23,7 @@ import android.widget.Toast;
 import com.example.app.Messaging.ConversationRecyclerView;
 import com.example.app.R;
 import com.example.app.Utilities.Communication;
+import com.example.app.Utilities.PaymentHandler;
 import com.example.app.Utilities.util;
 import com.example.app.fragment.AddListBottomSheetFragment;
 import com.example.app.fragment.FilterBottomSheetFragment;
@@ -43,8 +39,6 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
     public RecyclerView mRecyclerView;
     public ConversationRecyclerView mAdapter;
     private EditText messageText;
-    Toolbar toolbar;
-    TextView title;
     private String merchantId;
     private FirebaseUser currentUser;
     public List<MessageObject> messagesList = new ArrayList<>();
@@ -72,7 +66,6 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
         TextView textViewTitle = findViewById(R.id.textViewTitle);
         textViewTitle.setText(merchantName);
 
-
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -88,7 +81,6 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
         }, 1000);
 
 
-
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         communication = new Communication(CustomerConversationActivity.this,
@@ -100,8 +92,6 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
             communication.sendMessage("My List:\n=======\n"+util.listItems);
             util.listItems = "";
             Toast.makeText(this, "Your List has been Sent", Toast.LENGTH_SHORT).show();
-
-
             AlertDialog.Builder builder;
             builder = new AlertDialog.Builder(this);
             //Uncomment the below code to Set the message and title from the strings.xml file
@@ -125,7 +115,7 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
             //Creating dialog box
             AlertDialog alert = builder.create();
             //Setting the title manually
-//        alert.setTitle("AlertDialogExample");
+            //alert.setTitle("AlertDialogExample");
             alert.requestWindowFeature(Window.FEATURE_NO_TITLE);
             alert.show();
         }
@@ -142,9 +132,7 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
                     }
                 } else if (flagMode == MODE_PAY) {
 
-
                     pay_message = "";
-
 
                     LayoutInflater li = LayoutInflater.from(mContext);
                     View promptsView = li.inflate(R.layout.dialog_pay, null);
@@ -162,7 +150,15 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
                             .setCancelable(false)
                             .setPositiveButton("Pay",
                                     new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
+                                        public void onClick(DialogInterface dialog, int id)
+                                        {
+                                            //todo: for payment
+                                            PaymentHandler paymentHandler = new PaymentHandler(CustomerConversationActivity.this,
+                                                    "", "");
+                                            paymentHandler.getTransactionStatus();
+
+                                            //todo: register a receiver.
+
                                             // get user input and set it to result
                                             // edit text
                                             pay_message = pay_message.concat(userInput.getText().toString());
@@ -182,7 +178,6 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
 
                     // show it
                     alertDialog.show();
-
                 }
 
             }
@@ -227,8 +222,6 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
             @Override
             public void afterTextChanged(Editable s) { }
         });
-
-
     }
 
     public class ViewDialog {
@@ -297,7 +290,7 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
         //Creating dialog box
         AlertDialog alert = builder.create();
         //Setting the title manually
-//        alert.setTitle("AlertDialogExample");
+        //alert.setTitle("AlertDialogExample");
         alert.requestWindowFeature(Window.FEATURE_NO_TITLE);
         alert.show();
 

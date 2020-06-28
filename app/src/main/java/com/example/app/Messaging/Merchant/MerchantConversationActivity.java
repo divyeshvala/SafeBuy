@@ -98,5 +98,4 @@ public class MerchantConversationActivity extends AppCompatActivity {
             }
         });
     }
-
 }

@@ -50,4 +50,10 @@ dependencies {
 
     implementation 'com.github.manojbhadane:PaymentCardView:v1.3'
 
+    implementation('com.paytm:pgplussdk:1.4.4') {
+        transitive = true;
+    }
+
+
 }
+

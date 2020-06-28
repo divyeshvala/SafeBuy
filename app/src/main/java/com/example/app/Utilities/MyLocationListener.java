@@ -26,7 +26,7 @@ public class MyLocationListener implements LocationListener {
     @Override
     public void onLocationChanged(Location location)
     {
-        Log.i(TAG, "inside onLocationChanged");
+        Log.i(send, "inside onLocationChanged");
         // send broadcast to Activity.
         getAddress(location);
     }
@@ -61,7 +61,7 @@ public class MyLocationListener implements LocationListener {
             e.printStackTrace();
         }
 
-        Intent intent = new Intent("ADDRESS_FOUND");
+        Intent intent = new Intent(send);
         intent.putExtra("addressLine", addressLine);
         intent.putExtra("latitude", location.getLatitude());
         intent.putExtra("longitude", location.getLongitude());
