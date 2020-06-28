@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.example.app.R;
 import com.example.app.fragment.CustomerMainFragmentAdapter;
 import com.example.app.fragment.FilterBottomSheetFragment;
+import com.example.app.fragment.Frag_safe_merch;
 import com.example.app.fragment.FragmentATM;
 import com.example.app.fragment.FragmentMerchant;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;

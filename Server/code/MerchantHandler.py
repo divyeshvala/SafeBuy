@@ -8,10 +8,10 @@ def handleMerchantClients(curr_request, root, tablepath1, tablepath2, tablepath3
 
     if "resolvedContainment" in curr_request and curr_request["resolvedContainment"] == 'false':
 
-        print(curr_request)
-
-        handleContainmentrequests(root, tablepath2, curr_request["longitude"], curr_request["latitude"],
-                                         curr_request["distance"])
+        # print(curr_request)
+        #
+        # handleContainmentrequests(root, tablepath2, curr_request["longitude"], curr_request["latitude"],
+        #                                  curr_request["distance"])
         root.child(tablepath3).update({'resolvedContainment': 'true'})
 
     if "resolvedMerchant" in curr_request and curr_request["resolvedMerchant"] == 'false':
