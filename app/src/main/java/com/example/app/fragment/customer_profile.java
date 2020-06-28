@@ -54,7 +54,16 @@ public class customer_profile extends Fragment {
             @Override
             public void onCancelClick() { }
         });
-
+        
+        RelativeLayout logOut = rootView.findViewById(R.id.id_customerLogOut);
+        logOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(getActivity(), Login.class));
+            }
+        });
+        return rootView;
         
     }
 }
