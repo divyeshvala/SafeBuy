@@ -55,24 +55,28 @@ public class PaymentHandler
         final DatabaseReference responseTable = FirebaseDatabase.getInstance()
                 .getReference().child("PaymentRequest").child(databaseReference.getKey());
 
-        // Got the Payment result
-        responseTable.addValueEventListener(new ValueEventListener() {
+
+        responseTable.child("result").addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child("gotResponse").getValue(String.class)!=null)
-                {
-                    responseTable.removeValue();
-                    paymentResponse = dataSnapshot.getValue(String.class);
-                    Intent intent = new Intent("GOT_PAYMENT_RESPONSE");
-                    intent.putExtra("amount", amount);
-                    context.sendBroadcast(intent);
-                }
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
+            {
+                paymentResponse = dataSnapshot.child("response").getValue(String.class);
+                Intent intent = new Intent("GOT_PAYMENT_RESPONSE");
+                intent.putExtra("amount", amount);
+                context.sendBroadcast(intent);
+
+                responseTable.removeValue();
             }
 
-            @Override 
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) { }
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {}
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {}
+            @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
 
-       
     }
 }

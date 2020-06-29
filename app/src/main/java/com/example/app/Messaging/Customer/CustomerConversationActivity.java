@@ -132,7 +132,6 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
             alert.show();
         }
 
-
         final FloatingActionButton fab = findViewById(R.id.bt_send);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
