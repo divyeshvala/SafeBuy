@@ -2,15 +2,14 @@ package com.example.app.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
-
 import android.os.Bundle;
-
 import com.example.app.R;
 import com.example.app.fragment.CustomerMainFragmentAdapter;
 import com.example.app.fragment.Frag_safe_merch;
 
 //whole code is cfm
 public class Merchants_not_in_containment extends AppCompatActivity {
+
     private CustomerMainFragmentAdapter adapter2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
