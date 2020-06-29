@@ -86,7 +86,7 @@ public class PaymentHandler
                     paymentResponse = dataSnapshot.child("response").getValue(String.class);
                     Log.i(TAG, "got the Response" + paymentResponse);
 
-                    Toast.makeText(context, paymentResponse, Toast.LENGTH_SHORT);
+                    Toast.makeText(context, paymentResponse, Toast.LENGTH_SHORT).show();
                 }
             }
             @Override

@@ -36,11 +36,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerConversationActivity extends AppCompatActivity implements AddListBottomSheetFragment.BottomSheetListener{
-
+    public static String TAG = "CustomerConverstionActivity";
     public RecyclerView mRecyclerView;
     public ConversationRecyclerView mAdapter;
     private EditText messageText;
-    private String merchantId, paymentResponse;
+    private String merchantId, paymentResponse="";
     private FirebaseUser currentUser;
     public List<MessageObject> messagesList = new ArrayList<>();
     private Communication communication;
@@ -160,12 +160,18 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
 
                                             String senderPAN = sharedPreferences.getString("cardNumber", "-1");
 
+                                            Log.i(TAG, senderPAN);
+
                                             if(senderPAN.equals("-1")){
                                                 Toast.makeText(mContext, "Please add your card details in your profile",
-                                                        Toast.LENGTH_SHORT);
+                                                        Toast.LENGTH_SHORT).show();
 
                                                 dialog.dismiss();
+
+                                                return;
                                             }
+
+                                            Log.i(TAG, "sender pan not equal to -1");
 
                                             PaymentHandler paymentHandler = new PaymentHandler(CustomerConversationActivity.this,
                                                     senderPAN, "", userInput.getText().toString(), "", paymentResponse);
