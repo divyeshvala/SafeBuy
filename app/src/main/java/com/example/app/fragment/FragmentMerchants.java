@@ -73,8 +73,8 @@ public class FragmentMerchants extends Fragment
     public ArrayList<MerchObject> MerchantsList;
     public ArrayList<LocationObject> containmentZonesList;
     private GetNearbyMerchants getNearbyMerchants, getMerchants;
-    private boolean isUsingMyLocation;
-    private LatLng mLatLng;
+    private static boolean isUsingMyLocation;
+    private static LatLng mLatLng;
     private ArrayList<String> containmentZoneLatLngs;
     private String myUid;
     FilterBottomSheetFragment bottomSheetFragment;
@@ -111,7 +111,6 @@ public class FragmentMerchants extends Fragment
         containmentZoneLatLngs = new ArrayList<>();
         nearbyMerchantsList = new ArrayList<>();
         nearbycontainmentZonesList = new ArrayList<>();
-        nearbyMerchantsList.add(new MerchObject(29.01, 72.30, "Red Wheelbarrow", "Restaurant", "3km", "3Pftvx20pSbIKN1RDlIuZyDhIey2"));
 
         getNearbyMerchants = new GetNearbyMerchants(getActivity(), nearbyMerchantsList, nearbycontainmentZonesList,
                 isUsingMyLocation, "2000");
@@ -145,7 +144,6 @@ public class FragmentMerchants extends Fragment
 
                 MerchantsList = new ArrayList<>();
                 containmentZonesList = new ArrayList<>();
-                MerchantsList.add(new MerchObject(29.01, 72.30, "Red Wheelbarrow", "Restaurant", "3km", "3Pftvx20pSbIKN1RDlIuZyDhIey2"));
                 getMerchants = new GetNearbyMerchants(getActivity(), MerchantsList, containmentZonesList,
                         isUsingMyLocation, "5");
 
@@ -218,11 +216,13 @@ public class FragmentMerchants extends Fragment
 
             if(intent.getBooleanExtra("isUsingMyLocation", true) && isUsingMyLocation)
             {
+                nearbyMerchantsList.add(new MerchObject(29.01, -121.00, "Red Wheelbarrow", "Restaurant", "3km", "3Pftvx20pSbIKN1RDlIuZyDhIey2"));
                 findSafeAndUnsafeMerchants(nearbyMerchantsList, nearbycontainmentZonesList);
             }
             else if(!intent.getBooleanExtra("isUsingMyLocation", true))
             {
                 Log.i(TAG, "custom location");
+                MerchantsList.add(new MerchObject(29.01, -121.00, "Red Wheelbarrow", "Restaurant", "3km", "3Pftvx20pSbIKN1RDlIuZyDhIey2"));
                 findSafeAndUnsafeMerchants(MerchantsList, containmentZonesList);
             }
         }
@@ -477,8 +477,8 @@ public class FragmentMerchants extends Fragment
         @Override
         public void onLocationChanged(Location location)
         {
-            if(isUsingMyLocation) {
-
+            if(isUsingMyLocation)
+            {
                 String addressLine = "";
                 try {
                     Geocoder geocoder = new Geocoder(getActivity(),

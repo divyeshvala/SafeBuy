@@ -6,11 +6,12 @@
 
     <fragment
         android:id="@+id/autocomplete_fragment"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
         />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewNearYou"
         android:layout_below="@id/autocomplete_fragment"
