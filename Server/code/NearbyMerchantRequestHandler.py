@@ -42,14 +42,16 @@ def handleMerchantRequests(root, tablepath, merchantCategoryCode, range, unit, l
             print("Distance : ", res["responseValues"]["distance"])
             print("Latitude : ", res["responseValues"]["locationAddressLatitude"])
             print("Longitude : ", res["responseValues"]["locationAddressLongitude"])
-            print("Cateogary : ", res["responseValues"]["merchantCategoryCodeDesc"])
+            print("Category : ", res["responseValues"]["merchantCategoryCodeDesc"])
+            print("StoreId : ", res['responseValues']['visaStoreId'])
 
             root.child(tablepath).push({
                 "visaStoreName": res["responseValues"]["visaStoreName"],
                 "distance": res["responseValues"]["distance"],
                 "latitude": res["responseValues"]["locationAddressLatitude"],
                 "longitude": res["responseValues"]["locationAddressLongitude"],
-                "cateogary": res["responseValues"]["merchantCategoryCodeDesc"]
+                "category": res["responseValues"]["merchantCategoryCodeDesc"],
+                "StoreId": res['responseValues']['visaStoreId']
             })
 
 
