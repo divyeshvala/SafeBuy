@@ -36,4 +36,11 @@ resp = requests.post(url=url, cert=(cert, key), auth=(user_id, password), header
 
 print(resp)
 data = json.loads(resp.content)
+
+res_code_file = open('../Resources/Access_codes.json')
+
+res_codes = json.load(res_code_file)
+
 print(data)
+
+print(res_codes[data['actionCode']])

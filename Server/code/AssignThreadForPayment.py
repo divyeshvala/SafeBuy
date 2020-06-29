@@ -6,7 +6,7 @@ from Server.code.PushPaymentHandler import handlePaymentClient
 
 def assignThreadForPaymentRequests(root):
     path1 = 'PaymentRequest/{}/Result'
-    path2 = 'PaymentRquest/{}'
+    path2 = 'PaymentRequest/{}'
 
     while True:
         req = db.reference('PaymentRequest').get()

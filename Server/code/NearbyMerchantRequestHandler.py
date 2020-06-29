@@ -36,7 +36,7 @@ def getMerchantLocations(merchantCategoryCode, range, unit, lat, lon):
 def handleMerchantRequests(root, tablepath, merchantCategoryCode, range, unit, lat, lon):
     response = getMerchantLocations(merchantCategoryCode, range, unit, lat, lon)
 
-    if response["merchantLocatorServiceResponse"]["response"] is not None:
+    if 'response' in response["merchantLocatorServiceResponse"]:
         for res in response["merchantLocatorServiceResponse"]["response"]:
             print("Visa Store Name : ", res["responseValues"]["visaStoreName"])
             print("Distance : ", res["responseValues"]["distance"])
@@ -53,6 +53,4 @@ def handleMerchantRequests(root, tablepath, merchantCategoryCode, range, unit, l
                 "category": res["responseValues"]["merchantCategoryCodeDesc"],
                 "StoreId": res['responseValues']['visaStoreId']
             })
-
-
-getMerchantLocations(['5814'], 2, "M", "37.363922", "-121.929163")
+# getMerchantLocations(['5814'], 2, "M", "37.363922", "-121.929163")
