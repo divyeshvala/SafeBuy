@@ -30,12 +30,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.app.R;
-import com.example.app.Utilities.GetNearbyATMs;
-import com.example.app.Utilities.GetNearbyMerchs;
+import com.example.app.Utilities.GetNearbyMerchants;
 import com.example.app.model.LocationObject;
 import com.example.app.Utilities.MyLocationListener;
 import com.example.app.model.MerchObject;
-import com.example.app.model.Merchant;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
@@ -51,7 +49,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 
 import static com.facebook.login.widget.ProfilePictureView.TAG;
 
@@ -65,7 +62,7 @@ public class Frag_safe_merch extends Fragment {
     private LocationObject mLocation;
     public ArrayList<MerchObject> MerchsList;
     public ArrayList<LocationObject> containmentZonesList;
-    private GetNearbyMerchs getNearbyMerchs;
+    private GetNearbyMerchants getNearbyMerchants;
     private FragmentATM fgny;
     private String send2;
     private ArrayList<MerchObject> dataList;
@@ -111,7 +108,7 @@ public class Frag_safe_merch extends Fragment {
         MerchsList = new ArrayList<>();
         containmentZonesList = new ArrayList<>();
         //isUsingMyLocation = true;
-        getNearbyMerchs = new GetNearbyMerchs(getActivity(), MerchsList, nearbycontainmentZonesList,
+        getNearbyMerchants = new GetNearbyMerchants(getActivity(), MerchsList, nearbycontainmentZonesList,
                 isUsingMyLocation, "2000");
         IntentFilter intentFilter1 = new IntentFilter("ACTION_FOUND_MERCH_LIST");
         getActivity().registerReceiver(MerchListReceiver, intentFilter1);
@@ -162,9 +159,7 @@ public class Frag_safe_merch extends Fragment {
                 Log.i(TAG, "An error occurred: " + status);
             }
         });
-//        send2="ADDRESS_FOUND2";
-//        IntentFilter intentFilter = new IntentFilter(send2);
-//        getActivity().registerReceiver(locationReceiver, intentFilter);
+
 
         //Drop Down layout starts
         map.put("Fast Food Restaurants",5814);
@@ -209,7 +204,7 @@ public class Frag_safe_merch extends Fragment {
                     distanceUnit="M";
                 }
                 System.out.println(categoryDesc+" "+categoryCode+" "+distanceUnit+" "+distance);
-                getNearbyMerchs.getListOfMerchs(firstplacename, latitude, longitude,categoryCode,distance,distanceUnit);
+                getNearbyMerchants.getListOfMerchants(firstplacename, latitude, longitude,categoryCode,distance,distanceUnit);
             }
         });
         return view;
@@ -231,7 +226,7 @@ public class Frag_safe_merch extends Fragment {
                 new Thread(new Runnable(){
                     @Override
                     public void run() {
-                        getNearbyMerchs.getListOfMerchs("Testing", 40.7127, -74.0153,categoryCode,distance,distanceUnit);
+                        getNearbyMerchants.getListOfMerchants("Testing", 40.7127, -74.0153,categoryCode,distance,distanceUnit);
                     }
                 }).start();
             }
@@ -291,7 +286,7 @@ public class Frag_safe_merch extends Fragment {
         if(MerchsList.size()==0){
             //unsafeList.setText(unsafeList.getText().toString()+"\nNo ATMs found");
             //safeList.setText(unsafeList.getText().toString()+"\nNo ATMs found");
-            dataList.add(new MerchObject(0,0,"No stores","No category","No distance"));
+            dataList.add(new MerchObject(0,0,"No stores","No category","No distance", ""));
             mListadapter.notifyDataSetChanged();
             System.out.println("There is nothing in the list");
         }
@@ -314,7 +309,7 @@ public class Frag_safe_merch extends Fragment {
 //                    dataList.add(new Merchant(atmObject.getPlaceName(), atmObject.getLatitude()+":"+atmObject.getLongitude(), true, "Unsafe"));
 //                    mListadapter.notifyDataSetChanged();                }
 //            }
-            dataList.add(new MerchObject(merchObject.getLat(),merchObject.getLon(),merchObject.getStoreName(),merchObject.getCategoryDesc(),merchObject.getDistanceDesc()));
+            dataList.add(new MerchObject(merchObject.getLat(),merchObject.getLon(),merchObject.getStoreName(),merchObject.getCategoryDesc(),merchObject.getDistanceDesc(), ""));
             mListadapter.notifyDataSetChanged();
             //if(containmentZonesList.size()==0)
             //  safeList.setText(safeList.getText().toString()+"\n"+atmObject.getPlaceName());

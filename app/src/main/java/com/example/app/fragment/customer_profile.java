@@ -53,7 +53,9 @@ public class customer_profile extends Fragment {
                 editor.putString("cvv", cvv);
                 editor.apply();
 
-                Log.i("profile", month+year+cardNumber+cvv);
+                Log.i("customer_profile", month+year+cardNumber+cvv);
+
+                Log.i("customer_profile", settings.getString("cardNumber", "-1"));
             }
             @Override
             public void onError(String error) { }
@@ -73,6 +75,5 @@ public class customer_profile extends Fragment {
             }
         });
         return rootView;
-        
     }
 }
