@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
@@ -28,15 +30,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.app.R;
+import com.example.app.Utilities.GetNearbyATMs;
 import com.example.app.Utilities.GetNearbyMerchs;
 import com.example.app.model.LocationObject;
 import com.example.app.Utilities.MyLocationListener;
+import com.example.app.model.MerchObject;
 import com.example.app.model.Merchant;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -50,15 +63,15 @@ import static com.facebook.login.widget.ProfilePictureView.TAG;
 public class Frag_safe_merch extends Fragment {
     private RecyclerView rcview;
     private LocationObject mLocation;
-    public ArrayList<LocationObject> MerchsList;
+    public ArrayList<MerchObject> MerchsList;
     public ArrayList<LocationObject> containmentZonesList;
     private GetNearbyMerchs getNearbyMerchs;
     private FragmentATM fgny;
     private String send2;
-    private ArrayList<Merchant> dataList;
+    private ArrayList<MerchObject> dataList;
     private ListAdapter mListadapter;
     public ArrayList<LocationObject> nearbycontainmentZonesList;
-    public ArrayList<LocationObject> nearbyMerchsList;
+    public ArrayList<MerchObject> nearbyMerchsList;
     private boolean isUsingMyLocation;
     private LatLng mLatLng;
     private BottomSheetListener bottomSheetListener;
@@ -68,20 +81,12 @@ public class Frag_safe_merch extends Fragment {
     String categoryDesc;
     String distanceUnit;
     Integer distance;
+    private double latitude,longitude;
+    String firstplacename;
     public Frag_safe_merch() {
         // Required empty public constructor
     }
 
-    /*
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Frag_safe_merch.
-     */
-    //cfm
-    // TODO: Rename and change types and number of parameters
     public static Frag_safe_merch newInstance() {
         return new Frag_safe_merch();
     }
@@ -94,7 +99,6 @@ public class Frag_safe_merch extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_frag_safe_merch, container, false);
         Log.i(TAG, "inside onCreate.");
         dataList = new ArrayList<>();
@@ -103,16 +107,64 @@ public class Frag_safe_merch extends Fragment {
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rcview.setLayoutManager(layoutManager);
+        rcview.setAdapter(mListadapter);
         MerchsList = new ArrayList<>();
         containmentZonesList = new ArrayList<>();
-        isUsingMyLocation = true;
-        getNearbyMerchs = new GetNearbyMerchs(getActivity(), nearbyMerchsList, nearbycontainmentZonesList,
+        //isUsingMyLocation = true;
+        getNearbyMerchs = new GetNearbyMerchs(getActivity(), MerchsList, nearbycontainmentZonesList,
                 isUsingMyLocation, "2000");
         IntentFilter intentFilter1 = new IntentFilter("ACTION_FOUND_MERCH_LIST");
         getActivity().registerReceiver(MerchListReceiver, intentFilter1);
-        send2="ADDRESS_FOUND2";
-        IntentFilter intentFilter = new IntentFilter(send2);
-        getActivity().registerReceiver(locationReceiver, intentFilter);
+        if (!Places.isInitialized()) {
+            Places.initialize(getActivity(), getString(R.string.google_maps_key));
+        }
+        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+                getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+
+        // Specify the types of place data to return.
+        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(final Place place) {
+                Log.i(TAG, "Place: " + place.getName() + ", " + place.getAddress());
+                firstplacename=place.getName();
+                Address address = null;
+                try {
+                    Geocoder geocoder = new Geocoder(getActivity(),
+                            Locale.getDefault());
+                    List<Address> addresses = geocoder.getFromLocationName(
+                            place.getName(),
+                            1
+                    );
+                    address = addresses.get(0);
+                    //mLatLng = new LatLng(address.getLatitude(), address.getLongitude());
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                if(address!=null){
+//                    final Address finalAddress = address;
+//                    new Thread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            getATMs.getListOfATMs(place.getName(), finalAddress.getLatitude(), finalAddress.getLongitude());
+//                        }
+//                    }).start();
+                    latitude=address.getLatitude();
+                    longitude=address.getLongitude();
+                }
+            }
+
+            @Override
+            public void onError(Status status) {
+                // TODO: Handle the error.
+                Log.i(TAG, "An error occurred: " + status);
+            }
+        });
+//        send2="ADDRESS_FOUND2";
+//        IntentFilter intentFilter = new IntentFilter(send2);
+//        getActivity().registerReceiver(locationReceiver, intentFilter);
 
         //Drop Down layout starts
         map.put("Fast Food Restaurants",5814);
@@ -151,13 +203,13 @@ public class Frag_safe_merch extends Fragment {
                 //bottomSheetListener.onButtonClicked();
                 if(distanceUnit=="km"){
                     distanceUnit="KM";
+                    distance=distance*1000;
                 }
                 else{
                     distanceUnit="M";
                 }
                 System.out.println(categoryDesc+" "+categoryCode+" "+distanceUnit+" "+distance);
-                //setupLocationAPI(send2);
-                findSafeAndUnsafeMerchs(MerchsList,nearbycontainmentZonesList);
+                getNearbyMerchs.getListOfMerchs(firstplacename, latitude, longitude,categoryCode,distance,distanceUnit);
             }
         });
         return view;
@@ -165,7 +217,6 @@ public class Frag_safe_merch extends Fragment {
     private final BroadcastReceiver locationReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent)
         {
-            Log.i(TAG, "inside locationReceiver234, response type : "+intent.getBooleanExtra("isUsingMyLocation", true));
             final double lat = intent.getDoubleExtra("latitude", 0);
             final double lon = intent.getDoubleExtra("longitude", 0);
             final String addressLine = intent.getStringExtra("addressLine");
@@ -174,24 +225,12 @@ public class Frag_safe_merch extends Fragment {
             }catch (Exception e){
                 e.printStackTrace();
             }
-
-            //mLocation = new LocationObject(lat, lon, addressLine);
-
-//            if(doesUserWantOurLocationsATMs)
-//            {
-//                doesUserWantOurLocationsATMs = false;
-//            }
-//
-            //getNearbyMerchs.getListOfMerchs("vile parle, mumbai", 19.0968, 72.8517);
-            //getNearbyMerchs.getListOfMerchs(addressLine,lat,lon);
             if(isUsingMyLocation) {
                 Log.i(TAG, "inside locationReceiver69, response type : "+intent.getBooleanExtra("isUsingMyLocation", true));
                 mLatLng = new LatLng(lat, lon);
                 new Thread(new Runnable(){
                     @Override
                     public void run() {
-                        //getNearbyATMs.getListOfATMs(addressLine, lat, lon);
-
                         getNearbyMerchs.getListOfMerchs("Testing", 40.7127, -74.0153,categoryCode,distance,distanceUnit);
                     }
                 }).start();
@@ -206,19 +245,19 @@ public class Frag_safe_merch extends Fragment {
         public void onReceive(Context context, Intent intent)
         {
             Log.i(TAG, "inside MerchListReceiver, response type : "+intent.getBooleanExtra("isUsingMyLocation", true));
-
             dataList.clear();
             mListadapter.notifyDataSetChanged();
-
-            if(intent.getBooleanExtra("isUsingMyLocation", true) && isUsingMyLocation)
-            {
-                findSafeAndUnsafeMerchs(nearbyMerchsList, nearbycontainmentZonesList);
-            }
-            else if(!intent.getBooleanExtra("isUsingMyLocation", true))
-            {
-                Log.i(TAG, "custom location");
-                findSafeAndUnsafeMerchs(MerchsList, containmentZonesList);
-            }
+//
+//            if(intent.getBooleanExtra("isUsingMyLocation", true) && isUsingMyLocation)
+//            {
+//                findSafeAndUnsafeMerchs(nearbyMerchsList, nearbycontainmentZonesList);
+//            }
+//            else if(!intent.getBooleanExtra("isUsingMyLocation", true))
+//            {
+//
+//            }
+            Log.i(TAG, "custom location");
+            findSafeAndUnsafeMerchs(MerchsList, containmentZonesList);
         }
     };
     public void onDestroy() {
@@ -246,22 +285,19 @@ public class Frag_safe_merch extends Fragment {
                     LocationManager.GPS_PROVIDER, 5000, 1, locationListener);
         }
     }
-    private void findSafeAndUnsafeMerchs(ArrayList<LocationObject> MerchsList, ArrayList<LocationObject> containmentZonesList)
+    private void findSafeAndUnsafeMerchs(ArrayList<MerchObject> MerchsList, ArrayList<LocationObject> containmentZonesList)
     {
         System.out.println("InthesafeATMfunction");
-        dataList.add(new Merchant("Starbucks", "Dhoond lo", true, ""));
-        mListadapter.notifyDataSetChanged();
-        /*
         if(MerchsList.size()==0){
             //unsafeList.setText(unsafeList.getText().toString()+"\nNo ATMs found");
             //safeList.setText(unsafeList.getText().toString()+"\nNo ATMs found");
-            dataList.add(new Merchant("There are no ATMs near you.", "", true, ""));
+            dataList.add(new MerchObject(0,0,"No stores","No category","No distance"));
             mListadapter.notifyDataSetChanged();
+            System.out.println("There is nothing in the list");
         }
-        */
         // check which ATMs are in safe area.
-        /*
-        for(LocationObject merchObject : MerchsList)
+
+        for(MerchObject merchObject : MerchsList)
         {
 //            for(LocationObject zoneObject : containmentZonesList )
 //            {
@@ -278,32 +314,32 @@ public class Frag_safe_merch extends Fragment {
 //                    dataList.add(new Merchant(atmObject.getPlaceName(), atmObject.getLatitude()+":"+atmObject.getLongitude(), true, "Unsafe"));
 //                    mListadapter.notifyDataSetChanged();                }
 //            }
-            dataList.add(new Merchant(merchObject.getPlaceName(), merchObject.getLatitude()+":"+merchObject.getLongitude(), true, "Safe"));
+            dataList.add(new MerchObject(merchObject.getLat(),merchObject.getLon(),merchObject.getStoreName(),merchObject.getCategoryDesc(),merchObject.getDistanceDesc()));
             mListadapter.notifyDataSetChanged();
             //if(containmentZonesList.size()==0)
             //  safeList.setText(safeList.getText().toString()+"\n"+atmObject.getPlaceName());
         }
-        */
+        System.out.println("The last print");
         //progressBar.setVisibility(View.INVISIBLE);
     }
     public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
-        private ArrayList<Merchant> dataList;
+        private ArrayList<MerchObject> dataList;
 
-        public ListAdapter(ArrayList<Merchant> data) {
+        public ListAdapter(ArrayList<MerchObject> data) {
             this.dataList = data;
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
             TextView textViewName;
             TextView textViewAddress;
-            TextView textViewOpen;
+            //TextView textViewOpen;
             TextView textViewDistance;
 
             public ViewHolder(View itemView) {
                 super(itemView);
                 this.textViewName = (TextView) itemView.findViewById(R.id.name);
                 this.textViewAddress = (TextView) itemView.findViewById(R.id.address);
-                this.textViewOpen = (TextView) itemView.findViewById(R.id.open);
+                //this.textViewOpen = (TextView) itemView.findViewById(R.id.open);
                 this.textViewDistance = (TextView) itemView.findViewById(R.id.distance);
             }
         }
@@ -318,10 +354,10 @@ public class Frag_safe_merch extends Fragment {
 
         @Override
         public void onBindViewHolder(ListAdapter.ViewHolder holder, final int position) {
-            holder.textViewName.setText(dataList.get(position).getName());
-            holder.textViewAddress.setText(dataList.get(position).getAddress());
-            holder.textViewOpen.setText(dataList.get(position).isOpen() ? "true" : "false");
-            holder.textViewDistance.setText(dataList.get(position).getDistance());
+            holder.textViewName.setText(dataList.get(position).getStoreName());
+            holder.textViewAddress.setText("Address feature later");
+            //holder.textViewOpen.setText(dataList.get(position).isOpen() ? "true" : "false");
+            holder.textViewDistance.setText(dataList.get(position).getDistanceDesc());
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

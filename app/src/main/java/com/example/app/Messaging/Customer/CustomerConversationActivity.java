@@ -5,8 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,9 +18,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +31,6 @@ import com.example.app.Utilities.Communication;
 import com.example.app.Utilities.PaymentHandler;
 import com.example.app.Utilities.util;
 import com.example.app.fragment.AddListBottomSheetFragment;
-import com.example.app.fragment.FilterBottomSheetFragment;
 import com.example.app.model.MessageObject;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,7 +43,7 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
     public RecyclerView mRecyclerView;
     public ConversationRecyclerView mAdapter;
     private EditText messageText;
-    private String merchantId;
+    private String merchantId, paymentResponse;
     private FirebaseUser currentUser;
     public List<MessageObject> messagesList = new ArrayList<>();
     private Communication communication;
@@ -49,6 +53,9 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
     private int flagMode = MODE_PAY;
     public static String pay_message = "";
     Context mContext;
+    private SharedPreferences sharedPreferences;
+    private String receiverPAN;
+    private ProgressBar payProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -60,12 +67,15 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
         String merchantName = getIntent().getStringExtra("merchantName");
         merchantId = getIntent().getStringExtra("merchantId");
         String chatId = getIntent().getStringExtra("chatId");
+        receiverPAN = ""; // getIntent().... // todo
+
 
 //        setupToolbarWithUpNav(R.id.toolbar, merchantName, R.drawable.ic_action_back);
 
         TextView textViewTitle = findViewById(R.id.textViewTitle);
         textViewTitle.setText(merchantName);
 
+        payProgress = findViewById(R.id.id_payment_progressbar);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -80,13 +90,15 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
             }
         }, 1000);
 
-
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         communication = new Communication(CustomerConversationActivity.this,
                 messagesList, mAdapter, mRecyclerView, chatId, "customer", merchantName);
 
         communication.getMessages();
+
+        IntentFilter intentFilter = new IntentFilter("GOT_PAYMENT_RESPONSE");
+        registerReceiver(paymentResponseReceiver, intentFilter);
 
         if(util.listItems.length() > 0){
             communication.sendMessage("My List:\n=======\n"+util.listItems);
@@ -142,7 +154,18 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
                     // set prompts.xml to alertdialog builder
                     alertDialogBuilder.setView(promptsView);
 
-                    final EditText userInput = (EditText) promptsView
+                    final String[] currency = new String[] {"Rs", "$"};
+                    ArrayAdapter<String> distance_adapter =
+                            new ArrayAdapter<>(
+                                    CustomerConversationActivity.this,
+                                    R.layout.dropdown_menu_popup_item,
+                                    currency);
+                    final AutoCompleteTextView currencyValue =
+                            promptsView.findViewById(R.id.currency_dropdown);
+                    currencyValue.setText(currency[0]);
+                    currencyValue.setAdapter(distance_adapter);
+
+                    final EditText userInput = promptsView
                             .findViewById(R.id.editTextAmount);
 
                     // set dialog message
@@ -152,17 +175,25 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id)
                                         {
-                                            //todo: for payment
+                                            payProgress.setVisibility(View.VISIBLE);
+                                            sharedPreferences = mContext.getSharedPreferences
+                                                    ("MySharedPref", Context.MODE_PRIVATE);
+
+                                            String senderPAN = sharedPreferences.getString("cardNumber", "-1");
+
+                                            if(senderPAN.equals("-1")){
+                                                Toast.makeText(mContext, "Please add your card details in your profile",
+                                                        Toast.LENGTH_SHORT).show();
+
+                                                dialog.dismiss();
+                                            }
+
                                             PaymentHandler paymentHandler = new PaymentHandler(CustomerConversationActivity.this,
-                                                    "", "");
+                                                    senderPAN, receiverPAN, userInput.getText().toString(),
+                                                    currencyValue.getText().toString(), paymentResponse);
+
                                             paymentHandler.getTransactionStatus();
 
-                                            //todo: register a receiver.
-
-                                            // get user input and set it to result
-                                            // edit text
-                                            pay_message = pay_message.concat(userInput.getText().toString());
-                                            communication.sendMessage(formatPaymentMessage("PAID:" + pay_message));
                                             dialog.dismiss();
                                         }
                                     })
@@ -224,11 +255,10 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
         });
     }
 
-    public class ViewDialog {
-
-        public void showDialog(Activity activity) {
-
-        }
+    public class ViewDialog
+    {
+        public void showDialog(Activity activity)
+        { }
     }
 
     private String formatPaymentMessage(String pay_message) {
@@ -296,5 +326,24 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
 
         addListBottomSheetFragment.dismiss();
     }
+
+    private final BroadcastReceiver paymentResponseReceiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent)
+        {
+            if(intent!=null && intent.getAction().equals("GOT_PAYMENT_RESPONSE"))
+            {
+                if(paymentResponse.equals("Approved and completed successfully"))
+                {
+                    pay_message = pay_message.concat(intent.getStringExtra("amount"));
+                    communication.sendMessage(formatPaymentMessage("PAID:" + pay_message));
+                }
+                else
+                {
+                    // todo: Show payment failed.
+                }
+            }
+            payProgress.setVisibility(View.INVISIBLE);
+        }
+    };
 
 }

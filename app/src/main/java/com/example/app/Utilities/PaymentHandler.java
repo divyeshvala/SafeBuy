@@ -3,6 +3,7 @@ package com.example.app.Utilities;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,15 +25,19 @@ public class PaymentHandler
     private Context context;
     private String receiverPAN, senderPAN;
     private String paymentResponse;
+    private String amount, transactionCurrencyCode;
 
-    public PaymentHandler(Context context, String senderPAN, String receiverPAN){
+    public PaymentHandler(Context context, String senderPAN, String receiverPAN,String amount,String transactionCurrencyCode, String paymentResponse){
         this.context = context;
         this.senderPAN = senderPAN;
         this.receiverPAN = receiverPAN;
+        this.amount = amount;
+        this.transactionCurrencyCode = transactionCurrencyCode;
+        this.paymentResponse = paymentResponse;
     }
 
-    public void getTransactionStatus(){
-
+    public void getTransactionStatus()
+    {
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().
                 getReference().child("PaymentRequest").push();
 
@@ -40,6 +45,8 @@ public class PaymentHandler
 
         requestMessage.put("senderPAN", senderPAN);
         requestMessage.put("receiverPAN", receiverPAN);
+        requestMessage.put("amount", amount);
+        requestMessage.put("transactionCurrencyCode", transactionCurrencyCode);
 
         databaseReference.updateChildren(requestMessage);
 
@@ -52,42 +59,19 @@ public class PaymentHandler
         responseTable.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child("gotResponse").getValue(String.class)!=null){
-
-                    if(dataSnapshot.child("gotResponse").getValue(String.class).equals("true")){
-                        FirebaseDatabase.getInstance().getReference()
-                                .child("PaymentRequest").child(databaseReference.getKey()).removeValue();
-
-                        Intent intent = new Intent("got Response");
-                        context.sendBroadcast(intent);
-                    }
+                if (dataSnapshot.child("gotResponse").getValue(String.class)!=null)
+                {
+                    responseTable.removeValue();
+                    paymentResponse = dataSnapshot.getValue(String.class);
+                    Intent intent = new Intent("GOT_PAYMENT_RESPONSE");
+                    intent.putExtra("amount", amount);
+                    context.sendBroadcast(intent);
                 }
             }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        //get the result
-        responseTable.child("Result").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                if(dataSnapshot.exists()){
-                    paymentResponse = dataSnapshot.child("response").getValue(String.class);
-                    Log.i(TAG, "got the Response" + paymentResponse);
-                }
-            }
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) { }
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) { }
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) { }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
+
     }
 }

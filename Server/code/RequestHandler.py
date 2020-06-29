@@ -2,6 +2,7 @@ import threading
 
 from Server.code.AssignThreadForMerchant import assignThreadForMerchantRequests
 from Server.code.AssignThreadForATM import assignThreadForATMRequests
+from Server.code.AssignThreadForPayment import assignThreadForPaymentRequests
 
 import firebase_admin
 from firebase_admin import credentials
@@ -21,8 +22,11 @@ merchanthandlerthread = threading.Thread(target=assignThreadForMerchantRequests,
 
 atmhandlerthread = threading.Thread(target=assignThreadForATMRequests, args=(root, ))
 
+paymenthandlerthread = threading.Thread(target=assignThreadForPaymentRequests, args=(root, ))
+
 merchanthandlerthread.start()
 atmhandlerthread.start()
+paymenthandlerthread.start()
 
 
 

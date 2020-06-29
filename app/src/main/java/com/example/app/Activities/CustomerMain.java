@@ -47,7 +47,7 @@ public class CustomerMain extends AppCompatActivity implements FilterBottomSheet
         //Two fragments are created, one for the merchants near you and the other for merchants that are already visited
         adapter = new CustomerMainFragmentAdapter(getSupportFragmentManager());
         adapter.addFragment(FragmentMerchant.newInstance(), "Merchants");
-        adapter.addFragment(FragmentATM.newInstance(), "ATM");
+        adapter.addFragment(FragmentATM.newInstance(), "ATMs");
 
 
         ViewPager viewPager = findViewById(R.id.view_pager);

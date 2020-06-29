@@ -3,8 +3,8 @@ import datetime
 import requests
 import json
 
-def verifyPayment(senderPAN, reciepentPAN):
 
+def verifyPayment(senderPAN, receipentPAN, amount, transactionCurrencyCode):
     now = datetime.datetime.now()
 
     print(now)
@@ -22,6 +22,10 @@ def verifyPayment(senderPAN, reciepentPAN):
     payload = json.load(json_file)
 
     payload["localTransactionDateTime"] = date
+    payload["recipientPrimaryAccountNumber"] = receipentPAN
+    payload["senderAccountNumber"] = senderPAN
+    payload["amount"] = amount
+    payload["transactionCurrencyCode"] = transactionCurrencyCode
 
     user_id = '442BYE64PK21LL73EKHO21ao5rYfOa0rYd1zFG4-4h6CAnqVA'
 
@@ -47,9 +51,8 @@ def verifyPayment(senderPAN, reciepentPAN):
     return data
 
 
-def handlePaymentRequest(root, tablepath, senderPAN, receiverPAN):
-
-    response = verifyPayment(senderPAN, receiverPAN)
+def handlePaymentRequest(root, tablepath, senderPAN, receiverPAN, amount, transactionCurrencyCode):
+    response = verifyPayment(senderPAN, receiverPAN, amount, transactionCurrencyCode)
 
     root.child(tablepath).push({
         'response': response["actionCode"]

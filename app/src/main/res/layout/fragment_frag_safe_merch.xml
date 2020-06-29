@@ -117,6 +117,13 @@ app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
     android:textColor="#fff"
     android:paddingTop="2dp"
     android:paddingBottom="2dp"/>
+    <fragment
+        android:id="@+id/autocomplete_fragment"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+        />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcviewid"
         android:layout_width="match_parent"
