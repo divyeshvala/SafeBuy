@@ -216,13 +216,13 @@ public class FragmentMerchants extends Fragment
 
             if(intent.getBooleanExtra("isUsingMyLocation", true) && isUsingMyLocation)
             {
-                nearbyMerchantsList.add(new MerchObject(29.01, -121.00, "Red Wheelbarrow", "Restaurant", "3km", "3Pftvx20pSbIKN1RDlIuZyDhIey2"));
+                nearbyMerchantsList.add(new MerchObject(37.00, -121.00, "Red Wheelbarrow", "Restaurant", "3km", "3Pftvx20pSbIKN1RDlIuZyDhIey2"));
                 findSafeAndUnsafeMerchants(nearbyMerchantsList, nearbycontainmentZonesList);
             }
             else if(!intent.getBooleanExtra("isUsingMyLocation", true))
             {
                 Log.i(TAG, "custom location");
-                MerchantsList.add(new MerchObject(29.01, -121.00, "Red Wheelbarrow", "Restaurant", "3km", "3Pftvx20pSbIKN1RDlIuZyDhIey2"));
+                MerchantsList.add(new MerchObject(37.00, -121.00, "Red Wheelbarrow", "Restaurant", "3km", "3Pftvx20pSbIKN1RDlIuZyDhIey2"));
                 findSafeAndUnsafeMerchants(MerchantsList, containmentZonesList);
             }
         }
