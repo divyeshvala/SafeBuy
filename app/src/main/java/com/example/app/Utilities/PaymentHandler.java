@@ -14,8 +14,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.EventListener;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,6 +45,7 @@ public class PaymentHandler
         requestMessage.put("receiverPAN", receiverPAN);
         requestMessage.put("amount", amount);
         requestMessage.put("transactionCurrencyCode", transactionCurrencyCode);
+        requestMessage.put("gotResponse", "false");
 
         databaseReference.updateChildren(requestMessage);
 
