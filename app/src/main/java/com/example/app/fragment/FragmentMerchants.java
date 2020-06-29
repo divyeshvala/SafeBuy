@@ -19,24 +19,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.Activities.MapsActivity;
-import com.example.app.Messaging.Chat;
 import com.example.app.Messaging.Customer.CustomerConversationActivity;
 import com.example.app.R;
-import com.example.app.Utilities.GetNearbyATMs;
 import com.example.app.Utilities.GetNearbyMerchants;
-import com.example.app.Utilities.MyLocationListener;
-import com.example.app.model.ATMObject;
+
 import com.example.app.model.LocationObject;
 import com.example.app.model.MerchObject;
 import com.example.app.model.Merchant;
@@ -46,6 +40,7 @@ import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -63,8 +58,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
-public class FragmentMerchants extends Fragment 
+public class FragmentMerchants extends Fragment
 {
     private static final String TAG = "FragmentMerchants";
     private RecyclerView recyclerViewNearYou;
@@ -81,7 +77,10 @@ public class FragmentMerchants extends Fragment
     private LatLng mLatLng;
     private ArrayList<String> containmentZoneLatLngs;
     private String myUid;
-    
+    FilterBottomSheetFragment bottomSheetFragment;
+    private TextView progressMessage;
+    private TextView noMerchants;
+
     String[] category = new String[] {"Fast Food Restaurants", "Pharmacies", "Book Stores"};
     
     public static FragmentMerchants newInstance()
@@ -97,6 +96,8 @@ public class FragmentMerchants extends Fragment
 
         Log.i(TAG, "inside onCreate.");
 
+        noMerchants = view.findViewById(R.id.id_noMerchants);
+        progressMessage = view.findViewById(R.id.id_progressMessage);
         recyclerViewNearYou = view.findViewById(R.id.recyclerViewNearYou);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -107,25 +108,21 @@ public class FragmentMerchants extends Fragment
         dataList = new ArrayList<>();
         mListadapter = new ListAdapter(dataList);
         recyclerViewNearYou.setAdapter(mListadapter);
-
         containmentZoneLatLngs = new ArrayList<>();
-
         nearbyMerchantsList = new ArrayList<>();
         nearbycontainmentZonesList = new ArrayList<>();
+        nearbyMerchantsList.add(new MerchObject(29.01, 72.30, "Red Wheelbarrow", "Restaurant", "3km", "3Pftvx20pSbIKN1RDlIuZyDhIey2"));
+
         getNearbyMerchants = new GetNearbyMerchants(getActivity(), nearbyMerchantsList, nearbycontainmentZonesList,
                 isUsingMyLocation, "2000");
 
         myUid = FirebaseAuth.getInstance().getUid();
 
         IntentFilter intentFilter2 = new IntentFilter("ACTION_FILTER_APPLIED");
-        getActivity().registerReceiver(filterReceiver, intentFilter2);
+        Objects.requireNonNull(getActivity()).registerReceiver(filterReceiver, intentFilter2);
 
         IntentFilter intentFilter1 = new IntentFilter("ACTION_FOUND_MERCHANTS_LIST");
-        getActivity().registerReceiver(ATMListReceiver, intentFilter1);
-
-        IntentFilter intentFilter = new IntentFilter("ADDRESS_FOUND");
-        getActivity().registerReceiver(locationReceiver, intentFilter);
-
+        Objects.requireNonNull(getActivity()).registerReceiver(merchantsListReceiver, intentFilter1);
 
         if (!Places.isInitialized()) {
             Places.initialize(getActivity(), getString(R.string.google_maps_key));
@@ -144,18 +141,13 @@ public class FragmentMerchants extends Fragment
             public void onPlaceSelected(final Place place) {
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getAddress());
 
-                try{
-                    getActivity().unregisterReceiver(locationReceiver);
-                }catch (Exception e) {
-                    e.printStackTrace();
-                }
                 isUsingMyLocation = false;
 
                 MerchantsList = new ArrayList<>();
                 containmentZonesList = new ArrayList<>();
-
+                MerchantsList.add(new MerchObject(29.01, 72.30, "Red Wheelbarrow", "Restaurant", "3km", "3Pftvx20pSbIKN1RDlIuZyDhIey2"));
                 getMerchants = new GetNearbyMerchants(getActivity(), MerchantsList, containmentZonesList,
-                        isUsingMyLocation, "1000"); //todo
+                        isUsingMyLocation, "5");
 
                 Address address = null;
                 try {
@@ -173,13 +165,15 @@ public class FragmentMerchants extends Fragment
                 }
 
                 if(address!=null){
+                    noMerchants.setVisibility(View.GONE);
+                    progressMessage.setVisibility(View.VISIBLE);
+                    progressMessage.setText("Searching merchants nearby "+place.getName()+"...");
                     final Address finalAddress = address;
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            //todo
-                            getMerchants.getListOfMerchants(place.getName(), finalAddress.getLatitude(), finalAddress.getLongitude(),
-                                    5814, 1000, "m");
+                            getMerchants.getListOfMerchants(place.getName(), String.valueOf(finalAddress.getLatitude()), String.valueOf(finalAddress.getLongitude()),
+                                    "5814", "5", "KM");
                         }
                     }).start();
                 }
@@ -210,38 +204,14 @@ public class FragmentMerchants extends Fragment
         {
             Log.i(TAG, "Inside filter receiver");
             String distance = intent.getStringExtra("distance");
+
         }
     };
 
-    private final BroadcastReceiver locationReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver merchantsListReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent)
         {
-            Log.i(TAG, "inside locationReceiver, response type : "+intent.getBooleanExtra("isUsingMyLocation", true));
-            final double lat = intent.getDoubleExtra("latitude", 0);
-            final double lon = intent.getDoubleExtra("longitude", 0);
-            final String addressLine = intent.getStringExtra("addressLine");
-            try{
-                getActivity().unregisterReceiver(locationReceiver);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
-            if(isUsingMyLocation) {
-                mLatLng = new LatLng(lat, lon);
-                new Thread(new Runnable(){
-                    @Override
-                    public void run() {
-                        getNearbyMerchants.getListOfMerchants(addressLine, lat, lon, 5814, 1000, "m");
-                    }
-                }).start();
-            }
-        }
-    };
-
-    private final BroadcastReceiver ATMListReceiver = new BroadcastReceiver() {
-        public void onReceive(Context context, Intent intent)
-        {
-            Log.i(TAG, "inside ATMListReceiver, response type : "+intent.getBooleanExtra("isUsingMyLocation", true));
+            Log.i(TAG, "inside merchantsListReceiver, response type : "+intent.getBooleanExtra("isUsingMyLocation", true));
 
             dataList.clear();
             mListadapter.notifyDataSetChanged();
@@ -266,8 +236,10 @@ public class FragmentMerchants extends Fragment
             containmentZoneLatLngs.add(zoneObject.getLatitude()+"_"+zoneObject.getLongitude());
         }
 
-        if(MerchantsList.size()==0){
-            dataList.add(new MerchObject(0, 0, "There are no Merchants near you.", "", "", ""));
+        if(MerchantsList.size()==0)
+        {
+            noMerchants.setVisibility(View.VISIBLE);
+            return;
         }
         boolean isInContainment;
         // check which Merchants are in safe area.
@@ -277,6 +249,7 @@ public class FragmentMerchants extends Fragment
                     mLatLng.latitude, mLatLng.longitude)/1000;
 
             String address = getAddress(merchObject.getLat(), merchObject.getLon());
+            merchObject.setAddress(address);
 
             isInContainment = false;
             for( LocationObject zoneObject : containmentZonesList )
@@ -295,13 +268,9 @@ public class FragmentMerchants extends Fragment
             {
                 dataList.add(merchObject);
             }
-            if(containmentZonesList.size()==0)
-            {
-                dataList.add(merchObject);
-            }
         }
         progressBar.setVisibility(View.INVISIBLE);
-
+        progressMessage.setVisibility(View.INVISIBLE);
         Collections.sort(dataList, new CustomComparator());
         mListadapter.notifyDataSetChanged();
     }
@@ -354,19 +323,19 @@ public class FragmentMerchants extends Fragment
     private void setupLocationAPI()
     {
         LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        LocationListener locationListener = new MyLocationListener(getActivity(), "ADDRESS_FOUND");
+        LocationListener locationListener = new MyLocationListener();
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
         {
             if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(),Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 locationManager.requestLocationUpdates(
-                        LocationManager.GPS_PROVIDER, 50000, 5, locationListener);
+                        LocationManager.GPS_PROVIDER, 60000, 5, locationListener);
             }
         }
         else
         {
             locationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER, 50000, 5, locationListener);
+                    LocationManager.GPS_PROVIDER, 60000, 5, locationListener);
         }
     }
 
@@ -374,9 +343,8 @@ public class FragmentMerchants extends Fragment
     public void onDestroy() {
         super.onDestroy();
         try{
-            getActivity().unregisterReceiver(filterReceiver);
-            getActivity().unregisterReceiver(locationReceiver);
-            getActivity().unregisterReceiver(ATMListReceiver);
+            Objects.requireNonNull(getActivity()).unregisterReceiver(filterReceiver);
+            Objects.requireNonNull(getActivity()).unregisterReceiver(merchantsListReceiver);
         }catch (Exception e){ e.printStackTrace(); }
     }
 
@@ -406,6 +374,7 @@ public class FragmentMerchants extends Fragment
             }
         }
 
+        @NonNull
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_merchant, parent, false);
@@ -416,18 +385,13 @@ public class FragmentMerchants extends Fragment
         @Override
         public void onBindViewHolder(ViewHolder holder, final int position) {
             holder.textViewName.setText(dataList.get(position).getStoreName());
-            holder.textViewAddress.setText(dataList.get(position).getLat()+":"+dataList.get(position).getLon());
+            holder.textViewAddress.setText(dataList.get(position).getAddress());
             holder.textViewDistance.setText(dataList.get(position).getDistanceDesc());
-            //holder.isOpen.setText("open");
-
-            //if(!dataList.get(position).isSafe())
-            //holder.atmCardLayout.setBackground(getResources().getDrawable(R.drawable.red_back_up_round));
 
             holder.shop.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v)
                 {
-                    Toast.makeText(getActivity(), "Item " + position + " is clicked.", Toast.LENGTH_SHORT).show();
 
                     // see if there is already chatId with this merchant. If not then create it.
                     final DatabaseReference mDB = FirebaseDatabase.getInstance().getReference()
@@ -506,5 +470,58 @@ public class FragmentMerchants extends Fragment
             return dataList.size();
         }
     }
-    
+
+    private class MyLocationListener implements LocationListener
+    {
+
+        @Override
+        public void onLocationChanged(Location location)
+        {
+            if(isUsingMyLocation) {
+
+                String addressLine = "";
+                try {
+                    Geocoder geocoder = new Geocoder(getActivity(),
+                            Locale.getDefault());
+                    List<Address> addresses = geocoder.getFromLocation(
+                            location.getLatitude(), location.getLongitude(),
+                            1
+                    );
+
+                    Address address = addresses.get(0);
+                    addressLine = address.getAddressLine(0);
+
+                    Log.i(TAG, addressLine);
+
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+
+                if(!addressLine.equals(""))
+                {
+                    mLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    final String finalAddressLine = addressLine;
+                    new Thread(new Runnable(){
+                        @Override
+                        public void run() {
+                            getNearbyMerchants.getListOfMerchants(finalAddressLine, String.valueOf(mLatLng.latitude), String.valueOf(mLatLng.longitude), "5814", "5", "KM");
+                        }
+                    }).start();
+                }
+            }
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+            Log.i("LocationTab2", "Provider disabled");
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+            Log.i("LocationTab2", "Provider disabled"); }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) { }
+    }
 }

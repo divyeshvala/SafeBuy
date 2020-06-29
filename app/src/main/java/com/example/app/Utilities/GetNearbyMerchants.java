@@ -26,7 +26,7 @@ public class GetNearbyMerchants
     private ArrayList<LocationObject> containmentZoneList;
     private boolean isUsingMyLocation;
     private String distance;
-    private List<Integer> va = new ArrayList<>();
+    private List<String> va = new ArrayList<>();
     private List<String> vb = new ArrayList<>();
     
     public GetNearbyMerchants(Context mContext, ArrayList<MerchObject> merchantsList,
@@ -39,7 +39,7 @@ public class GetNearbyMerchants
         this.distance = distance;
     }
     
-    public void getListOfMerchants(String addressLine, double latitude, double longitude, int categoryCode, int distance, String distance_unit)
+    public void getListOfMerchants(String addressLine, String latitude, String longitude, String categoryCode, String distance, String distance_unit)
     {
         va.add(categoryCode);
         // send request
@@ -73,6 +73,7 @@ public class GetNearbyMerchants
                             dataSnapshot.child("resolvedContainment").getValue(String.class).equals("true"))
                     {
                         Intent intent = new Intent("ACTION_FOUND_MERCHANTS_LIST");
+                        intent.putExtra("isUsingMyLocation", isUsingMyLocation);
                         mContext.sendBroadcast(intent);
                         responseDB.removeValue();
                     }
@@ -92,11 +93,14 @@ public class GetNearbyMerchants
                     double lon =Double.parseDouble(dataSnapshot.child("longitude").getValue(String.class));
                     
                     String storename=dataSnapshot.child("visaStoreName").getValue().toString();
-                    vb= (List<String>) dataSnapshot.child("cateogary").getValue();
-                    String categorydesc = vb.get(0);
+                    vb= (List<String>) dataSnapshot.child("category").getValue();
+                    String categorydesc = "";
+                    if(vb.size()>0){
+                        categorydesc = vb.get(0);
+                    }
                     String distancedesc = dataSnapshot.child("distance").getValue(String.class);
                     merchantsList.add(new MerchObject(lat, lon, storename, categorydesc, distancedesc,
-                            dataSnapshot.child("id").getValue(String.class)));
+                            dataSnapshot.child("StoreId").getValue(String.class)));
                 }
             }
             @Override

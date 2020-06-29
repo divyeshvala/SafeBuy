@@ -29,8 +29,6 @@ public class CustomerMain extends AppCompatActivity implements FilterBottomSheet
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_main);
 
-        Log.i("cusomer_main", "Inside customer main");
-
         Intent intent = getIntent();
         String action = intent.getAction();
         String type = intent.getType();
@@ -44,11 +42,20 @@ public class CustomerMain extends AppCompatActivity implements FilterBottomSheet
         RelativeLayout relativeLayout = findViewById(R.id.banner);
         relativeLayout.getBackground().setAlpha(200);
 
+        // floating action button for the filters
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomSheetFragment = new FilterBottomSheetFragment();
+                bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+            }
+        });
+
         //Two fragments are created, one for the merchants near you and the other for merchants that are already visited
         adapter = new CustomerMainFragmentAdapter(getSupportFragmentManager());
         adapter.addFragment(FragmentMerchants.newInstance(), "Merchants");
         adapter.addFragment(FragmentATM.newInstance(), "ATMs");
-
 
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(adapter);
@@ -68,16 +75,6 @@ public class CustomerMain extends AppCompatActivity implements FilterBottomSheet
                     atmTextview.setTextColor(getResources().getColor(R.color.black));
                     merchantTextview.setTextColor(getResources().getColor(R.color.grey));
                 }
-            }
-        });
-
-//        floating action button for the filters
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                bottomSheetFragment = new FilterBottomSheetFragment();
-                bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
             }
         });
 

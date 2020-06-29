@@ -16,17 +16,14 @@ import java.util.Locale;
 public class MyLocationListener implements LocationListener {
 
     private static final String TAG = "MyLocationListener";
-    private String send;
     private Context mContext;
-    public MyLocationListener(Context mContext,String send) {
+    public MyLocationListener(Context mContext,String action) {
         this.mContext = mContext;
-        this.send=send;
     }
 
     @Override
     public void onLocationChanged(Location location)
     {
-        Log.i(send, "inside onLocationChanged");
         // send broadcast to Activity.
         getAddress(location);
     }
@@ -61,10 +58,12 @@ public class MyLocationListener implements LocationListener {
             e.printStackTrace();
         }
 
-        Intent intent = new Intent(send);
+        Intent intent = new Intent();
         intent.putExtra("addressLine", addressLine);
         intent.putExtra("latitude", location.getLatitude());
         intent.putExtra("longitude", location.getLongitude());
         mContext.sendBroadcast(intent);
     }
+
+
 }
