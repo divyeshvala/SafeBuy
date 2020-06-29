@@ -17,8 +17,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.manojbhadane.PaymentCardView;
 import static android.content.Context.MODE_PRIVATE;
 
-public class customer_profile extends Fragment {
-
+public class customer_profile extends Fragment
+{
     ImageView im;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
