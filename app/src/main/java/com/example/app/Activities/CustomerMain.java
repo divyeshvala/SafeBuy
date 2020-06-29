@@ -5,7 +5,6 @@ import android.os.Bundle;
 import com.example.app.R;
 import com.example.app.fragment.CustomerMainFragmentAdapter;
 import com.example.app.fragment.FilterBottomSheetFragment;
-import com.example.app.fragment.Frag_safe_merch;
 import com.example.app.fragment.FragmentATM;
 import com.example.app.fragment.FragmentMerchant;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -48,7 +47,7 @@ public class CustomerMain extends AppCompatActivity implements FilterBottomSheet
         //Two fragments are created, one for the merchants near you and the other for merchants that are already visited
         adapter = new CustomerMainFragmentAdapter(getSupportFragmentManager());
         adapter.addFragment(FragmentMerchant.newInstance(), "Merchants");
-        adapter.addFragment(FragmentATM.newInstance(), "ATM");
+        adapter.addFragment(FragmentATM.newInstance(), "ATMs");
 
 
         ViewPager viewPager = findViewById(R.id.view_pager);

@@ -36,8 +36,8 @@ public class PaymentHandler
         this.paymentResponse = paymentResponse;
     }
 
-    public void getTransactionStatus(){
-
+    public void getTransactionStatus()
+    {
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().
                 getReference().child("PaymentRequest").push();
 
@@ -59,44 +59,20 @@ public class PaymentHandler
         responseTable.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child("gotResponse").getValue(String.class)!=null){
-
-                    if(dataSnapshot.child("gotResponse").getValue(String.class).equals("true")){
-                        FirebaseDatabase.getInstance().getReference()
-                                .child("PaymentRequest").child(databaseReference.getKey()).removeValue();
-
-                        Intent intent = new Intent("got Response");
-                        context.sendBroadcast(intent);
-                    }
+                if (dataSnapshot.child("gotResponse").getValue(String.class)!=null)
+                {
+                    responseTable.removeValue();
+                    paymentResponse = dataSnapshot.getValue(String.class);
+                    Intent intent = new Intent("GOT_PAYMENT_RESPONSE");
+                    intent.putExtra("amount", amount);
+                    context.sendBroadcast(intent);
                 }
             }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        //get the result
-        responseTable.child("Result").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                if(dataSnapshot.exists()){
-                    paymentResponse = dataSnapshot.child("response").getValue(String.class);
-                    Log.i(TAG, "got the Response" + paymentResponse);
-
-                    Toast.makeText(context, paymentResponse, Toast.LENGTH_SHORT).show();
-                }
-            }
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) { }
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) { }
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) { }
-            @Override
+            @Override 
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
+
+       
     }
 }

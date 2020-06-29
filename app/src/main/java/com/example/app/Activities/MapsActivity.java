@@ -53,9 +53,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         Objects.requireNonNull(mapFragment).getMapAsync(this);
-
-        IntentFilter intentFilter = new IntentFilter("ADDRESS_FOUND");
-        registerReceiver(locationReceiver, intentFilter);
     }
 
     @Override
@@ -91,17 +88,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return new LatLng(Double.parseDouble(object.substring(0, i)),
                 Double.parseDouble(object.substring(i+1)));
     }
-
-
-    private final BroadcastReceiver locationReceiver = new BroadcastReceiver() {
-        public void onReceive(Context context, Intent intent)
-        {
-            double lat = intent.getDoubleExtra("latitude", 0);
-            double lon = intent.getDoubleExtra("longitude", 0);
-            //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lon),13));
-            unregisterReceiver(locationReceiver); // todo :
-        }
-    };
 
     // Todo: try COARSE_LOCATION too
     private void enableMyLocation() {
@@ -159,13 +145,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void showMissingPermissionError() {
         PermissionUtils.PermissionDeniedDialog
                 .newInstance(true).show(getSupportFragmentManager(), "dialog");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        try {
-            unregisterReceiver(locationReceiver);
-        }catch (Exception e){ e.printStackTrace(); }
     }
 }
