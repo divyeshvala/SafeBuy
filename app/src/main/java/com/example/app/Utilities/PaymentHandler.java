@@ -22,7 +22,7 @@ public class PaymentHandler
     private static final String TAG = "PaymentHandler";
     private Context context;
     private String receiverPAN, senderPAN;
-    private String paymentResponse;
+    private String paymentResponse="";
     private String amount, transactionCurrencyCode;
 
     public PaymentHandler(Context context, String senderPAN, String receiverPAN,String amount,String transactionCurrencyCode, String paymentResponse){
@@ -54,17 +54,36 @@ public class PaymentHandler
         final DatabaseReference responseTable = FirebaseDatabase.getInstance()
                 .getReference().child("PaymentRequest").child(databaseReference.getKey());
 
+        responseTable.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.child("gotResponse").getValue(String.class)!= null &&
+                        dataSnapshot.child("gotResponse").getValue((String.class)).equals("true")){
+                    FirebaseDatabase.getInstance().getReference()
+                            .child("PaymentRequest").child(databaseReference.getKey()).removeValue();
 
-        responseTable.child("result").addChildEventListener(new ChildEventListener() {
+                    Intent intent = new Intent("GOT_PAYMENT_RESPONSE");
+                    intent.putExtra("amount", amount);
+                    context.sendBroadcast(intent);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+        responseTable.child("Result").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
             {
-                paymentResponse = dataSnapshot.child("response").getValue(String.class);
-                Intent intent = new Intent("GOT_PAYMENT_RESPONSE");
-                intent.putExtra("amount", amount);
-                context.sendBroadcast(intent);
-
-                responseTable.removeValue();
+                if(dataSnapshot.exists())
+                {
+                    paymentResponse = dataSnapshot.child("response").getValue(String.class);
+                    Log.i(TAG, "payment response is : " + paymentResponse);
+                }
             }
 
             @Override
