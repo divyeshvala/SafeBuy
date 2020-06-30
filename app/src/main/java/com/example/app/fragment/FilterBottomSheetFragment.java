@@ -46,7 +46,7 @@ public class FilterBottomSheetFragment extends BottomSheetDialogFragment {
     public void setDefaultValues(){
         System.out.println("DEfault filters set");
         addalltoVa();
-        distanceText="1";
+        distanceText="5";
         distance_unit="KM";
         //filter_changed=false;
     }
@@ -72,7 +72,7 @@ public class FilterBottomSheetFragment extends BottomSheetDialogFragment {
     }
     public void setVa(String categorydesc){
         va.clear();
-        if(categorydesc.equals("All")){
+        if(categorydesc.equals("All")) {
             addalltoVa();
         }
         else if(categorydesc.equals("Groceries and Supermarkets")){
