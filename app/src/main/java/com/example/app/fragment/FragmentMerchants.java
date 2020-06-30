@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -25,6 +26,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.example.app.Activities.CustomerMain;
 import com.example.app.Activities.MapsActivity;
 import com.example.app.Messaging.Customer.CustomerConversationActivity;
 import com.example.app.R;
@@ -75,14 +77,15 @@ public class FragmentMerchants extends Fragment
     FilterBottomSheetFragment bottomSheetFragment;
     private TextView progressMessage;
     private TextView noMerchants;
+    ImageView search_icon;
     private Address address;
     private String placename;
-    private MerchObject dummyMerchant = new MerchObject(37.12, -121.12, "Red Wheelbarrow", "Restaurant", "3km", "3Pftvx20pSbIKN1RDlIuZyDhIey2");
-
+    private MerchObject dummyMerchant = new MerchObject(40.7140, 74.0148, "Red Wheelbarrow", "Restaurant", "3km", "3Pftvx20pSbIKN1RDlIuZyDhIey2");
     public static List<String> categories = new ArrayList<>();
     public static String distanceText;
     public static String distance_unit;
     public static boolean isFilterChanged;
+
 
     public static FragmentMerchants newInstance()
     {
@@ -94,6 +97,7 @@ public class FragmentMerchants extends Fragment
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_merchant, container, false);
 
+        Log.i(TAG, "inside oncreate");
         FloatingActionButton fab = view.findViewById(R.id.fab);
         address=null;
 
@@ -107,10 +111,11 @@ public class FragmentMerchants extends Fragment
 
         setDefaultValues();
         dummyMerchant.setPan("4761360055652118");
-        dummyMerchant.setAddress("SAN JOSE");
+        dummyMerchant.setAddress("Financial center, Vesey Street");
         noMerchants = view.findViewById(R.id.id_noMerchants);
         progressMessage = view.findViewById(R.id.id_progressMessage);
         recyclerViewNearYou = view.findViewById(R.id.recyclerViewNearYou);
+        search_icon = view.findViewById(R.id.searching_icon);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerViewNearYou.setLayoutManager(layoutManager);
@@ -231,6 +236,7 @@ public class FragmentMerchants extends Fragment
         public void onReceive(Context context, Intent intent)
         {
             Log.i(TAG, "Inside filter receiver");
+
             getMerchants();
 
             bottomSheetFragment.dismiss();
@@ -299,6 +305,7 @@ public class FragmentMerchants extends Fragment
         }
         progressBar.setVisibility(View.INVISIBLE);
         progressMessage.setVisibility(View.INVISIBLE);
+        search_icon.setVisibility(View.INVISIBLE);
         Collections.sort(dataList, new CustomComparator());
         mListadapter.notifyDataSetChanged();
     }
@@ -499,7 +506,7 @@ public class FragmentMerchants extends Fragment
         @Override
         public void onLocationChanged(Location location)
         {
-            if(isUsingMyLocation)
+            if(isUsingMyLocation && CustomerMain.activeFragment==0)
             {
                 String addressLine = "";
                 try {

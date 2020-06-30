@@ -24,7 +24,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.app.Messaging.ConversationRecyclerView;
 import com.example.app.R;
 import com.example.app.Utilities.Communication;
