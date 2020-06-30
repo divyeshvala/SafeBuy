@@ -283,6 +283,9 @@ public class FragmentMerchants extends Fragment
         if(MerchantsList.size()==0)
         {
             noMerchants.setVisibility(View.VISIBLE);
+            noMerchants.setText("Sorry, there are no ATMs nearby this location");
+            progressBar.setVisibility(View.INVISIBLE);
+            progressMessage.setVisibility(View.INVISIBLE);
             return;
         }
         boolean isInContainment;

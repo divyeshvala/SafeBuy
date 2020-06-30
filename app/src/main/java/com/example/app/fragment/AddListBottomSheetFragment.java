@@ -88,7 +88,7 @@ public class AddListBottomSheetFragment extends BottomSheetDialogFragment {
                 {
                     Toast.makeText(getActivity(), "Please enter an Item to the list", Toast.LENGTH_SHORT).show();
                 }
-                else{
+                else {
                     bottomSheetListener.onButtonClicked(list);
 //                    Intent intent = new Intent("ACTION_FILTER_APPLIED");
 //                    intent.putExtra("list", list);

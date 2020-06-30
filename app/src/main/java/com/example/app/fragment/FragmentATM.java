@@ -217,6 +217,9 @@ public class FragmentATM extends Fragment
         if(ATMsList.size()==0)
         {
             noATMs.setVisibility(View.VISIBLE);
+            noATMs.setText("Sorry, there are no ATMs near that location.");
+            progressBar.setVisibility(View.INVISIBLE);
+            progressMessage.setVisibility(View.INVISIBLE);
             return;
         }
         boolean isInContainment;
