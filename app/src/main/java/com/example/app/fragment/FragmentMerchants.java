@@ -25,12 +25,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.app.Activities.MapsActivity;
 import com.example.app.Messaging.Customer.CustomerConversationActivity;
 import com.example.app.R;
 import com.example.app.Utilities.GetNearbyMerchants;
-
 import com.example.app.model.LocationObject;
 import com.example.app.model.MerchObject;
 import com.google.android.gms.common.api.Status;
@@ -46,7 +44,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,7 +55,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
-public class FragmentMerchants extends Fragment implements FilterBottomSheetFragment.BottomSheetListener
+public class FragmentMerchants extends Fragment
 {
     private static final String TAG = "FragmentMerchants";
     private RecyclerView recyclerViewNearYou;
@@ -80,10 +77,13 @@ public class FragmentMerchants extends Fragment implements FilterBottomSheetFrag
     private TextView noMerchants;
     private Address address;
     private String placename;
-    private MerchObject dummyMerchant = new MerchObject(37.00, -121.00, "Red Wheelbarrow", "Restaurant", "3km", "3Pftvx20pSbIKN1RDlIuZyDhIey2");
+    private MerchObject dummyMerchant = new MerchObject(37.12, -121.12, "Red Wheelbarrow", "Restaurant", "3km", "3Pftvx20pSbIKN1RDlIuZyDhIey2");
 
-    String[] category = new String[] {"Fast Food Restaurants", "Pharmacies", "Book Stores"};
-    
+    public static List<String> categories = new ArrayList<>();
+    public static String distanceText;
+    public static String distance_unit;
+    public static boolean isFilterChanged;
+
     public static FragmentMerchants newInstance()
     {
         return new FragmentMerchants();
@@ -94,11 +94,10 @@ public class FragmentMerchants extends Fragment implements FilterBottomSheetFrag
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_merchant, container, false);
 
-
         FloatingActionButton fab = view.findViewById(R.id.fab);
         address=null;
+
         bottomSheetFragment = new FilterBottomSheetFragment();
-        bottomSheetFragment.setDefaultValues();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,7 +105,9 @@ public class FragmentMerchants extends Fragment implements FilterBottomSheetFrag
             }
         });
 
+        setDefaultValues();
         dummyMerchant.setPan("4761360055652118");
+        dummyMerchant.setAddress("SAN JOSE");
         noMerchants = view.findViewById(R.id.id_noMerchants);
         progressMessage = view.findViewById(R.id.id_progressMessage);
         recyclerViewNearYou = view.findViewById(R.id.recyclerViewNearYou);
@@ -124,15 +125,15 @@ public class FragmentMerchants extends Fragment implements FilterBottomSheetFrag
         nearbycontainmentZonesList = new ArrayList<>();
 
         getNearbyMerchants = new GetNearbyMerchants(getActivity(), nearbyMerchantsList, nearbycontainmentZonesList,
-                isUsingMyLocation, "2000");
+                isUsingMyLocation, distanceText);
 
         myUid = FirebaseAuth.getInstance().getUid();
 
-        IntentFilter intentFilter2 = new IntentFilter("ACTION_FILTER_APPLIED");
-        Objects.requireNonNull(getActivity()).registerReceiver(filterReceiver, intentFilter2);
-
         IntentFilter intentFilter1 = new IntentFilter("ACTION_FOUND_MERCHANTS_LIST");
         Objects.requireNonNull(getActivity()).registerReceiver(merchantsListReceiver, intentFilter1);
+
+        IntentFilter intentFilter2 = new IntentFilter("ACTION_FILTER_APPLIED");
+        Objects.requireNonNull(getActivity()).registerReceiver(filterReceiver, intentFilter2);
 
         if (!Places.isInitialized()) {
             Places.initialize(getActivity(), getString(R.string.google_maps_key));
@@ -143,7 +144,7 @@ public class FragmentMerchants extends Fragment implements FilterBottomSheetFrag
                 getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
 
         // Specify the types of place data to return.
-        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME)); //todo
+        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
 
         // Set up a PlaceSelectionListener to handle the response.
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
@@ -156,7 +157,7 @@ public class FragmentMerchants extends Fragment implements FilterBottomSheetFrag
                 MerchantsList = new ArrayList<>();
                 containmentZonesList = new ArrayList<>();
                 getMerchants = new GetNearbyMerchants(getActivity(), MerchantsList, containmentZonesList,
-                        isUsingMyLocation, "5");
+                        isUsingMyLocation, distanceText);
 
                 address = null;
                 try {
@@ -178,7 +179,7 @@ public class FragmentMerchants extends Fragment implements FilterBottomSheetFrag
             }
 
             @Override
-            public void onError(Status status) {
+            public void onError(@NonNull Status status) {
                 Log.i(TAG, "An error occurred: " + status);
             }
         });
@@ -187,13 +188,15 @@ public class FragmentMerchants extends Fragment implements FilterBottomSheetFrag
 
         return view;
     }
-    public void getMerchants(){
-        if(address!=null) {
+
+    private void getMerchants()
+    {
+        if(address!=null)
+        {
             System.out.println("Address and filters are set, merchants retrieving");
-            final String placename2 = placename;
-            //noMerchants.setVisibility(View.GONE);
+            noMerchants.setVisibility(View.GONE);
             progressMessage.setVisibility(View.VISIBLE);
-            progressMessage.setText("Searching merchants nearby " + placename2 + "...");
+            progressMessage.setText("Searching merchants nearby " + placename + "...");
             final Address finalAddress = address;
             dataList.clear();
             mListadapter.notifyDataSetChanged();
@@ -202,8 +205,8 @@ public class FragmentMerchants extends Fragment implements FilterBottomSheetFrag
                 public void run() {
                     System.out.println("Just before merchant retrieval");
                     //System.out.println(bottomSheetFragment.getCategoryCodes());
-                    getMerchants.getListOfMerchants(placename2, String.valueOf(finalAddress.getLatitude()), String.valueOf(finalAddress.getLongitude()),
-                            bottomSheetFragment.getCategoryCodes(), bottomSheetFragment.getDistanceText(), bottomSheetFragment.getDistance_unit());
+                    getMerchants.getListOfMerchants(placename, String.valueOf(finalAddress.getLatitude()), String.valueOf(finalAddress.getLongitude()),
+                            categories, distanceText, distance_unit);
                 }
             }).start();
         }
@@ -229,6 +232,8 @@ public class FragmentMerchants extends Fragment implements FilterBottomSheetFrag
         {
             Log.i(TAG, "Inside filter receiver");
             getMerchants();
+
+            bottomSheetFragment.dismiss();
         }
     };
 
@@ -271,9 +276,6 @@ public class FragmentMerchants extends Fragment implements FilterBottomSheetFrag
         // check which Merchants are in safe area.
         for(MerchObject merchObject : MerchantsList)
         {
-            float distance = getDistance(merchObject.getLat(), merchObject.getLon(),
-                    mLatLng.latitude, mLatLng.longitude)/1000;
-
             String address = getAddress(merchObject.getLat(), merchObject.getLon());
             merchObject.setAddress(address);
 
@@ -307,12 +309,6 @@ public class FragmentMerchants extends Fragment implements FilterBottomSheetFrag
         {
             Log.i(TAG, "inside compare");
             // todo:
-//            if(o1.isSafe() && o2.isSafe())
-//            {
-//                return o1.getDistance()<o2.getDistance() ? 1 : 0;
-//            }
-//
-//            return o1.isSafe() ? 1 : 0;
             return 0;
         }
     }
@@ -377,11 +373,11 @@ public class FragmentMerchants extends Fragment implements FilterBottomSheetFrag
     public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         private ArrayList<MerchObject> dataList;
 
-        public ListAdapter(ArrayList<MerchObject> data) {
+        private ListAdapter(ArrayList<MerchObject> data) {
             this.dataList = data;
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder {
+        private class ViewHolder extends RecyclerView.ViewHolder {
             TextView textViewName;
             TextView textViewAddress;
             TextView textViewDistance;
@@ -531,10 +527,11 @@ public class FragmentMerchants extends Fragment implements FilterBottomSheetFrag
                     new Thread(new Runnable(){
                         @Override
                         public void run() {
-                            getNearbyMerchants.getListOfMerchants(finalAddressLine, String.valueOf(mLatLng.latitude), String.valueOf(mLatLng.longitude), bottomSheetFragment.getCategoryCodes(), bottomSheetFragment.getDistanceText(), bottomSheetFragment.getDistance_unit());
+                            getNearbyMerchants.getListOfMerchants(finalAddressLine, String.valueOf(mLatLng.latitude), String.valueOf(mLatLng.longitude), categories, distanceText, distance_unit);
                         }
                     }).start();
                 }
+                isUsingMyLocation = false;
             }
         }
 
@@ -550,10 +547,19 @@ public class FragmentMerchants extends Fragment implements FilterBottomSheetFrag
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) { }
     }
-    @Override
-    public void onButtonClicked()
+
+    private void setDefaultValues()
     {
-        Log.i("customer_main", "Here :");
-        bottomSheetFragment.dismiss();
+        isFilterChanged = false;
+        distanceText="5";
+        distance_unit="KM";
+        categories.add("5411");
+        categories.add("5912");
+        categories.add("8062");
+        categories.add("5812");
+        categories.add("5814");
+        categories.add("5462");
+        categories.add("5137");
+        categories.add("7230");
     }
 }
