@@ -47,7 +47,7 @@ public class customer_profile extends Fragment
 
             }
         });
-        
+
         final PaymentCardView paymentCardView = rootView.findViewById(R.id.creditCard);
         final SharedPreferences settings = getActivity().getSharedPreferences("MySharedPref", MODE_PRIVATE);
 
