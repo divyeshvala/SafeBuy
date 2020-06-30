@@ -345,6 +345,12 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
             Log.i("Payments", "inside payment handler1");
             if(intent!=null && intent.getAction().equals("GOT_PAYMENT_RESPONSE"))
             {
+                if(intent.getStringExtra("status").equals("failed"))
+                {
+                    payProgress.setVisibility(View.INVISIBLE);
+                    Toast.makeText(CustomerConversationActivity.this, "Payment failed. Please try again.",Toast.LENGTH_LONG).show();
+                    return;
+                }
                 Log.i("Payments", "inside payment handler2");
                 String response = intent.getStringExtra("response");
                 if(response.equals("Approved and completed successfully"))

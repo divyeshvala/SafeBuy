@@ -248,6 +248,13 @@ public class FragmentMerchants extends Fragment
             dataList.clear();
             mListadapter.notifyDataSetChanged();
 
+            if(intent.getStringExtra("status").equals("failed"))
+            {
+                noMerchants.setVisibility(View.VISIBLE);
+                noMerchants.setText("Some error occured please try again.");
+                return;
+            }
+
             if(intent.getBooleanExtra("isUsingMyLocation", true) && isUsingMyLocation)
             {
                 dataList.add(dummyMerchant);
