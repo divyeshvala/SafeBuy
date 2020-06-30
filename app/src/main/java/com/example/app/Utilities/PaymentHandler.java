@@ -81,6 +81,8 @@ public class PaymentHandler
                     Intent intent = new Intent("GOT_PAYMENT_RESPONSE");
                     intent.putExtra("status", "failed");
                     context.sendBroadcast(intent);
+
+                    responseTable.removeValue();
                 }
             }
 
