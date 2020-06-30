@@ -22,16 +22,14 @@ public class PaymentHandler
     private static final String TAG = "PaymentHandler";
     private Context context;
     private String receiverPAN, senderPAN;
-    private String paymentResponse;
     private String amount, transactionCurrencyCode;
 
-    public PaymentHandler(Context context, String senderPAN, String receiverPAN,String amount,String transactionCurrencyCode, String paymentResponse){
+    public PaymentHandler(Context context, String senderPAN, String receiverPAN,String amount,String transactionCurrencyCode){
         this.context = context;
         this.senderPAN = senderPAN;
         this.receiverPAN = receiverPAN;
         this.amount = amount;
         this.transactionCurrencyCode = transactionCurrencyCode;
-        this.paymentResponse = paymentResponse;
     }
 
     public void getTransactionStatus()
@@ -54,28 +52,36 @@ public class PaymentHandler
         final DatabaseReference responseTable = FirebaseDatabase.getInstance()
                 .getReference().child("PaymentRequest").child(databaseReference.getKey());
 
-
-        responseTable.child("result").addChildEventListener(new ChildEventListener() {
+        responseTable.child("Result").addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
             {
-                paymentResponse = dataSnapshot.child("response").getValue(String.class);
-                Intent intent = new Intent("GOT_PAYMENT_RESPONSE");
-                intent.putExtra("amount", amount);
-                context.sendBroadcast(intent);
-
-                responseTable.removeValue();
+                if(dataSnapshot.exists())
+                {
+                    Log.i(TAG, "Got payment response :"+dataSnapshot.child("response").getValue(String.class));
+                    Intent intent = new Intent("GOT_PAYMENT_RESPONSE");
+                    intent.putExtra("amount", amount);
+                    intent.putExtra("response", dataSnapshot.child("response").getValue(String.class));
+                    context.sendBroadcast(intent);
+                }
             }
 
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) { }
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {}
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {}
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
 
+        responseTable.child("gotResponse").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+            {
+                if(dataSnapshot.exists() && dataSnapshot.getValue(String.class).equals("true"))
+                {
+                    responseTable.removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
+        });
     }
 }

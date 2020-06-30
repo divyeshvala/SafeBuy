@@ -196,7 +196,7 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
 
                                             PaymentHandler paymentHandler = new PaymentHandler(CustomerConversationActivity.this,
                                                     senderPAN, receiverPAN, userInput.getText().toString(),
-                                                    currencyValue.getText().toString(), paymentResponse);
+                                                    currencyValue.getText().toString());
 
                                             paymentHandler.getTransactionStatus();
 
@@ -336,20 +336,30 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
     private final BroadcastReceiver paymentResponseReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent)
         {
+            Log.i("Payments", "inside payment handler1");
             if(intent!=null && intent.getAction().equals("GOT_PAYMENT_RESPONSE"))
             {
-                if(paymentResponse.equals("Approved and completed successfully"))
+                Log.i("Payments", "inside payment handler2");
+                String response = intent.getStringExtra("response");
+                if(response.equals("Approved and completed successfully"))
                 {
+                    Toast.makeText(CustomerConversationActivity.this, "Payment successful",Toast.LENGTH_LONG).show();
                     pay_message = pay_message.concat(intent.getStringExtra("amount"));
                     communication.sendMessage(formatPaymentMessage("PAID:" + pay_message));
                 }
                 else
                 {
-                    // todo: Show payment failed.
+                    Toast.makeText(CustomerConversationActivity.this, "Payment failed. Please try again.",Toast.LENGTH_LONG).show();
                 }
             }
             payProgress.setVisibility(View.INVISIBLE);
         }
     };
 
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        unregisterReceiver(paymentResponseReceiver);
+    }
 }
