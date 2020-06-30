@@ -292,7 +292,6 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
     public void addList(View view) {
         addListBottomSheetFragment = new AddListBottomSheetFragment();
         addListBottomSheetFragment.show(getSupportFragmentManager(), addListBottomSheetFragment.getTag());
-
     }
 
     @Override

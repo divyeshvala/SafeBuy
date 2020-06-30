@@ -90,9 +90,9 @@ public class AddListBottomSheetFragment extends BottomSheetDialogFragment {
                 }
                 else{
                     bottomSheetListener.onButtonClicked(list);
-                    Intent intent = new Intent("ACTION_FILTER_APPLIED");
-                    intent.putExtra("list", list);
-                    getActivity().sendBroadcast(intent);
+//                    Intent intent = new Intent("ACTION_FILTER_APPLIED");
+//                    intent.putExtra("list", list);
+//                    getActivity().sendBroadcast(intent);
                 }
             }
         });
