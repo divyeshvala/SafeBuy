@@ -46,6 +46,7 @@ public class customer_profile extends Fragment
             @Override
             public void onCardDetailsSubmit(String month, String year, String cardNumber, String cvv)
             {
+                cardNumber = cardNumber.replace(" ", "");
                 SharedPreferences.Editor editor = settings.edit();
                 editor.putString("month", month);
                 editor.putString("year", year);

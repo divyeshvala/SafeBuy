@@ -33,7 +33,6 @@ import com.example.app.Utilities.GetNearbyMerchants;
 
 import com.example.app.model.LocationObject;
 import com.example.app.model.MerchObject;
-import com.example.app.model.Merchant;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
@@ -42,7 +41,6 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -82,6 +80,7 @@ public class FragmentMerchants extends Fragment implements FilterBottomSheetFrag
     private TextView noMerchants;
     private Address address;
     private String placename;
+    private MerchObject dummyMerchant = new MerchObject(37.00, -121.00, "Red Wheelbarrow", "Restaurant", "3km", "3Pftvx20pSbIKN1RDlIuZyDhIey2");
 
     String[] category = new String[] {"Fast Food Restaurants", "Pharmacies", "Book Stores"};
     
@@ -94,6 +93,8 @@ public class FragmentMerchants extends Fragment implements FilterBottomSheetFrag
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_merchant, container, false);
+
+
         FloatingActionButton fab = view.findViewById(R.id.fab);
         address=null;
         bottomSheetFragment = new FilterBottomSheetFragment();
@@ -105,8 +106,7 @@ public class FragmentMerchants extends Fragment implements FilterBottomSheetFrag
             }
         });
 
-        Log.i(TAG, "inside onCreate.");
-
+        dummyMerchant.setPan("4761360055652118");
         noMerchants = view.findViewById(R.id.id_noMerchants);
         progressMessage = view.findViewById(R.id.id_progressMessage);
         recyclerViewNearYou = view.findViewById(R.id.recyclerViewNearYou);
@@ -166,9 +166,10 @@ public class FragmentMerchants extends Fragment implements FilterBottomSheetFrag
                             place.getName(),
                             1
                     );
-                    address = addresses.get(0);
-                    mLatLng = new LatLng(address.getLatitude(), address.getLongitude());
-
+                    if(addresses.size()>0){
+                        address = addresses.get(0);
+                        mLatLng = new LatLng(address.getLatitude(), address.getLongitude());
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -219,6 +220,7 @@ public class FragmentMerchants extends Fragment implements FilterBottomSheetFrag
         intent.putExtra("merchantName", merchant.getStoreName());
         intent.putExtra("merchantId", merchant.getMerchantId());
         intent.putExtra("chatId", mChatId);
+        intent.putExtra("merchantPan", merchant.getPan());
         startActivity(intent);
     }
 
@@ -240,13 +242,13 @@ public class FragmentMerchants extends Fragment implements FilterBottomSheetFrag
 
             if(intent.getBooleanExtra("isUsingMyLocation", true) && isUsingMyLocation)
             {
-                nearbyMerchantsList.add(new MerchObject(37.00, -121.00, "Red Wheelbarrow", "Restaurant", "3km", "3Pftvx20pSbIKN1RDlIuZyDhIey2"));
+                dataList.add(dummyMerchant);
                 findSafeAndUnsafeMerchants(nearbyMerchantsList, nearbycontainmentZonesList);
             }
             else if(!intent.getBooleanExtra("isUsingMyLocation", true))
             {
                 Log.i(TAG, "custom location");
-                MerchantsList.add(new MerchObject(37.00, -121.00, "Red Wheelbarrow", "Restaurant", "3km", "3Pftvx20pSbIKN1RDlIuZyDhIey2"));
+                dataList.add(dummyMerchant);
                 findSafeAndUnsafeMerchants(MerchantsList, containmentZonesList);
             }
         }

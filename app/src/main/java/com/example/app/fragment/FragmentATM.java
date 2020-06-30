@@ -426,6 +426,7 @@ public class FragmentATM extends Fragment
                         }
                     }).start();
                 }
+                isUsingMyLocation = false;
             }
         }
 

@@ -67,7 +67,7 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
         String merchantName = getIntent().getStringExtra("merchantName");
         merchantId = getIntent().getStringExtra("merchantId");
         String chatId = getIntent().getStringExtra("chatId");
-        receiverPAN = ""; // getIntent().... // todo
+        receiverPAN = getIntent().getStringExtra("merchantPan");
 
 
 //        setupToolbarWithUpNav(R.id.toolbar, merchantName, R.drawable.ic_action_back);
@@ -76,7 +76,7 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
         textViewTitle.setText(merchantName);
 
         payProgress = findViewById(R.id.id_payment_progressbar);
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new ConversationRecyclerView(this, messagesList);
@@ -153,7 +153,7 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
                     // set prompts.xml to alertdialog builder
                     alertDialogBuilder.setView(promptsView);
 
-                    final String[] currency = new String[] {"Rs", "$"};
+                    final String[] currency = new String[] {"USD", "INR"};
                     ArrayAdapter<String> distance_adapter =
                             new ArrayAdapter<>(
                                     CustomerConversationActivity.this,
@@ -179,10 +179,11 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
                                                     ("MySharedPref", Context.MODE_PRIVATE);
 
                                             String senderPAN = sharedPreferences.getString("cardNumber", "-1");
-
+                                            senderPAN = senderPAN.replace(" ", "");
                                             Log.i(TAG, senderPAN);
 
-                                            if(senderPAN.equals("-1")){
+                                            if(senderPAN.equals("-1"))
+                                            {
                                                 Toast.makeText(mContext, "Please add your card details in your profile",
                                                         Toast.LENGTH_SHORT).show();
 
