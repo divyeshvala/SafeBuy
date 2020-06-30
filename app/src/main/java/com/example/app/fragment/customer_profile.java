@@ -64,6 +64,9 @@ public class customer_profile extends Fragment
                 editor.putString("cvv", cvv);
                 editor.apply();
                 child.removeAllViews();
+                TextView tv = new TextView(getActivity());
+                tv.setText("Your card is already added");
+                child.addView(tv);
                 Log.i("customer_profile", month+year+cardNumber+cvv);
 
                 Log.i("customer_profile", settings.getString("cardNumber", "-1"));
@@ -96,6 +99,8 @@ public class customer_profile extends Fragment
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
                 getActivity().finish();
+
+                sharedPreferences.edit().clear().commit();
             }
         });
         return rootView;
