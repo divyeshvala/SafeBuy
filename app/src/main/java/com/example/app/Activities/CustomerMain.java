@@ -18,7 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CustomerMain extends AppCompatActivity implements FilterBottomSheetFragment.BottomSheetListener {
+public class CustomerMain extends AppCompatActivity{
 
     private static final String TAG = "customer_main";
     private CustomerMainFragmentAdapter adapter;
@@ -43,14 +43,14 @@ public class CustomerMain extends AppCompatActivity implements FilterBottomSheet
         relativeLayout.getBackground().setAlpha(200);
 
         // floating action button for the filters
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                bottomSheetFragment = new FilterBottomSheetFragment();
-                bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
-            }
-        });
+//        FloatingActionButton fab = findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                bottomSheetFragment = new FilterBottomSheetFragment();
+//                bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+//            }
+//        });
 
         //Two fragments are created, one for the merchants near you and the other for merchants that are already visited
         adapter = new CustomerMainFragmentAdapter(getSupportFragmentManager());
@@ -93,10 +93,10 @@ public class CustomerMain extends AppCompatActivity implements FilterBottomSheet
         Toast.makeText(this, "Select a merchant", Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onButtonClicked()
-    {
-        Log.i("customer_main", "Here :");
-        bottomSheetFragment.dismiss();
-    }
+//    @Override
+//    public void onButtonClicked()
+//    {
+//        Log.i("customer_main", "Here :");
+//        bottomSheetFragment.dismiss();
+//    }
 }

@@ -60,7 +60,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
-public class FragmentMerchants extends Fragment
+public class FragmentMerchants extends Fragment implements FilterBottomSheetFragment.BottomSheetListener
 {
     private static final String TAG = "FragmentMerchants";
     private RecyclerView recyclerViewNearYou;
@@ -80,6 +80,8 @@ public class FragmentMerchants extends Fragment
     FilterBottomSheetFragment bottomSheetFragment;
     private TextView progressMessage;
     private TextView noMerchants;
+    private Address address;
+    private String placename;
 
     String[] category = new String[] {"Fast Food Restaurants", "Pharmacies", "Book Stores"};
     
@@ -92,7 +94,16 @@ public class FragmentMerchants extends Fragment
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_merchant, container, false);
-
+        FloatingActionButton fab = view.findViewById(R.id.fab);
+        address=null;
+        bottomSheetFragment = new FilterBottomSheetFragment();
+        bottomSheetFragment.setDefaultValues();
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomSheetFragment.show(getActivity().getSupportFragmentManager(), bottomSheetFragment.getTag());
+            }
+        });
 
         Log.i(TAG, "inside onCreate.");
 
@@ -139,7 +150,7 @@ public class FragmentMerchants extends Fragment
             @Override
             public void onPlaceSelected(final Place place) {
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getAddress());
-
+                System.out.println("Inside place selection bar");
                 isUsingMyLocation = false;
 
                 MerchantsList = new ArrayList<>();
@@ -147,7 +158,7 @@ public class FragmentMerchants extends Fragment
                 getMerchants = new GetNearbyMerchants(getActivity(), MerchantsList, containmentZonesList,
                         isUsingMyLocation, "5");
 
-                Address address = null;
+                address = null;
                 try {
                     Geocoder geocoder = new Geocoder(getActivity(),
                             Locale.getDefault());
@@ -161,20 +172,8 @@ public class FragmentMerchants extends Fragment
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-                if(address!=null){
-                    noMerchants.setVisibility(View.GONE);
-                    progressMessage.setVisibility(View.VISIBLE);
-                    progressMessage.setText("Searching merchants nearby "+place.getName()+"...");
-                    final Address finalAddress = address;
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            getMerchants.getListOfMerchants(place.getName(), String.valueOf(finalAddress.getLatitude()), String.valueOf(finalAddress.getLongitude()),
-                                    "5814", "5", "KM");
-                        }
-                    }).start();
-                }
+                placename=place.getName();
+                getMerchants();
             }
 
             @Override
@@ -187,7 +186,33 @@ public class FragmentMerchants extends Fragment
 
         return view;
     }
-
+    public void getMerchants(){
+        if(address!=null) {
+            System.out.println("Address and filters are set, merchants retrieving");
+            final String placename2 = placename;
+            //noMerchants.setVisibility(View.GONE);
+            progressMessage.setVisibility(View.VISIBLE);
+            progressMessage.setText("Searching merchants nearby " + placename2 + "...");
+            final Address finalAddress = address;
+            dataList.clear();
+            mListadapter.notifyDataSetChanged();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    System.out.println("Just before merchant retrieval");
+                    //System.out.println(bottomSheetFragment.getCategoryCodes());
+                    getMerchants.getListOfMerchants(placename2, String.valueOf(finalAddress.getLatitude()), String.valueOf(finalAddress.getLongitude()),
+                            bottomSheetFragment.getCategoryCodes(), bottomSheetFragment.getDistanceText(), bottomSheetFragment.getDistance_unit());
+                }
+            }).start();
+        }
+        else{
+            System.out.println("Address not set");
+            noMerchants.setVisibility(View.GONE);
+            progressMessage.setVisibility(View.VISIBLE);
+            progressMessage.setText("Please enter a location first");
+        }
+    }
     private void GoToNextActivity(MerchObject merchant, String mChatId)
     {
         Intent intent = new Intent(getActivity(), CustomerConversationActivity.class);
@@ -201,8 +226,7 @@ public class FragmentMerchants extends Fragment
         public void onReceive(Context context, Intent intent)
         {
             Log.i(TAG, "Inside filter receiver");
-            String distance = intent.getStringExtra("distance");
-
+            getMerchants();
         }
     };
 
@@ -505,7 +529,7 @@ public class FragmentMerchants extends Fragment
                     new Thread(new Runnable(){
                         @Override
                         public void run() {
-                            getNearbyMerchants.getListOfMerchants(finalAddressLine, String.valueOf(mLatLng.latitude), String.valueOf(mLatLng.longitude), "5814", "5", "KM");
+                            getNearbyMerchants.getListOfMerchants(finalAddressLine, String.valueOf(mLatLng.latitude), String.valueOf(mLatLng.longitude), bottomSheetFragment.getCategoryCodes(), bottomSheetFragment.getDistanceText(), bottomSheetFragment.getDistance_unit());
                         }
                     }).start();
                 }
@@ -523,5 +547,11 @@ public class FragmentMerchants extends Fragment
 
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) { }
+    }
+    @Override
+    public void onButtonClicked()
+    {
+        Log.i("customer_main", "Here :");
+        bottomSheetFragment.dismiss();
     }
 }

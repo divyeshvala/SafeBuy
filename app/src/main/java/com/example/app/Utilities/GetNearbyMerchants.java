@@ -26,7 +26,6 @@ public class GetNearbyMerchants
     private ArrayList<LocationObject> containmentZoneList;
     private boolean isUsingMyLocation;
     private String distance;
-    private List<String> va = new ArrayList<>();
     private List<String> vb = new ArrayList<>();
     
     public GetNearbyMerchants(Context mContext, ArrayList<MerchObject> merchantsList,
@@ -39,15 +38,15 @@ public class GetNearbyMerchants
         this.distance = distance;
     }
     
-    public void getListOfMerchants(String addressLine, String latitude, String longitude, String categoryCode, String distance, String distance_unit)
+    public void getListOfMerchants(String addressLine, String latitude, String longitude, List<String> categoryCodes, String distance, String distance_unit)
     {
-        va.add(categoryCode);
         // send request
         final DatabaseReference newRequestDB = FirebaseDatabase.getInstance()
                 .getReference().child("NearbyMerchantRequest").push();
-
+        System.out.println("Inside getListofMerchants");
+        System.out.println(categoryCodes);
         Map<String, Object> messageData = new HashMap<>();
-        messageData.put("merchantCategoryCode", va);
+        messageData.put("merchantCategoryCode", categoryCodes);
         messageData.put("latitude", latitude);
         messageData.put("longitude", longitude);
         messageData.put("distance", distance);
@@ -55,6 +54,7 @@ public class GetNearbyMerchants
         messageData.put("placeName", addressLine);
         messageData.put("resolvedMerchant", "false");
         messageData.put("resolvedContainment", "false");
+        merchantsList.clear();
         newRequestDB.updateChildren(messageData);
         Log.i(TAG, "newRequestDB.getKey() :"+newRequestDB.getKey());
 
