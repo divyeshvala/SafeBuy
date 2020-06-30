@@ -14,8 +14,8 @@ def getContainmentLocations(latitude, longitude, radius):
 
     payload = {
 
-        'key': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtYWlsSWRlbnRpdHkiOiJhbmFuZGt1bmFsMjQxQGdtYWlsLmNvbSJ9'
-               '.LkOVOiuVPWZdPnSHVs9kpKJCYD2xKnA8sTAfphBcX-E',
+        'key': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtYWlsSWRlbnRpdHkiOiJzYW5hdGhyYW1lc2g1NUBnbWFpbC5jb20ifQ'
+               '.eg7KCzdygU7dp9Rp7PJlVd9AAthaQvn0ROBEn0z3jWk',
 
         'lng': longitude,
 
@@ -42,4 +42,4 @@ def handleContainmentrequests(root, tablepath, longitude, latitude, distance):
     root.child(tablepath).push(response)
 
 
-print(getContainmentLocations(26.91561, 75.76125, 5000))
+# print(getContainmentLocations(26.91561, 75.76125, 5000))

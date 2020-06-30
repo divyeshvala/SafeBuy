@@ -48,7 +48,7 @@ def verifyPayment(senderPAN, receipentPAN, amount, transactionCurrencyCode):
 
     print(res_codes[data['actionCode']])
 
-    return data
+    return res_codes[data['actionCode']]
 
 
 def handlePaymentRequest(root, tablepath, senderPAN, receiverPAN, amount, transactionCurrencyCode):

@@ -23,7 +23,9 @@ json_file = open('../Resources/visa_direct_payload.json',)
 
 payload = json.load(json_file)
 
+print(payload)
 
+print(payload)
 user_id = '442BYE64PK21LL73EKHO21ao5rYfOa0rYd1zFG4-4h6CAnqVA'
 
 password = '1144Bv6dOv2rS31kooTm'
