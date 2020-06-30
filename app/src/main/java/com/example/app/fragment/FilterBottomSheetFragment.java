@@ -32,7 +32,7 @@ public class FilterBottomSheetFragment extends BottomSheetDialogFragment {
     }
 
     private void setCategoryCodes(String category){
-        if(category.equals("All"))
+        if(!category.equals("All"))
             FragmentMerchants.categories.clear();
         switch (category) {
             case "Groceries and Supermarkets":

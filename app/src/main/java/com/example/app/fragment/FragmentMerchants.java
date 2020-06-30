@@ -25,6 +25,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.example.app.Activities.CustomerMain;
 import com.example.app.Activities.MapsActivity;
 import com.example.app.Messaging.Customer.CustomerConversationActivity;
 import com.example.app.R;
@@ -77,12 +78,12 @@ public class FragmentMerchants extends Fragment
     private TextView noMerchants;
     private Address address;
     private String placename;
-    private MerchObject dummyMerchant = new MerchObject(37.12, -121.12, "Red Wheelbarrow", "Restaurant", "3km", "3Pftvx20pSbIKN1RDlIuZyDhIey2");
-
+    private MerchObject dummyMerchant = new MerchObject(40.7140, 74.0148, "Red Wheelbarrow", "Restaurant", "3km", "3Pftvx20pSbIKN1RDlIuZyDhIey2");
     public static List<String> categories = new ArrayList<>();
     public static String distanceText;
     public static String distance_unit;
     public static boolean isFilterChanged;
+
 
     public static FragmentMerchants newInstance()
     {
@@ -94,6 +95,7 @@ public class FragmentMerchants extends Fragment
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_merchant, container, false);
 
+        Log.i(TAG, "inside oncreate");
         FloatingActionButton fab = view.findViewById(R.id.fab);
         address=null;
 
@@ -107,7 +109,7 @@ public class FragmentMerchants extends Fragment
 
         setDefaultValues();
         dummyMerchant.setPan("4761360055652118");
-        dummyMerchant.setAddress("SAN JOSE");
+        dummyMerchant.setAddress("Financial center, Vesey Street");
         noMerchants = view.findViewById(R.id.id_noMerchants);
         progressMessage = view.findViewById(R.id.id_progressMessage);
         recyclerViewNearYou = view.findViewById(R.id.recyclerViewNearYou);
@@ -231,6 +233,7 @@ public class FragmentMerchants extends Fragment
         public void onReceive(Context context, Intent intent)
         {
             Log.i(TAG, "Inside filter receiver");
+
             getMerchants();
 
             bottomSheetFragment.dismiss();
@@ -499,7 +502,7 @@ public class FragmentMerchants extends Fragment
         @Override
         public void onLocationChanged(Location location)
         {
-            if(isUsingMyLocation)
+            if(isUsingMyLocation && CustomerMain.activeFragment==0)
             {
                 String addressLine = "";
                 try {
