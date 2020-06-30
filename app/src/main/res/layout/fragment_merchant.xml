@@ -44,7 +44,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="70dp"
         android:textStyle="italic"
         android:text="Searching Merchants nearby you..."
         android:textAlignment="center"
@@ -61,3 +60,4 @@
         android:layout_alignParentEnd="true"
         />
 </RelativeLayout>
+

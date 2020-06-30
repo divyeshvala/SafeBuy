@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -108,9 +109,12 @@ public class FilterBottomSheetFragment extends BottomSheetDialogFragment {
                         getContext(),
                         R.layout.dropdown_menu_popup_item,
                         category);
-        final AutoCompleteTextView editTextFilledExposedDropdown =
-                view.findViewById(R.id.filled_exposed_dropdown);
-        editTextFilledExposedDropdown.setAdapter(adapter);
+//        final AutoCompleteTextView editTextFilledExposedDropdown =
+//                view.findViewById(R.id.filled_exposed_dropdown);
+//        editTextFilledExposedDropdown.setAdapter(adapter);
+
+        final Spinner spinnerCategory = view.findViewById(R.id.categoryDropdown);
+        spinnerCategory.setAdapter(adapter);
 
         String[] distance_format = new String[] {"km", "m"};
         ArrayAdapter<String> distance_adapter =
@@ -131,8 +135,11 @@ public class FilterBottomSheetFragment extends BottomSheetDialogFragment {
             @Override
             public void onClick(View view)
             {
+                Log.d(TAG, "onClick: apply");
                 System.out.println("Filter okay clicked");
-                Integer distance_value = Integer.valueOf(distance.getEditText().getText().toString());
+                Integer distance_value = 0;
+                if(!distance.getEditText().getText().toString().equals(""))
+                    distance_value = Integer.valueOf(distance.getEditText().getText().toString());
                 String distancedesc=edittextFilledDistanceValues.getText().toString();
                 if(distancedesc.equals("km")){
                     distance_unit="KM";
@@ -141,7 +148,7 @@ public class FilterBottomSheetFragment extends BottomSheetDialogFragment {
                     distance_unit="M";
                 }
                 distanceText=distance_value.toString();
-                String categorydesc=editTextFilledExposedDropdown.getText().toString();
+                String categorydesc=String.valueOf(spinnerCategory.getSelectedItem());
                 System.out.println(categorydesc);
                 setVa(categorydesc);
                 //System.out.println(va);
