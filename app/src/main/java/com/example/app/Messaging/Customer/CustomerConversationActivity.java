@@ -192,6 +192,13 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
                                                 return;
                                             }
 
+                                            if(userInput.getText().toString().equals("0.00"))
+                                            {
+                                                Toast.makeText(mContext, "Amount should be greater than 0", Toast.LENGTH_SHORT).show();
+
+                                                return;
+                                            }
+
                                             Log.i(TAG, "sender pan not equal to -1");
 
                                             PaymentHandler paymentHandler = new PaymentHandler(CustomerConversationActivity.this,
