@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -75,6 +76,7 @@ public class FragmentMerchants extends Fragment
     FilterBottomSheetFragment bottomSheetFragment;
     private TextView progressMessage;
     private TextView noMerchants;
+    ImageView search_icon;
     private Address address;
     private String placename;
     private MerchObject dummyMerchant = new MerchObject(37.12, -121.12, "Red Wheelbarrow", "Restaurant", "3km", "3Pftvx20pSbIKN1RDlIuZyDhIey2");
@@ -111,6 +113,7 @@ public class FragmentMerchants extends Fragment
         noMerchants = view.findViewById(R.id.id_noMerchants);
         progressMessage = view.findViewById(R.id.id_progressMessage);
         recyclerViewNearYou = view.findViewById(R.id.recyclerViewNearYou);
+        search_icon = view.findViewById(R.id.searching_icon);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerViewNearYou.setLayoutManager(layoutManager);
@@ -299,6 +302,7 @@ public class FragmentMerchants extends Fragment
         }
         progressBar.setVisibility(View.INVISIBLE);
         progressMessage.setVisibility(View.INVISIBLE);
+        search_icon.setVisibility(View.INVISIBLE);
         Collections.sort(dataList, new CustomComparator());
         mListadapter.notifyDataSetChanged();
     }

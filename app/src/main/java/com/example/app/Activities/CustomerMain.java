@@ -37,7 +37,7 @@ public class CustomerMain extends AppCompatActivity
         }
 
         RelativeLayout relativeLayout = findViewById(R.id.banner);
-        relativeLayout.getBackground().setAlpha(200);
+        relativeLayout.getBackground().setAlpha(100);
 
         // floating action button for the filters
 //        FloatingActionButton fab = findViewById(R.id.fab);
