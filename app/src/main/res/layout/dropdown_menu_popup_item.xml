@@ -5,7 +5,8 @@
     android:padding="16dp"
     android:ellipsize="end"
     android:maxLines="1"
-    android:textColor="@color/deepBlue"
-    android:background="@color/white"
+    android:textColor="@color/white"
     android:textSize="@dimen/normalText"
+    android:layout_margin="5dp"
+    android:text="Select Category"
     />

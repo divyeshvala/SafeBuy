@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bottom_sheet"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/deepBlue"
     android:orientation="vertical"
-    android:padding="12dp"
+    android:padding="16dp"
     app:behavior_hideable="false"
     app:behavior_peekHeight="100dp"
     app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
@@ -20,24 +21,34 @@
         android:textSize="24sp"
         android:layout_marginBottom="24dp"/>
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/WhiteDropDown"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/category"
-        android:id="@+id/category"
-        android:layout_marginTop="5dp">
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin">
 
-        <AutoCompleteTextView
-            android:id="@+id/filled_exposed_dropdown"
-            android:textSize="@dimen/normalText"
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center"
+            android:text="Category:"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+        <Spinner
+            android:id="@+id/categoryDropdown"
+            android:prompt="@string/category"
+            android:popupBackground="@drawable/white_background_blue_outline"
+            android:background="@drawable/bg_white_border"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:textCursorDrawable="@color/white"/>
+            tools:listitem="@layout/dropdown_menu_popup_item"
+            />
+    </LinearLayout>
 
-    </com.google.android.material.textfield.TextInputLayout>
+
 
 
     <LinearLayout
@@ -48,17 +59,18 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/distance"
             android:layout_width="100dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:hint="@string/distance"
             style="@style/WhiteInputText"
             app:layout_constraintTop_toBottomOf="@+id/username">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
                 android:textCursorDrawable="@color/white"
+                android:inputType="numberDecimal"
                 android:textSize="@dimen/normalText"
                 />
 
@@ -83,38 +95,49 @@
                 android:textSize="@dimen/normalText"/>
 
         </com.google.android.material.textfield.TextInputLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="24dp">
+                <CheckBox
+                    android:id="@+id/checkBoxOpen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:text="Open"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"/>
 
-        <LinearLayout
+                <CheckBox
+                    android:id="@+id/checkBoxClosed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:text="Closed"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/id_apply_filter_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginStart="12dp">
-            <CheckBox
-                android:id="@+id/checkBoxOpen"
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:text="Open"
-                android:textColor="@color/white"
-                android:textSize="12sp"/>
+            android:layout_marginTop="12dp"
+            android:background="@drawable/round_button"
+            android:layout_alignParentEnd="true"
+            android:text="Apply"
+            android:textSize="18sp"
+            android:textColor="#fff"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"/>
+    </RelativeLayout>
 
-            <CheckBox
-                android:id="@+id/checkBoxClosed"
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:text="Closed"
-                android:textColor="@color/white"
-                android:textSize="12sp"/>
-        </LinearLayout>
-    </LinearLayout>
-    <Button
-        android:id="@+id/id_apply_filter_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/round_button"
-        android:text="Apply"
-        android:textSize="18sp"
-        android:textColor="#fff"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"/>
 </LinearLayout>

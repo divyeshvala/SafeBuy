@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -108,9 +109,12 @@ public class FilterBottomSheetFragment extends BottomSheetDialogFragment {
                         getContext(),
                         R.layout.dropdown_menu_popup_item,
                         category);
-        final AutoCompleteTextView editTextFilledExposedDropdown =
-                view.findViewById(R.id.filled_exposed_dropdown);
-        editTextFilledExposedDropdown.setAdapter(adapter);
+//        final AutoCompleteTextView editTextFilledExposedDropdown =
+//                view.findViewById(R.id.filled_exposed_dropdown);
+//        editTextFilledExposedDropdown.setAdapter(adapter);
+
+        final Spinner spinnerCategory = view.findViewById(R.id.categoryDropdown);
+        spinnerCategory.setAdapter(adapter);
 
         String[] distance_format = new String[] {"km", "m"};
         ArrayAdapter<String> distance_adapter =
@@ -141,7 +145,7 @@ public class FilterBottomSheetFragment extends BottomSheetDialogFragment {
                     distance_unit="M";
                 }
                 distanceText=distance_value.toString();
-                String categorydesc=editTextFilledExposedDropdown.getText().toString();
+                String categorydesc=String.valueOf(spinnerCategory.getSelectedItem());
                 System.out.println(categorydesc);
                 setVa(categorydesc);
                 //System.out.println(va);
