@@ -1,5 +1,6 @@
 package com.example.app.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,7 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import com.example.app.Activities.Login;
@@ -20,11 +25,16 @@ import static android.content.Context.MODE_PRIVATE;
 public class customer_profile extends Fragment
 {
     ImageView im;
+    customer_profile mContext;
+    private SharedPreferences sharedPreferences;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
 
         View rootView = inflater.inflate(R.layout.fragment_customer_profile, container, false);
+
+        final LinearLayout child = rootView.findViewById(R.id.parent);
+
         im = rootView.findViewById(R.id.transactions);
         im.setOnClickListener(new View.OnClickListener(){
 
@@ -38,7 +48,7 @@ public class customer_profile extends Fragment
             }
         });
         
-        PaymentCardView paymentCardView = rootView.findViewById(R.id.creditCard);
+        final PaymentCardView paymentCardView = rootView.findViewById(R.id.creditCard);
         final SharedPreferences settings = getActivity().getSharedPreferences("MySharedPref", MODE_PRIVATE);
 
         paymentCardView.setCardTitle("PAN");
@@ -53,17 +63,30 @@ public class customer_profile extends Fragment
                 editor.putString("cardNumber", cardNumber);
                 editor.putString("cvv", cvv);
                 editor.apply();
-
+                child.removeAllViews();
                 Log.i("customer_profile", month+year+cardNumber+cvv);
 
                 Log.i("customer_profile", settings.getString("cardNumber", "-1"));
             }
+
             @Override
             public void onError(String error) { }
             @Override
             public void onCancelClick() { }
         });
-        
+        sharedPreferences = getActivity().getSharedPreferences("MySharedPref", MODE_PRIVATE);
+        String senderPAN = sharedPreferences.getString("cardNumber", "-1");
+        senderPAN = senderPAN.replace(" ", "");
+
+        if(senderPAN.equals("-1"))
+        {
+        }
+        else{
+            child.removeAllViews();
+            TextView tv = new TextView(getActivity());
+            tv.setText("Your card is already added");
+            child.addView(tv);
+        }
         RelativeLayout logOut = rootView.findViewById(R.id.id_customerLogOut);
         logOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,4 +100,6 @@ public class customer_profile extends Fragment
         });
         return rootView;
     }
+
+
 }
