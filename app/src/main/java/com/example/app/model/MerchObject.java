@@ -9,6 +9,7 @@ public class MerchObject
     private String categorydesc;
     private String distancedesc;
     private String address;
+    private String pan;
 
     public MerchObject(double lat, double lon, String storename, String categorydesc, String distancedesc, String merchantId){
         this.lat=lat;
@@ -17,6 +18,14 @@ public class MerchObject
         this.categorydesc=categorydesc;
         this.distancedesc=distancedesc;
         this.merchantId = merchantId;
+    }
+
+    public String getPan() {
+        return pan;
+    }
+
+    public void setPan(String pan) {
+        this.pan = pan;
     }
 
     public String getAddress() {
