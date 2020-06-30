@@ -135,8 +135,11 @@ public class FilterBottomSheetFragment extends BottomSheetDialogFragment {
             @Override
             public void onClick(View view)
             {
+                Log.d(TAG, "onClick: apply");
                 System.out.println("Filter okay clicked");
-                Integer distance_value = Integer.valueOf(distance.getEditText().getText().toString());
+                Integer distance_value = 0;
+                if(!distance.getEditText().getText().toString().equals(""))
+                    distance_value = Integer.valueOf(distance.getEditText().getText().toString());
                 String distancedesc=edittextFilledDistanceValues.getText().toString();
                 if(distancedesc.equals("km")){
                     distance_unit="KM";
