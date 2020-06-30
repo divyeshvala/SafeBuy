@@ -17,9 +17,9 @@ import com.example.app.fragment.FragmentMerchants;
 
 public class CustomerMain extends AppCompatActivity
 {
-
     private static final String TAG = "customer_main";
     private CustomerMainFragmentAdapter adapter;
+    public static int activeFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +27,7 @@ public class CustomerMain extends AppCompatActivity
         setContentView(R.layout.activity_customer_main);
 
         Intent intent = getIntent();
-        String action = intent.getAction();
+        final String action = intent.getAction();
         String type = intent.getType();
 
         if (Intent.ACTION_SEND.equals(action) && type != null) {
@@ -39,16 +39,6 @@ public class CustomerMain extends AppCompatActivity
         RelativeLayout relativeLayout = findViewById(R.id.banner);
         relativeLayout.getBackground().setAlpha(200);
 
-        // floating action button for the filters
-//        FloatingActionButton fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                bottomSheetFragment = new FilterBottomSheetFragment();
-//                bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
-//            }
-//        });
-
         //Two fragments are created, one for the merchants near you and the other for merchants that are already visited
         adapter = new CustomerMainFragmentAdapter(getSupportFragmentManager());
         adapter.addFragment(FragmentMerchants.newInstance(), "Merchants");
@@ -56,6 +46,7 @@ public class CustomerMain extends AppCompatActivity
 
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(adapter);
+        activeFragment = 0;
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {}
@@ -67,10 +58,12 @@ public class CustomerMain extends AppCompatActivity
                 if(position == 0){
                     atmTextview.setTextColor(getResources().getColor(R.color.grey));
                     merchantTextview.setTextColor(getResources().getColor(R.color.black));
+                    activeFragment = 0;
                 }
                 else{
                     atmTextview.setTextColor(getResources().getColor(R.color.black));
                     merchantTextview.setTextColor(getResources().getColor(R.color.grey));
+                    activeFragment = 1;
                 }
             }
         });
@@ -90,10 +83,4 @@ public class CustomerMain extends AppCompatActivity
         Toast.makeText(this, "Select a merchant", Toast.LENGTH_SHORT).show();
     }
 
-//    @Override
-//    public void onButtonClicked()
-//    {
-//        Log.i("customer_main", "Here :");
-//        bottomSheetFragment.dismiss();
-//    }
 }

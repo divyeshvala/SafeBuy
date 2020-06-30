@@ -17,10 +17,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -28,11 +26,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.app.Activities.CustomerMain;
 import com.example.app.Activities.MapsActivity;
 import com.example.app.R;
 import com.example.app.Utilities.GetNearbyATMs;
 import com.example.app.model.LocationObject;
-import com.example.app.Utilities.MyLocationListener;
 import com.example.app.model.ATMObject;
 //import com.facebook.places.Places;
 import com.google.android.gms.common.api.Status;
@@ -49,7 +48,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.PriorityQueue;
 
 public class FragmentATM extends Fragment
 {
@@ -84,7 +82,7 @@ public class FragmentATM extends Fragment
 
         noATMs = view.findViewById(R.id.id_noATMs);
         progressMessage = view.findViewById(R.id.id_progressMessage);
-        recyclerViewNearYou = (RecyclerView) view.findViewById(R.id.recyclerViewNearYou);
+        recyclerViewNearYou = view.findViewById(R.id.recyclerViewNearYou);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerViewNearYou.setLayoutManager(layoutManager);
@@ -392,7 +390,7 @@ public class FragmentATM extends Fragment
         @Override
         public void onLocationChanged(Location location)
         {
-            if(isUsingMyLocation) {
+            if(isUsingMyLocation && CustomerMain.activeFragment==1) {
 
                 String addressLine = "";
                 try {
