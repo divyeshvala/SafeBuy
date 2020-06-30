@@ -106,5 +106,4 @@ public class customer_profile extends Fragment
         return rootView;
     }
 
-
 }

@@ -266,7 +266,7 @@ public class FragmentATM extends Fragment
                 return o1.getDistance()<o2.getDistance() ? 1 : 0;
             }
 
-            return o1.isSafe() ? 1 : 0;
+            return o1.isSafe()? 1:0;
         }
     }
 
