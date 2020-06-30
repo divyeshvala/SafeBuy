@@ -57,6 +57,7 @@ public class PaymentHandler
                     Log.i(TAG, "Got payment response :"+dataSnapshot.child("response").getValue(String.class));
                     Intent intent = new Intent("GOT_PAYMENT_RESPONSE");
                     intent.putExtra("amount", amount);
+                    intent.putExtra("status", "success");
                     intent.putExtra("response", dataSnapshot.child("response").getValue(String.class));
                     context.sendBroadcast(intent);
                 }
@@ -70,9 +71,16 @@ public class PaymentHandler
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
             {
-                if(dataSnapshot.exists() && dataSnapshot.getValue(String.class).equals("true"))
+                if(dataSnapshot.exists() && dataSnapshot.getValue(String.class).equals("success"))
                 {
                     responseTable.removeValue();
+                }
+                else if(dataSnapshot.exists() && dataSnapshot.getValue(String.class).equals("failure"))
+                {
+                    Log.i(TAG, "Got payment response :"+dataSnapshot.child("response").getValue(String.class));
+                    Intent intent = new Intent("GOT_PAYMENT_RESPONSE");
+                    intent.putExtra("status", "failed");
+                    context.sendBroadcast(intent);
                 }
             }
 

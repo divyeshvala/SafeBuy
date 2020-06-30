@@ -66,14 +66,26 @@ public class GetNearbyMerchants
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
             {
-                if( dataSnapshot.child("resolvedMerchant").getValue(String.class)!=null &&
-                        dataSnapshot.child("resolvedContainment").getValue(String.class)!=null )
+                String resolvedMerchant = dataSnapshot.child("resolvedMerchant").getValue(String.class);
+                String resolvedContainment = dataSnapshot.child("resolvedContainment").getValue(String.class);
+
+                Log.i(TAG, "Response : "+resolvedMerchant+" "+resolvedContainment);
+                if( resolvedMerchant!=null && resolvedContainment!=null )
                 {
-                    if( dataSnapshot.child("resolvedMerchant").getValue(String.class).equals("true") &&
-                            dataSnapshot.child("resolvedContainment").getValue(String.class).equals("true"))
+                    if( resolvedMerchant.equals("success") && (!resolvedContainment.equals("false")))
                     {
                         Intent intent = new Intent("ACTION_FOUND_MERCHANTS_LIST");
                         intent.putExtra("isUsingMyLocation", isUsingMyLocation);
+                        intent.putExtra("status", "success");
+                        mContext.sendBroadcast(intent);
+                        responseDB.removeValue();
+
+                    }
+                    else if ( (resolvedMerchant.equals("failure")) && (!resolvedContainment.equals("false")))
+                    {
+                        Intent intent = new Intent("ACTION_FOUND_MERCHANTS_LIST");
+                        intent.putExtra("isUsingMyLocation", isUsingMyLocation);
+                        intent.putExtra("status", "failed");
                         mContext.sendBroadcast(intent);
                         responseDB.removeValue();
                     }

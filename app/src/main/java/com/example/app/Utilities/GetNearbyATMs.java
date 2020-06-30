@@ -65,18 +65,30 @@ public class GetNearbyATMs
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
             {
-                if( dataSnapshot.child("resolvedATM").getValue(String.class)!=null &&
-                        dataSnapshot.child("resolvedContainment").getValue(String.class)!=null )
-                {
-                    if( dataSnapshot.child("resolvedATM").getValue(String.class).equals("true") &&
-                            dataSnapshot.child("resolvedContainment").getValue(String.class).equals("true"))
-                    {
-                        FirebaseDatabase.getInstance().getReference()
-                                .child("NearbyATMRequest").child(newRequestDB.getKey()).removeValue();
+                String resolvedATM = dataSnapshot.child("resolvedATM").getValue(String.class);
+                String resolvedContainment = dataSnapshot.child("resolvedContainment").getValue(String.class);
 
+                if( resolvedATM!=null && resolvedContainment!=null )
+                {
+                    if( resolvedATM.equals("success") && (!resolvedContainment.equals("false")))
+                    {
                         Intent intent = new Intent("ACTION_FOUND_ATM_LIST");
+                        intent.putExtra("status", "success");
                         intent.putExtra("isUsingMyLocation", isUsingMyLocation);
                         mContext.sendBroadcast(intent);
+
+                        FirebaseDatabase.getInstance().getReference()
+                                .child("NearbyATMRequest").child(newRequestDB.getKey()).removeValue();
+                    }
+                    else if ( (resolvedATM.equals("failure")) && (!resolvedContainment.equals("false")))
+                    {
+                        Intent intent = new Intent("ACTION_FOUND_ATM_LIST");
+                        intent.putExtra("status", "failed");
+                        intent.putExtra("isUsingMyLocation", isUsingMyLocation);
+                        mContext.sendBroadcast(intent);
+
+                        FirebaseDatabase.getInstance().getReference()
+                                .child("NearbyATMRequest").child(newRequestDB.getKey()).removeValue();
                     }
                 }
             }

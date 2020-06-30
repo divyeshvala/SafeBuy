@@ -187,6 +187,13 @@ public class FragmentATM extends Fragment
             dataList.clear();
             mListadapter.notifyDataSetChanged();
 
+            if(intent.getStringExtra("status").equals("failed"))
+            {
+                noATMs.setVisibility(View.VISIBLE);
+                noATMs.setText("Some error occured please try again.");
+                return;
+            }
+
             if(intent.getBooleanExtra("isUsingMyLocation", true) && isUsingMyLocation)
             {
                 findSafeAndUnsafeATMs(nearbyATMsList, nearbycontainmentZonesList);
