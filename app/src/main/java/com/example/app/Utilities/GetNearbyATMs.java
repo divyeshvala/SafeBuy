@@ -80,7 +80,7 @@ public class GetNearbyATMs
                         FirebaseDatabase.getInstance().getReference()
                                 .child("NearbyATMRequest").child(newRequestDB.getKey()).removeValue();
                     }
-                    else if ( (resolvedATM.equals("failed")) && (!resolvedContainment.equals("false")))
+                    else if ( (resolvedATM.equals("failure")) && (!resolvedContainment.equals("false")))
                     {
                         Intent intent = new Intent("ACTION_FOUND_ATM_LIST");
                         intent.putExtra("status", "failed");

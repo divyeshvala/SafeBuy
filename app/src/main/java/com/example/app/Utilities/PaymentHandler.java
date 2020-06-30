@@ -75,7 +75,7 @@ public class PaymentHandler
                 {
                     responseTable.removeValue();
                 }
-                else if(dataSnapshot.exists() && dataSnapshot.getValue(String.class).equals("failed"))
+                else if(dataSnapshot.exists() && dataSnapshot.getValue(String.class).equals("failure"))
                 {
                     Log.i(TAG, "Got payment response :"+dataSnapshot.child("response").getValue(String.class));
                     Intent intent = new Intent("GOT_PAYMENT_RESPONSE");

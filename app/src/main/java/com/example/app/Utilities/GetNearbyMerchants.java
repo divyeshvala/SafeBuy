@@ -69,6 +69,7 @@ public class GetNearbyMerchants
                 String resolvedMerchant = dataSnapshot.child("resolvedMerchant").getValue(String.class);
                 String resolvedContainment = dataSnapshot.child("resolvedContainment").getValue(String.class);
 
+                Log.i(TAG, "Response : "+resolvedMerchant+" "+resolvedContainment);
                 if( resolvedMerchant!=null && resolvedContainment!=null )
                 {
                     if( resolvedMerchant.equals("success") && (!resolvedContainment.equals("false")))
@@ -80,7 +81,7 @@ public class GetNearbyMerchants
                         responseDB.removeValue();
 
                     }
-                    else if ( (resolvedMerchant.equals("failed")) && (!resolvedContainment.equals("false")))
+                    else if ( (resolvedMerchant.equals("failure")) && (!resolvedContainment.equals("false")))
                     {
                         Intent intent = new Intent("ACTION_FOUND_MERCHANTS_LIST");
                         intent.putExtra("isUsingMyLocation", isUsingMyLocation);

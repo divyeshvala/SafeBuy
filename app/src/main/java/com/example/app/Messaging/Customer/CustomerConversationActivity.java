@@ -140,8 +140,8 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
                         communication.sendMessage(messageText.getText().toString());
                         messageText.setText("");
                     }
-                } else if (flagMode == MODE_PAY) {
-
+                } else if (flagMode == MODE_PAY)
+                {
                     pay_message = "";
 
                     LayoutInflater li = LayoutInflater.from(mContext);
@@ -173,7 +173,6 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id)
                                         {
-                                            payProgress.setVisibility(View.VISIBLE);
                                             sharedPreferences = mContext.getSharedPreferences
                                                     ("MySharedPref", Context.MODE_PRIVATE);
 
@@ -200,6 +199,7 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
 
                                             Log.i(TAG, "sender pan not equal to -1");
 
+                                            payProgress.setVisibility(View.VISIBLE);
                                             PaymentHandler paymentHandler = new PaymentHandler(CustomerConversationActivity.this,
                                                     senderPAN, receiverPAN, userInput.getText().toString(),
                                                     currencyValue.getText().toString());
