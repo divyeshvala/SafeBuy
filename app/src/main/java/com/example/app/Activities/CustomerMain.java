@@ -37,7 +37,7 @@ public class CustomerMain extends AppCompatActivity
         }
 
         RelativeLayout relativeLayout = findViewById(R.id.banner);
-        relativeLayout.getBackground().setAlpha(100);
+        relativeLayout.getBackground().setAlpha(200);
 
         //Two fragments are created, one for the merchants near you and the other for merchants that are already visited
         adapter = new CustomerMainFragmentAdapter(getSupportFragmentManager());
