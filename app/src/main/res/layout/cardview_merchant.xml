@@ -34,11 +34,11 @@
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Magna Solution"
-                android:maxEms="15"
+                android:maxEms="8"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/darkGrey"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 card_view:layout_constraintStart_toStartOf="parent"
                 card_view:layout_constraintTop_toTopOf="parent" />
 
