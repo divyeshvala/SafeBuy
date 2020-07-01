@@ -188,14 +188,12 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
                                                         Toast.LENGTH_SHORT).show();
 
                                                 dialog.dismiss();
-
                                                 return;
                                             }
 
                                             if(userInput.getText().toString().equals("0.00"))
                                             {
                                                 Toast.makeText(mContext, "Amount should be greater than 0", Toast.LENGTH_SHORT).show();
-
                                                 return;
                                             }
 

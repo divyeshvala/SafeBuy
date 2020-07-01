@@ -5,17 +5,24 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import com.example.app.R;
+import com.example.app.Utilities.EncryptionDecryption;
 import com.example.app.fragment.CustomerMainFragmentAdapter;
 import com.example.app.fragment.FragmentCustomers;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.security.SecureRandom;
+
+import javax.crypto.spec.IvParameterSpec;
+
 public class MerchantMain extends AppCompatActivity
 {
+    private static final String TAG = "MerchantMain";
     private CustomerMainFragmentAdapter adapter;
 
     @Override

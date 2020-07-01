@@ -2,6 +2,7 @@ package com.example.app.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 import com.example.app.R;
+import com.example.app.Utilities.EncryptionDecryption;
 import com.example.app.Utilities.util;
 import com.example.app.fragment.CustomerMainFragmentAdapter;
 import com.example.app.fragment.FragmentATM;

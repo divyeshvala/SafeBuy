@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import com.example.app.Activities.Login;
 import com.example.app.R;
+import com.example.app.Utilities.EncryptionDecryption;
 import com.google.firebase.auth.FirebaseAuth;
 import com.manojbhadane.PaymentCardView;
 import static android.content.Context.MODE_PRIVATE;
@@ -53,12 +54,13 @@ public class customer_profile extends Fragment
             @Override
             public void onCardDetailsSubmit(String month, String year, String cardNumber, String cvv)
             {
+                EncryptionDecryption encryptionDecryption = new EncryptionDecryption();
                 cardNumber = cardNumber.replace(" ", "");
                 SharedPreferences.Editor editor = settings.edit();
                 editor.putString("month", month);
                 editor.putString("year", year);
-                editor.putString("cardNumber", cardNumber);
-                editor.putString("cvv", cvv);
+                editor.putString("cardNumber", encryptionDecryption.encryptAES256(cardNumber));
+                editor.putString("cvv", encryptionDecryption.encryptAES256(cvv));
                 editor.apply();
                 child.removeAllViews();
                 TextView tv = new TextView(getActivity());
