@@ -80,12 +80,11 @@ public class FragmentMerchants extends Fragment
     ImageView search_icon;
     private Address address;
     private String placename;
-    private MerchObject dummyMerchant = new MerchObject(40.7140, 74.0148, "Red Wheelbarrow", "Restaurant", "3km", "3Pftvx20pSbIKN1RDlIuZyDhIey2");
+    private MerchObject dummyMerchant = new MerchObject(40.714181, -74.015568, "Red Wheelbarrow", "Restaurant", "3km", "EGWhb2mBweNjiq5x4Z0wGQi4EZo1");
     public static List<String> categories = new ArrayList<>();
     public static String distanceText;
     public static String distance_unit;
     public static boolean isFilterChanged;
-
 
     public static FragmentMerchants newInstance()
     {

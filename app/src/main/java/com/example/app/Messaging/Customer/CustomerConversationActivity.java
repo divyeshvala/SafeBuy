@@ -42,7 +42,7 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
     public RecyclerView mRecyclerView;
     public ConversationRecyclerView mAdapter;
     private EditText messageText;
-    private String merchantId, paymentResponse="";
+    private String merchantId;
     private FirebaseUser currentUser;
     public List<MessageObject> messagesList = new ArrayList<>();
     private Communication communication;
@@ -82,7 +82,8 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
         mAdapter = new ConversationRecyclerView(this, messagesList);
         mRecyclerView.setAdapter(mAdapter);
 
-        mRecyclerView.postDelayed(new Runnable() {
+        mRecyclerView.postDelayed(new Runnable()
+        {
             @Override
             public void run() {
                 if(mAdapter.getItemCount()>0)
