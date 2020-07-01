@@ -2,6 +2,7 @@ package com.example.app.Messaging.Customer;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.app.Activity;
@@ -17,6 +18,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -24,18 +26,23 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.app.Activities.MapsActivity;
 import com.example.app.Messaging.ConversationRecyclerView;
 import com.example.app.R;
 import com.example.app.Utilities.Communication;
 import com.example.app.Utilities.PaymentHandler;
 import com.example.app.Utilities.util;
 import com.example.app.fragment.AddListBottomSheetFragment;
+import com.example.app.fragment.FragmentATM;
+import com.example.app.model.ATMObject;
 import com.example.app.model.MessageObject;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class CustomerConversationActivity extends AppCompatActivity implements AddListBottomSheetFragment.BottomSheetListener, View.OnClickListener {
     public static String TAG = "CustomerConverstionActivity";
@@ -376,6 +383,49 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
         super.onDestroy();
         unregisterReceiver(paymentResponseReceiver);
     }
+
+    public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
+        private ArrayList<String> list;
+
+        private ListAdapter(ArrayList<String> data) {
+            this.list = data;
+        }
+
+        private class ViewHolder extends RecyclerView.ViewHolder {
+            TextView textView;
+
+            private ViewHolder(View itemView) {
+                super(itemView);
+                this.textView = (TextView) itemView.findViewById(R.id.name);
+            }
+        }
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_atm, parent, false);
+
+            return new ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder holder, final int position) {
+            holder.textView.setText(list.get(position));
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v)
+                {
+
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+    }
+
 
     @Override
     public void onClick(View view)

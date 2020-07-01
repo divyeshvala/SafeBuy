@@ -342,7 +342,6 @@ public class FragmentATM extends Fragment
                     intent.putExtra("destinationLongitude", dataList.get(position).getLongitude());
                     intent.putStringArrayListExtra("containmentZoneLatLngs", containmentZoneLatLngs);
                     startActivity(intent);
-        
                 }
             });
         }
