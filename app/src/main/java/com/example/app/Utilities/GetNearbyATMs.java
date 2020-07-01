@@ -29,15 +29,13 @@ public class GetNearbyATMs
     private Context mContext;
     private ArrayList<LocationObject> ATMsList;
     private ArrayList<LocationObject> containmentZoneList;
-    private boolean isUsingMyLocation;
     private String distance;
 
     public GetNearbyATMs(Context mContext, ArrayList<LocationObject> ATMsList,
-                         ArrayList<LocationObject> containmentZoneList, boolean isUsingMyLocation, String distance) {
+                         ArrayList<LocationObject> containmentZoneList, String distance) {
         this.mContext = mContext;
         this.ATMsList = ATMsList;
         this.containmentZoneList = containmentZoneList;
-        this.isUsingMyLocation = isUsingMyLocation;
         this.distance = distance;
     }
 
@@ -74,7 +72,6 @@ public class GetNearbyATMs
                     {
                         Intent intent = new Intent("ACTION_FOUND_ATM_LIST");
                         intent.putExtra("status", "success");
-                        intent.putExtra("isUsingMyLocation", isUsingMyLocation);
                         mContext.sendBroadcast(intent);
 
                         FirebaseDatabase.getInstance().getReference()
@@ -84,7 +81,6 @@ public class GetNearbyATMs
                     {
                         Intent intent = new Intent("ACTION_FOUND_ATM_LIST");
                         intent.putExtra("status", "failed");
-                        intent.putExtra("isUsingMyLocation", isUsingMyLocation);
                         mContext.sendBroadcast(intent);
 
                         FirebaseDatabase.getInstance().getReference()

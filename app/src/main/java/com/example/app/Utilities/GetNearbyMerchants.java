@@ -24,17 +24,15 @@ public class GetNearbyMerchants
     private Context mContext;
     private ArrayList<MerchObject> merchantsList;
     private ArrayList<LocationObject> containmentZoneList;
-    private boolean isUsingMyLocation;
     private String distance;
     private List<String> vb = new ArrayList<>();
     
     public GetNearbyMerchants(Context mContext, ArrayList<MerchObject> merchantsList,
-                              ArrayList<LocationObject> containmentZoneList, boolean isUsingMyLocation,
+                              ArrayList<LocationObject> containmentZoneList,
                               String distance) {
         this.mContext = mContext;
         this.merchantsList = merchantsList;
         this.containmentZoneList = containmentZoneList;
-        this.isUsingMyLocation = isUsingMyLocation;
         this.distance = distance;
     }
     
@@ -75,7 +73,6 @@ public class GetNearbyMerchants
                     if( resolvedMerchant.equals("success") && (!resolvedContainment.equals("false")))
                     {
                         Intent intent = new Intent("ACTION_FOUND_MERCHANTS_LIST");
-                        intent.putExtra("isUsingMyLocation", isUsingMyLocation);
                         intent.putExtra("status", "success");
                         mContext.sendBroadcast(intent);
                         responseDB.removeValue();
@@ -84,7 +81,6 @@ public class GetNearbyMerchants
                     else if ( (resolvedMerchant.equals("failure")) && (!resolvedContainment.equals("false")))
                     {
                         Intent intent = new Intent("ACTION_FOUND_MERCHANTS_LIST");
-                        intent.putExtra("isUsingMyLocation", isUsingMyLocation);
                         intent.putExtra("status", "failed");
                         mContext.sendBroadcast(intent);
                         responseDB.removeValue();

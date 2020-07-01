@@ -47,7 +47,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="30dp"
         android:textStyle="italic"
-        android:text="Searching ATMs nearby you..."
         android:textAlignment="center"
+        android:text="Please enter a location in search bar."
         />
 </RelativeLayout>

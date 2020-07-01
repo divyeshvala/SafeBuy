@@ -20,7 +20,7 @@
             android:padding="@dimen/space10"
             android:text="Hi, joe how are you, do you like to join our party in next week because you don't like party?"
             android:textColor="@color/colorTextBlack"
-            android:textSize="@dimen/h2"
+            android:textSize="@dimen/h3"
             android:textAppearance="@style/CardView.Light"
             android:background="@drawable/bg_chat_you"/>
         <TextView

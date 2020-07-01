@@ -17,14 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_centerInParent="true"
-        android:visibility="invisible"
-        />
     <ImageView
         android:id="@+id/searching_icon"
         android:layout_width="150dp"
@@ -38,24 +30,13 @@
         android:id="@+id/id_noMerchants"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sorry, there are no ATMs near you."
+        android:text="Sorry, there are no Merchants near you."
         android:layout_marginTop="80dp"
         android:textAlignment="center"
         android:textSize="20sp"
         android:textColor="#000000"
         android:textStyle="italic"
         android:visibility="gone"
-        />
-
-    <TextView
-        android:id="@+id/id_progressMessage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_below="@id/searching_icon"
-        android:textStyle="italic"
-        android:text="Searching Merchants nearby you..."
-        android:textAlignment="center"
         />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -71,5 +52,26 @@
         app:srcCompat="@drawable/ic_filter_list_black_24dp"
         app:tint="@color/white"
         app:backgroundTint="@color/yellow"/>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_below="@id/id_progressMessage"
+        android:visibility="invisible"
+        android:layout_centerHorizontal="true"
+        />
+
+    <TextView
+        android:id="@+id/id_progressMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/searching_icon"
+        android:textStyle="italic"
+        android:text="Please enter a location in search bar."
+        android:textAlignment="center"
+        />
 </RelativeLayout>
 

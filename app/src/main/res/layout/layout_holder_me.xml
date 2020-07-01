@@ -19,7 +19,7 @@
             android:padding="@dimen/space10"
             android:text="Hi, joe how are you, do you like to join our party in next week because you don't like party?"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/h2"
+            android:textSize="@dimen/h3"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:textAppearance="@style/CardView.Light"

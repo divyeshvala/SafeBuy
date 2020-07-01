@@ -37,7 +37,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerConversationActivity extends AppCompatActivity implements AddListBottomSheetFragment.BottomSheetListener{
+public class CustomerConversationActivity extends AppCompatActivity implements AddListBottomSheetFragment.BottomSheetListener, View.OnClickListener {
     public static String TAG = "CustomerConverstionActivity";
     public RecyclerView mRecyclerView;
     public ConversationRecyclerView mAdapter;
@@ -125,10 +125,8 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
                                     Toast.LENGTH_SHORT).show();
                         }
                     });
-            //Creating dialog box
+
             AlertDialog alert = builder.create();
-            //Setting the title manually
-            //alert.setTitle("AlertDialogExample");
             alert.requestWindowFeature(Window.FEATURE_NO_TITLE);
             alert.show();
         }
@@ -377,5 +375,35 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
     {
         super.onDestroy();
         unregisterReceiver(paymentResponseReceiver);
+    }
+
+    @Override
+    public void onClick(View view)
+    {
+        String message = "";
+//        switch (view.getId())
+//        {
+//            case: R.id.id_auto_hello :
+//                message = "Hello there!";
+//                break;
+//
+//            case: R.id.id_auto_order :
+//                message = "I want to order following items...";
+//                break;
+//
+//            case: R.id.id_auto_delivery :
+//                message = "Can you deliver?";
+//                break;
+//
+//            case: R.id.id_auto_pickup :
+//                message = "I want to pickup following items from your store.";
+//                break;
+//
+//            case: R.id.id_auto_something:
+//                message = "Something!";
+//                break;
+//        }
+
+        communication.sendMessage(message);
     }
 }

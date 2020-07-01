@@ -5,14 +5,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import android.Manifest;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.app.Messaging.Chat;
@@ -45,9 +41,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+        String queryType = getIntent().getStringExtra("queryType");
         mOrigin = new LatLng(getIntent().getDoubleExtra("originLatitude", 0), getIntent().getDoubleExtra("originLongitude", 0));
         mDestination = new LatLng(getIntent().getDoubleExtra("destinationLatitude", 0), getIntent().getDoubleExtra("destinationLongitude", 0));
         containmentZoneLatLngs = getIntent().getStringArrayListExtra("containmentZoneLatLngs");
+
+        TextView title = findViewById(R.id.textViewTitle);
+        title.setText(queryType);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -68,7 +68,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             LatLng latLng = getLatLng(object);
             mMap.addCircle(new CircleOptions()
                     .center(latLng)
-                    .radius(100)
+                    .radius(50)     // containment zone radius.
                     .strokeWidth(0f)
                     .fillColor(0x83E53935));
         }
