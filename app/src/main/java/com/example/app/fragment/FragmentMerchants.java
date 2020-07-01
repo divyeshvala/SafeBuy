@@ -236,9 +236,7 @@ public class FragmentMerchants extends Fragment
         public void onReceive(Context context, Intent intent)
         {
             Log.i(TAG, "Inside filter receiver");
-
             getMerchants();
-
             bottomSheetFragment.dismiss();
         }
     };
@@ -280,14 +278,6 @@ public class FragmentMerchants extends Fragment
             containmentZoneLatLngs.add(zoneObject.getLatitude()+"_"+zoneObject.getLongitude());
         }
 
-        if(MerchantsList.size()==0)
-        {
-            noMerchants.setVisibility(View.VISIBLE);
-            noMerchants.setText("Sorry, there are no ATMs nearby this location");
-            progressBar.setVisibility(View.INVISIBLE);
-            progressMessage.setVisibility(View.INVISIBLE);
-            return;
-        }
         boolean isInContainment;
         // check which Merchants are in safe area.
         for(MerchObject merchObject : MerchantsList)
