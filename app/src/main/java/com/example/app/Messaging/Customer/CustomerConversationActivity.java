@@ -55,6 +55,7 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
     private SharedPreferences sharedPreferences;
     private String receiverPAN;
     private ProgressBar payProgress;
+    private PaymentHandler paymentHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -200,11 +201,16 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
                                             Log.i(TAG, "sender pan not equal to -1");
 
                                             payProgress.setVisibility(View.VISIBLE);
-                                            PaymentHandler paymentHandler = new PaymentHandler(CustomerConversationActivity.this,
+                                            paymentHandler = new PaymentHandler(CustomerConversationActivity.this,
                                                     senderPAN, receiverPAN, userInput.getText().toString(),
                                                     currencyValue.getText().toString());
 
-                                            paymentHandler.getTransactionStatus();
+                                            new Thread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    paymentHandler.getTransactionStatus();
+                                                }
+                                            }).start();
 
                                             dialog.dismiss();
                                         }
