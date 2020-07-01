@@ -2,6 +2,16 @@ import datetime
 
 import requests
 import json
+import base64
+import hashlib
+from Crypto.Cipher import AES
+from Crypto import Random
+
+BLOCK_SIZE = 16
+unpad = lambda s: s[:-ord(s[len(s) - 1:])]
+
+decrypt_key = "appefizzvisa2020"
+iv = "safebuyhackathon"
 
 
 def verifyPayment(senderPAN, receipentPAN, amount, transactionCurrencyCode):
@@ -21,11 +31,15 @@ def verifyPayment(senderPAN, receipentPAN, amount, transactionCurrencyCode):
 
     payload = json.load(json_file)
 
+    print('Amount : ', amount)
+
     payload["localTransactionDateTime"] = date
     payload["recipientPrimaryAccountNumber"] = receipentPAN
     payload["senderAccountNumber"] = senderPAN
     payload["amount"] = amount
     payload["transactionCurrencyCode"] = transactionCurrencyCode
+
+    print(payload)
 
     user_id = '442BYE64PK21LL73EKHO21ao5rYfOa0rYd1zFG4-4h6CAnqVA'
 
@@ -35,7 +49,7 @@ def verifyPayment(senderPAN, receipentPAN, amount, transactionCurrencyCode):
 
     cert = '../Resources/visa_direct_api_cert.pem'
 
-    resp = requests.post(url=url, cert=(cert, key), auth=(user_id, password), headers=headers, json=payload, timeout=10)
+    resp = requests.post(url=url, cert=(cert, key), auth=(user_id, password), headers=headers, json=payload)
 
     print(resp)
     data = json.loads(resp.content)
@@ -52,8 +66,36 @@ def verifyPayment(senderPAN, receipentPAN, amount, transactionCurrencyCode):
 
 
 def handlePaymentRequest(root, tablepath, senderPAN, receiverPAN, amount, transactionCurrencyCode):
+    print("funtion reached")
+
+    print(senderPAN)
+    print(receiverPAN)
+
+#    sPAN = decrypt(senderPAN, decrypt_key)
+#
+#    rPAN = decrypt(receiverPAN, decrypt_key)
+#
+#    senderPAN = bytes.decode(sPAN)
+#
+#    receiverPAN = bytes.decode(rPAN)
+#
+#    print('Sender PAN : ', sPAN)
+#
+#    print('Receiver PAN : ', rPAN)
+#
+#    print('Sender PAN : ', senderPAN)
+#
+#    print('Receiver PAN : ', receiverPAN)
+
     response = verifyPayment(senderPAN, receiverPAN, amount, transactionCurrencyCode)
 
-    root.child(tablepath).push({
-        'response': response["actionCode"]
+    root.child(tablepath).update({
+        'response': response
     })
+
+
+def decrypt(enc, password):
+    private_key = hashlib.sha256(password.encode("utf-8")).digest()
+    enc = base64.b64decode(enc)
+    cipher = AES.new(private_key, AES.MODE_CBC, iv)
+    return unpad(cipher.decrypt(enc[16:]))
