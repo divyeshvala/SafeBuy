@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -63,6 +64,7 @@ public class FragmentATM extends Fragment
     private ArrayList<String> containmentZoneLatLngs;
     private TextView progressMessage;
     private TextView noATMs;
+    private ImageView searching_icon;
 
     @Nullable
     @Override
@@ -71,6 +73,7 @@ public class FragmentATM extends Fragment
 
         Log.i(TAG, "inside onCreate.");
 
+        searching_icon = view.findViewById(R.id.searching_icon);
         noATMs = view.findViewById(R.id.id_noATMs);
         progressMessage = view.findViewById(R.id.id_progressMessage);
         recyclerViewNearYou = view.findViewById(R.id.recyclerViewNearYou);
@@ -230,6 +233,7 @@ public class FragmentATM extends Fragment
         }
         progressBar.setVisibility(View.INVISIBLE);
         progressMessage.setVisibility(View.INVISIBLE);
+        searching_icon.setVisibility(View.INVISIBLE);
         Collections.sort(dataList, new CustomComparator());
         mListadapter.notifyDataSetChanged();
     }
