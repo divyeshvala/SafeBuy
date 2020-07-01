@@ -32,12 +32,8 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
         android:orientation="horizontal"
-        app:elevation="@dimen/space10"
         android:layout_above="@id/bt_send">
-
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

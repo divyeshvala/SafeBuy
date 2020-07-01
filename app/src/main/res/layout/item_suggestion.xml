@@ -5,8 +5,10 @@
     android:text="Can you keep these ready?"
     android:background="@drawable/item_suggestion"
     android:textColor="@color/grey"
+    android:layout_margin="6dp"
     android:paddingStart="12dp"
     android:paddingEnd="12dp"
+    android:elevation="4dp"
     android:paddingTop="6dp"
     android:paddingBottom="6dp"
     xmlns:android="http://schemas.android.com/apk/res/android" />
