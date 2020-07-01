@@ -1,4 +1,4 @@
-from Server.code.TransactionVerificationHandler import handlePaymentRequest
+from TransactionVerificationHandler import handlePaymentRequest
 
 
 def handlePaymentClient(curr_request, root, tablepath1, tablepath2):

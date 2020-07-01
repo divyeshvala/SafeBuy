@@ -1,6 +1,6 @@
 import threading
 from firebase_admin import db
-from Server.code.ATMHandler import handleATMClients
+from ATMHandler import handleATMClients
 
 
 def assignThreadForATMRequests(root):

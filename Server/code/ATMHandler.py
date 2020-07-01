@@ -1,7 +1,7 @@
 from firebase_admin import db
 
-from Server.code.NearbyATMRequestHandler import handleATMRequests
-from Server.code.NearbyContainmentRequestHandler import handleContainmentrequests
+from NearbyATMRequestHandler import handleATMRequests
+from NearbyContainmentRequestHandler import handleContainmentrequests
 
 
 # from NearbyATMRequestHandler import handleATMRequests

@@ -1,7 +1,7 @@
 import threading
 from firebase_admin import db
 
-from Server.code.PushPaymentHandler import handlePaymentClient
+from PushPaymentHandler import handlePaymentClient
 
 
 def assignThreadForPaymentRequests(root):

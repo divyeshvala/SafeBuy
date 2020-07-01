@@ -1,6 +1,6 @@
 import threading
 from firebase_admin import db
-from Server.code.MerchantHandler import handleMerchantClients
+from MerchantHandler import handleMerchantClients
 
 
 def assignThreadForMerchantRequests(root):

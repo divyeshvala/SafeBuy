@@ -1,8 +1,8 @@
 import threading
 
-from Server.code.AssignThreadForMerchant import assignThreadForMerchantRequests
-from Server.code.AssignThreadForATM import assignThreadForATMRequests
-from Server.code.AssignThreadForPayment import assignThreadForPaymentRequests
+from AssignThreadForMerchant import assignThreadForMerchantRequests
+from AssignThreadForATM import assignThreadForATMRequests
+from AssignThreadForPayment import assignThreadForPaymentRequests
 
 import firebase_admin
 from firebase_admin import credentials
