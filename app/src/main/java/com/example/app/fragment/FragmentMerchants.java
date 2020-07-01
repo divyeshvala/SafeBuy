@@ -138,6 +138,7 @@ public class FragmentMerchants extends Fragment
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getAddress());
                 System.out.println("Inside place selection bar");
 
+                noMerchants.setVisibility(View.INVISIBLE);
                 MerchantsList = new ArrayList<>();
                 containmentZonesList = new ArrayList<>();
                 getMerchants = new GetNearbyMerchants(getActivity(), MerchantsList, containmentZonesList, distanceText);
@@ -174,18 +175,16 @@ public class FragmentMerchants extends Fragment
     {
         if(address!=null)
         {
-            System.out.println("Address and filters are set, merchants retrieving");
+            progressBar.setVisibility(View.VISIBLE);
             noMerchants.setVisibility(View.GONE);
             progressMessage.setVisibility(View.VISIBLE);
-            progressMessage.setText("Searching merchants nearby " + placename + "...");
+            progressMessage.setText("Searching merchants near " + placename + "...");
             final Address finalAddress = address;
             dataList.clear();
             mListadapter.notifyDataSetChanged();
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    System.out.println("Just before merchant retrieval");
-                    //System.out.println(bottomSheetFragment.getCategoryCodes());
                     getMerchants.getListOfMerchants(placename, String.valueOf(finalAddress.getLatitude()), String.valueOf(finalAddress.getLongitude()),
                             categories, distanceText, distance_unit);
                 }
@@ -195,7 +194,7 @@ public class FragmentMerchants extends Fragment
             System.out.println("Address not set");
             noMerchants.setVisibility(View.GONE);
             progressMessage.setVisibility(View.VISIBLE);
-            progressMessage.setText("Please enter a location first");
+            progressMessage.setText("Please enter a valid location.");
         }
     }
     private void GoToNextActivity(MerchObject merchant, String mChatId)
@@ -211,7 +210,6 @@ public class FragmentMerchants extends Fragment
     private final BroadcastReceiver filterReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent)
         {
-            Log.i(TAG, "Inside filter receiver");
             getMerchants();
             bottomSheetFragment.dismiss();
         }
@@ -220,7 +218,6 @@ public class FragmentMerchants extends Fragment
     private final BroadcastReceiver merchantsListReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent)
         {
-            Log.i(TAG, "inside merchantsListReceiver, response type : "+intent.getBooleanExtra("isUsingMyLocation", true));
 
             dataList.clear();
             mListadapter.notifyDataSetChanged();
@@ -229,6 +226,8 @@ public class FragmentMerchants extends Fragment
             {
                 noMerchants.setVisibility(View.VISIBLE);
                 noMerchants.setText("Some error occured please try again.");
+                progressBar.setVisibility(View.INVISIBLE);
+                progressMessage.setVisibility(View.INVISIBLE);
                 return;
             }
 

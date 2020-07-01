@@ -56,12 +56,9 @@ public class FragmentATM extends Fragment
 
     private ArrayList<ATMObject> dataList;
     private static final int containmentZoneRadius = 100;
-    public ArrayList<LocationObject> nearbyATMsList;
-    public ArrayList<LocationObject> nearbycontainmentZonesList;
     public ArrayList<LocationObject> ATMsList;
     public ArrayList<LocationObject> containmentZonesList;
-    private GetNearbyATMs getNearbyATMs, getATMs;
-    private boolean isUsingMyLocation;
+    private GetNearbyATMs getATMs;
     private LatLng mLatLng;
     private ArrayList<String> containmentZoneLatLngs;
     private TextView progressMessage;
@@ -110,7 +107,7 @@ public class FragmentATM extends Fragment
             public void onPlaceSelected(final Place place) {
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getAddress());
 
-
+                noATMs.setVisibility(View.INVISIBLE);
                 ATMsList = new ArrayList<>();
                 containmentZonesList = new ArrayList<>();
 
@@ -132,9 +129,10 @@ public class FragmentATM extends Fragment
                 }
 
                 if(address!=null){
+                    progressBar.setVisibility(View.VISIBLE);
                     noATMs.setVisibility(View.GONE);
                     progressMessage.setVisibility(View.VISIBLE);
-                    progressMessage.setText("Searching ATMs nearby "+place.getName()+"...");
+                    progressMessage.setText("Searching ATMs near "+place.getName()+". Please wait..");
                     final Address finalAddress = address;
                     new Thread(new Runnable() {
                         @Override
@@ -158,7 +156,6 @@ public class FragmentATM extends Fragment
         public void onReceive(Context context, Intent intent)
         {
             Log.i(TAG, "Inside filter receiver");
-            String distance = intent.getStringExtra("distance");
         }
     };
 
@@ -174,9 +171,10 @@ public class FragmentATM extends Fragment
             {
                 noATMs.setVisibility(View.VISIBLE);
                 noATMs.setText("Some error occured please try again.");
+                progressMessage.setVisibility(View.INVISIBLE);
+                progressBar.setVisibility(View.INVISIBLE);
                 return;
             }
-
 
             findSafeAndUnsafeATMs(ATMsList, containmentZonesList);
 

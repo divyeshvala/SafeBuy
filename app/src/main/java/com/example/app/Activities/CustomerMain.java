@@ -21,7 +21,6 @@ public class CustomerMain extends AppCompatActivity
 {
     private static final String TAG = "customer_main";
     private CustomerMainFragmentAdapter adapter;
-    public static int activeFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +47,6 @@ public class CustomerMain extends AppCompatActivity
 
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(adapter);
-        activeFragment = 0;
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {}
@@ -60,12 +58,10 @@ public class CustomerMain extends AppCompatActivity
                 if(position == 0){
                     atmTextview.setTextColor(getResources().getColor(R.color.grey));
                     merchantTextview.setTextColor(getResources().getColor(R.color.black));
-                    activeFragment = 0;
                 }
                 else{
                     atmTextview.setTextColor(getResources().getColor(R.color.black));
                     merchantTextview.setTextColor(getResources().getColor(R.color.grey));
-                    activeFragment = 1;
                 }
             }
         });

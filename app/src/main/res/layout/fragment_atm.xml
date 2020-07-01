@@ -49,4 +49,14 @@
         android:textAlignment="center"
         android:text="Please enter a location in search bar."
         />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_below="@id/id_progressMessage"
+        android:visibility="invisible"
+        android:layout_centerHorizontal="true"
+        />
 </RelativeLayout>

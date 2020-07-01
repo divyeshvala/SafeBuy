@@ -25,8 +25,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.app.Activities.MapsActivity;
 import com.example.app.Messaging.ConversationRecyclerView;
 import com.example.app.R;
 import com.example.app.Utilities.Communication;
@@ -43,7 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class CustomerConversationActivity extends AppCompatActivity implements AddListBottomSheetFragment.BottomSheetListener, View.OnClickListener {
+public class CustomerConversationActivity extends AppCompatActivity implements AddListBottomSheetFragment.BottomSheetListener {
     public static String TAG = "CustomerConverstionActivity";
     public RecyclerView mRecyclerView;
     public ConversationRecyclerView mAdapter;
@@ -62,6 +60,10 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
     private String receiverPAN;
     private ProgressBar payProgress;
     private PaymentHandler paymentHandler;
+
+    private RecyclerView recyclerViewSuggestions;
+    private ListAdapter mSuggestionAdapter;
+    private ArrayList<String> suggestionsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -274,12 +276,22 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
             @Override
             public void afterTextChanged(Editable s) { }
         });
+
+        recyclerViewSuggestions = findViewById(R.id.id_suggestionsRecyclerView);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerViewSuggestions.setLayoutManager(layoutManager);
+        suggestionsList = new ArrayList<>();
+        mSuggestionAdapter = new ListAdapter(suggestionsList);
+        recyclerViewSuggestions.setAdapter(mSuggestionAdapter);
+
+        addSuggestions();
     }
 
     public class ViewDialog
     {
         public void showDialog(Activity activity)
-        { }
+        {}
     }
 
     private String formatPaymentMessage(String pay_message) {
@@ -395,13 +407,13 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
 
             private ViewHolder(View itemView) {
                 super(itemView);
-                this.textView = (TextView) itemView.findViewById(R.id.name);
+                this.textView = itemView.findViewById(R.id.item_suggestion);
             }
         }
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_atm, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_suggestion, parent, false);
 
             return new ViewHolder(view);
         }
@@ -409,12 +421,11 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
         @Override
         public void onBindViewHolder(ViewHolder holder, final int position) {
             holder.textView.setText(list.get(position));
-
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v)
                 {
-
+                    communication.sendMessage(list.get(position));
                 }
             });
         }
@@ -426,33 +437,14 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
     }
 
 
-    @Override
-    public void onClick(View view)
+    private void addSuggestions()
     {
-        String message = "";
-//        switch (view.getId())
-//        {
-//            case: R.id.id_auto_hello :
-//                message = "Hello there!";
-//                break;
-//
-//            case: R.id.id_auto_order :
-//                message = "I want to order following items...";
-//                break;
-//
-//            case: R.id.id_auto_delivery :
-//                message = "Can you deliver?";
-//                break;
-//
-//            case: R.id.id_auto_pickup :
-//                message = "I want to pickup following items from your store.";
-//                break;
-//
-//            case: R.id.id_auto_something:
-//                message = "Something!";
-//                break;
-//        }
+        suggestionsList.add("Hello there!");
+        suggestionsList.add("I want to order following items...");
+        suggestionsList.add("Can you deliver?");
+        suggestionsList.add("I want to pickup following items from your store.");
+        suggestionsList.add("Something!");
 
-        communication.sendMessage(message);
+        mSuggestionAdapter.notifyDataSetChanged();
     }
 }
