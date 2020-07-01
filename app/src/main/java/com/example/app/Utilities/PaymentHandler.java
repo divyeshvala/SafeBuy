@@ -34,10 +34,10 @@ public class PaymentHandler
                 getReference().child("PaymentRequest").push();
 
         Map<String, Object> requestMessage = new HashMap<>();
-        EncryptionDecryption encryptionDecryption = new EncryptionDecryption();
+        //EncryptionDecryption encryptionDecryption = new EncryptionDecryption();
 
         requestMessage.put("senderPAN", senderPAN);
-        requestMessage.put("receiverPAN", encryptionDecryption.encryptAES256(receiverPAN));
+        requestMessage.put("receiverPAN", receiverPAN);
         requestMessage.put("amount", amount);
         requestMessage.put("transactionCurrencyCode", transactionCurrencyCode);
         requestMessage.put("gotResponse", "false");
