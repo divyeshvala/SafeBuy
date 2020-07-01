@@ -440,11 +440,10 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
     private void addSuggestions()
     {
         suggestionsList.add("Hello there!");
-        suggestionsList.add("I want to order following items...");
+        suggestionsList.add("I want to order following items.");
         suggestionsList.add("Can you deliver?");
         suggestionsList.add("I want to pickup following items from your store.");
-        suggestionsList.add("Something!");
-
+        suggestionsList.add("Where is my order?");
         mSuggestionAdapter.notifyDataSetChanged();
     }
 }

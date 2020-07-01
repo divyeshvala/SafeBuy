@@ -160,11 +160,11 @@ public class MerchantConversationActivity extends AppCompatActivity {
 
     private void addSuggestions()
     {
-        suggestionsList.add("Hello there!");
-        suggestionsList.add("I want to order following items...");
-        suggestionsList.add("Can you deliver?");
-        suggestionsList.add("I want to pickup following items from your store.");
-        suggestionsList.add("Something!");
+        suggestionsList.add("Okay. They will be delivered!!");
+        suggestionsList.add("Sure. I will keep them ready.");
+        suggestionsList.add("Sorry. This items are not available :(");
+        suggestionsList.add("Payment?");
+        suggestionsList.add("Sorry for the inconvenience.");
 
         mSuggestionAdapter.notifyDataSetChanged();
     }

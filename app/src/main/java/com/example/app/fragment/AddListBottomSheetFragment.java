@@ -49,7 +49,6 @@ public class AddListBottomSheetFragment extends BottomSheetDialogFragment {
         final View view =  inflater.inflate(R.layout.bottom_sheet_add_list, container, true);
 
         ImageView btn =  view.findViewById(R.id.addItem);
-        TextView takePicButton = view.findViewById(R.id.takePicButton);
 
         adapter = new ArrayAdapter<String>(getContext(), R.layout.list_item_list, list);
 
@@ -68,13 +67,6 @@ public class AddListBottomSheetFragment extends BottomSheetDialogFragment {
         };
 
         btn.setOnClickListener(listener);
-
-        takePicButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "Import Pic yet to be added", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         ListView listView = view.findViewById(R.id.listItems);
         listView.setAdapter(adapter);
