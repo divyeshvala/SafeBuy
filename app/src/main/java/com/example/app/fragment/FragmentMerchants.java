@@ -26,6 +26,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.example.app.Activities.CustomerMain;
 import com.example.app.Activities.MapsActivity;
 import com.example.app.Messaging.Customer.CustomerConversationActivity;
@@ -115,12 +117,13 @@ public class FragmentMerchants extends Fragment
         progressMessage = view.findViewById(R.id.id_progressMessage);
         recyclerViewNearYou = view.findViewById(R.id.recyclerViewNearYou);
         search_icon = view.findViewById(R.id.searching_icon);
+        Glide.with(this).load(R.drawable.search_round).into(search_icon);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerViewNearYou.setLayoutManager(layoutManager);
         isUsingMyLocation = true;
-        progressBar = view.findViewById(R.id.progress_bar);
-        progressBar.setVisibility(View.VISIBLE);
+//        progressBar = view.findViewById(R.id.progress_bar);
+//        progressBar.setVisibility(View.VISIBLE);
         dataList = new ArrayList<>();
         mListadapter = new ListAdapter(dataList);
         recyclerViewNearYou.setAdapter(mListadapter);
@@ -302,7 +305,7 @@ public class FragmentMerchants extends Fragment
                 dataList.add(merchObject);
             }
         }
-        progressBar.setVisibility(View.INVISIBLE);
+//        progressBar.setVisibility(View.INVISIBLE);
         progressMessage.setVisibility(View.INVISIBLE);
         search_icon.setVisibility(View.INVISIBLE);
         Collections.sort(dataList, new CustomComparator());

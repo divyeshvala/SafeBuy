@@ -17,13 +17,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
+<!--    <ProgressBar-->
+<!--        android:id="@+id/progress_bar"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:layout_centerInParent="true"-->
+<!--        android:visibility="invisible"-->
+<!--        />-->
+
+    <ImageView
+        android:id="@+id/searching_icon"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_centerInParent="true"
-        android:visibility="invisible"
+        android:src="@drawable/store_search"
+        android:visibility="visible"
         />
 
     <TextView
@@ -44,8 +53,7 @@
         android:id="@+id/id_progressMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="30dp"
+        android:layout_below="@id/searching_icon"
         android:textStyle="italic"
         android:text="Searching ATMs nearby you..."
         android:textAlignment="center"

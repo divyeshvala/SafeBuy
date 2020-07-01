@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -27,6 +28,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.app.Activities.CustomerMain;
 import com.example.app.Activities.MapsActivity;
 import com.example.app.R;
@@ -72,6 +74,7 @@ public class FragmentATM extends Fragment
     private ArrayList<String> containmentZoneLatLngs;
     private TextView progressMessage;
     private TextView noATMs;
+    ImageView search_icon;
 
     @Nullable
     @Override
@@ -87,9 +90,11 @@ public class FragmentATM extends Fragment
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerViewNearYou.setLayoutManager(layoutManager);
         isUsingMyLocation = true;
-        progressBar = view.findViewById(R.id.progress_bar);
-        progressBar.setVisibility(View.VISIBLE);
+//        progressBar = view.findViewById(R.id.progress_bar);
+//        progressBar.setVisibility(View.VISIBLE);
         dataList = new ArrayList<>();
+        search_icon = view.findViewById(R.id.searching_icon);
+        Glide.with(this).load(R.drawable.search_round).into(search_icon);
         mListadapter = new ListAdapter(dataList);
         recyclerViewNearYou.setAdapter(mListadapter);
 
@@ -253,8 +258,9 @@ public class FragmentATM extends Fragment
                 dataList.add(new ATMObject(atmObject.getPlaceName(), address, distance, atmObject.getLatitude(), atmObject.getLongitude(), true));
             }
         }
-        progressBar.setVisibility(View.INVISIBLE);
+//        progressBar.setVisibility(View.INVISIBLE);
         progressMessage.setVisibility(View.INVISIBLE);
+        search_icon.setVisibility(View.INVISIBLE);
         Collections.sort(dataList, new CustomComparator());
         mListadapter.notifyDataSetChanged();
     }
