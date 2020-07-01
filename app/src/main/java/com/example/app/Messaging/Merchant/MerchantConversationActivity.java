@@ -6,11 +6,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import com.example.app.Messaging.ConversationRecyclerView;
+import com.example.app.Messaging.Customer.CustomerConversationActivity;
 import com.example.app.R;
 import com.example.app.Utilities.Communication;
 import com.example.app.model.MessageObject;
@@ -32,6 +35,10 @@ public class MerchantConversationActivity extends AppCompatActivity {
     private FirebaseUser currentUser;
     public List<MessageObject> messagesList = new ArrayList<>();
     private Communication communication;
+
+    private RecyclerView recyclerViewSuggestions;
+    private ListAdapter mSuggestionAdapter;
+    private ArrayList<String> suggestionsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,5 +104,68 @@ public class MerchantConversationActivity extends AppCompatActivity {
                 }
             }
         });
+
+        recyclerViewSuggestions = findViewById(R.id.id_suggestionsRecyclerView);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerViewSuggestions.setLayoutManager(layoutManager);
+        suggestionsList = new ArrayList<>();
+        mSuggestionAdapter = new ListAdapter(suggestionsList);
+        recyclerViewSuggestions.setAdapter(mSuggestionAdapter);
+
+        addSuggestions();
+    }
+
+    public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
+        private ArrayList<String> list;
+
+        private ListAdapter(ArrayList<String> data) {
+            this.list = data;
+        }
+
+        private class ViewHolder extends RecyclerView.ViewHolder {
+            TextView textView;
+
+            private ViewHolder(View itemView) {
+                super(itemView);
+                this.textView = itemView.findViewById(R.id.item_suggestion);
+            }
+        }
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_suggestion, parent, false);
+
+            return new ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder holder, final int position) {
+            holder.textView.setText(list.get(position));
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v)
+                {
+                    communication.sendMessage(list.get(position));
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+    }
+
+
+    private void addSuggestions()
+    {
+        suggestionsList.add("Hello there!");
+        suggestionsList.add("I want to order following items...");
+        suggestionsList.add("Can you deliver?");
+        suggestionsList.add("I want to pickup following items from your store.");
+        suggestionsList.add("Something!");
+
+        mSuggestionAdapter.notifyDataSetChanged();
     }
 }
