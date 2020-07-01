@@ -12,18 +12,20 @@
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:layout_alignParentRight="true">
+
         <TextView
             android:id="@+id/tv_chat_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/bg_chat_me"
+            android:fontFamily="@font/roboto_regular"
             android:padding="@dimen/space10"
             android:text="Hi, joe how are you, do you like to join our party in next week because you don't like party?"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/h2"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
             android:textAppearance="@style/CardView.Light"
-            android:background="@drawable/bg_chat_me"/>
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
