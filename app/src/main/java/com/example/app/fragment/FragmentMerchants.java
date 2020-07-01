@@ -15,13 +15,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.app.Activities.MapsActivity;
 import com.example.app.Messaging.Customer.CustomerConversationActivity;
 import com.example.app.R;
@@ -41,12 +39,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -139,15 +134,13 @@ public class FragmentMerchants extends Fragment
         // Set up a PlaceSelectionListener to handle the response.
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
-            public void onPlaceSelected(final Place place)
-            {
+            public void onPlaceSelected(final Place place) {
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getAddress());
+                System.out.println("Inside place selection bar");
 
-                progressBar.setVisibility(View.VISIBLE);
                 MerchantsList = new ArrayList<>();
                 containmentZonesList = new ArrayList<>();
-                getMerchants = new GetNearbyMerchants(getActivity(), MerchantsList,
-                        containmentZonesList, distanceText);
+                getMerchants = new GetNearbyMerchants(getActivity(), MerchantsList, containmentZonesList, distanceText);
 
                 address = null;
                 try {
@@ -164,7 +157,7 @@ public class FragmentMerchants extends Fragment
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                placename = place.getName();
+                placename=place.getName();
                 getMerchants();
             }
 
@@ -182,25 +175,27 @@ public class FragmentMerchants extends Fragment
         if(address!=null)
         {
             System.out.println("Address and filters are set, merchants retrieving");
-            noMerchants.setVisibility(View.INVISIBLE);
+            noMerchants.setVisibility(View.GONE);
             progressMessage.setVisibility(View.VISIBLE);
-            progressMessage.setText("Searching merchants near " + placename + ". Please wait...");
+            progressMessage.setText("Searching merchants nearby " + placename + "...");
             final Address finalAddress = address;
             dataList.clear();
             mListadapter.notifyDataSetChanged();
             new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    System.out.println("Just before merchant retrieval");
+                    //System.out.println(bottomSheetFragment.getCategoryCodes());
                     getMerchants.getListOfMerchants(placename, String.valueOf(finalAddress.getLatitude()), String.valueOf(finalAddress.getLongitude()),
                             categories, distanceText, distance_unit);
                 }
             }).start();
         }
         else{
+            System.out.println("Address not set");
             noMerchants.setVisibility(View.GONE);
             progressMessage.setVisibility(View.VISIBLE);
-            progressMessage.setText("Please enter a valid location.");
-            progressBar.setVisibility(View.INVISIBLE);
+            progressMessage.setText("Please enter a location first");
         }
     }
     private void GoToNextActivity(MerchObject merchant, String mChatId)
@@ -234,13 +229,12 @@ public class FragmentMerchants extends Fragment
             {
                 noMerchants.setVisibility(View.VISIBLE);
                 noMerchants.setText("Some error occured please try again.");
-                progressBar.setVisibility(View.INVISIBLE);
-                progressMessage.setVisibility(View.INVISIBLE);
                 return;
             }
 
             dataList.add(dummyMerchant);
             findSafeAndUnsafeMerchants(MerchantsList, containmentZonesList);
+
         }
     };
 
@@ -280,17 +274,7 @@ public class FragmentMerchants extends Fragment
         progressBar.setVisibility(View.INVISIBLE);
         progressMessage.setVisibility(View.INVISIBLE);
         search_icon.setVisibility(View.INVISIBLE);
-        Collections.sort(dataList, new CustomComparator());
         mListadapter.notifyDataSetChanged();
-    }
-
-    public class CustomComparator implements Comparator<MerchObject> {
-        @Override
-        public int compare(MerchObject o1, MerchObject o2)
-        {
-            Log.i(TAG, "inside compare");
-            return 0;
-        }
     }
 
     private String getAddress(double latitude, double longitude)

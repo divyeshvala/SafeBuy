@@ -1,9 +1,11 @@
 package com.example.app.fragment;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -20,18 +22,18 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.app.Activities.MapsActivity;
 import com.example.app.R;
 import com.example.app.Utilities.GetNearbyATMs;
-import com.example.app.model.ATMObject;
 import com.example.app.model.LocationObject;
+import com.example.app.model.ATMObject;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,9 +56,12 @@ public class FragmentATM extends Fragment
 
     private ArrayList<ATMObject> dataList;
     private static final int containmentZoneRadius = 100;
+    public ArrayList<LocationObject> nearbyATMsList;
+    public ArrayList<LocationObject> nearbycontainmentZonesList;
     public ArrayList<LocationObject> ATMsList;
     public ArrayList<LocationObject> containmentZonesList;
-    private GetNearbyATMs getATMs;
+    private GetNearbyATMs getNearbyATMs, getATMs;
+    private boolean isUsingMyLocation;
     private LatLng mLatLng;
     private ArrayList<String> containmentZoneLatLngs;
     private TextView progressMessage;
@@ -105,12 +110,11 @@ public class FragmentATM extends Fragment
             public void onPlaceSelected(final Place place) {
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getAddress());
 
-                noATMs.setVisibility(View.INVISIBLE);
+
                 ATMsList = new ArrayList<>();
                 containmentZonesList = new ArrayList<>();
 
-                getATMs = new GetNearbyATMs(getActivity(), ATMsList,
-                        containmentZonesList, "500");
+                getATMs = new GetNearbyATMs(getActivity(), ATMsList, containmentZonesList, "500"); //todo
 
                 Address address = null;
                 try {
@@ -128,9 +132,9 @@ public class FragmentATM extends Fragment
                 }
 
                 if(address!=null){
-                    progressBar.setVisibility(View.VISIBLE);
                     noATMs.setVisibility(View.GONE);
-                    progressMessage.setText("Searching ATMs near "+place.getName()+". Please wait...");
+                    progressMessage.setVisibility(View.VISIBLE);
+                    progressMessage.setText("Searching ATMs nearby "+place.getName()+"...");
                     final Address finalAddress = address;
                     new Thread(new Runnable() {
                         @Override
@@ -138,10 +142,6 @@ public class FragmentATM extends Fragment
                             getATMs.getListOfATMs(place.getName(), finalAddress.getLatitude(), finalAddress.getLongitude());
                         }
                     }).start();
-                }
-                else
-                {
-                    progressMessage.setText("Please enter a valid location.");
                 }
             }
 
@@ -174,12 +174,12 @@ public class FragmentATM extends Fragment
             {
                 noATMs.setVisibility(View.VISIBLE);
                 noATMs.setText("Some error occured please try again.");
-                progressBar.setVisibility(View.INVISIBLE);
-                progressMessage.setVisibility(View.INVISIBLE);
                 return;
             }
 
+
             findSafeAndUnsafeATMs(ATMsList, containmentZonesList);
+
         }
     };
 
@@ -335,13 +335,13 @@ public class FragmentATM extends Fragment
                 {
 
                     Intent intent = new Intent(getActivity(), MapsActivity.class);
-                    intent.putExtra("queryType", "ATM");
                     intent.putExtra("originLatitude", mLatLng.latitude);
                     intent.putExtra("originLongitude", mLatLng.longitude);
                     intent.putExtra("destinationLatitude", dataList.get(position).getLatitude());
                     intent.putExtra("destinationLongitude", dataList.get(position).getLongitude());
                     intent.putStringArrayListExtra("containmentZoneLatLngs", containmentZoneLatLngs);
                     startActivity(intent);
+        
                 }
             });
         }
