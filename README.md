@@ -58,6 +58,8 @@
 2. Run this app on your phone.
 3. For login/signup. Use your email and you can use any password for signUp.
 4. If you want to login as a merchant. Then use this credentials for dummy merchant.
-   * appefizz22@gmail.com - interns@visa
+   * appefizz22@gmail.com (email) 
+   * interns@visa (password)
+   * Red Wheelbarrow (name)
 5. To Run the server just run the RequestHandler.py file.
 
