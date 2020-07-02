@@ -31,9 +31,6 @@
 2. Firebase realtime database.
 3. Python for server side processing.
 
-
-### Frameworks
-
 ### Contributors
 1. Chandan 
 2. Divyesh Vala
