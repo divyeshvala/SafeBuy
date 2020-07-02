@@ -17,7 +17,7 @@ public class HolderDate extends RecyclerView.ViewHolder {
 
     public HolderDate(View v) {
         super(v);
-        date = (TextView) v.findViewById(R.id.tv_date);
+        date = (TextView) v.findViewById(R.id.otherOptions);
     }
 
     public TextView getDate() {
