@@ -58,8 +58,6 @@ public class fragment_transactions extends Fragment {
 
         final SharedPreferences settings = getActivity().getSharedPreferences("MySharedPref", MODE_PRIVATE);
 
-
-
         FirebaseDatabase.getInstance().getReference().child(settings.getString("userType", "customer")+"s")
                 .child(myUid).child("transactions").addChildEventListener(new ChildEventListener() {
             @Override
@@ -68,7 +66,6 @@ public class fragment_transactions extends Fragment {
                 Transaction transaction = new Transaction();
                 transaction.setAmount(dataSnapshot.child("amount").getValue(String.class));
                 transaction.setDate(dataSnapshot.child("date").getValue(String.class));
-                transaction.setMerchantId(dataSnapshot.child("id").getValue(String.class));
                 transaction.setMerchantName(dataSnapshot.child("name").getValue(String.class));
                 transaction.setTime(dataSnapshot.child("time").getValue(String.class));
 

@@ -1,5 +1,6 @@
 package com.example.app.Messaging.Customer;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -37,9 +38,18 @@ import com.example.app.model.MessageObject;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class CustomerConversationActivity extends AppCompatActivity implements AddListBottomSheetFragment.BottomSheetListener {
     public static String TAG = "CustomerConverstionActivity";
@@ -60,6 +70,8 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
     private String receiverPAN;
     private ProgressBar payProgress;
     private PaymentHandler paymentHandler;
+    private String myUid;
+    private String merchantName;
 
     private RecyclerView recyclerViewSuggestions;
     private ListAdapter mSuggestionAdapter;
@@ -72,10 +84,12 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
         setContentView(R.layout.content_conversation);
         mContext = this;
 
-        String merchantName = getIntent().getStringExtra("merchantName");
+        merchantName = getIntent().getStringExtra("merchantName");
         merchantId = getIntent().getStringExtra("merchantId");
         String chatId = getIntent().getStringExtra("chatId");
         receiverPAN = getIntent().getStringExtra("merchantPan");
+
+        myUid = FirebaseAuth.getInstance().getUid();
 
 
 //        setupToolbarWithUpNav(R.id.toolbar, merchantName, R.drawable.ic_action_back);
@@ -360,7 +374,7 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
     }
 
     private final BroadcastReceiver paymentResponseReceiver = new BroadcastReceiver() {
-        public void onReceive(Context context, Intent intent)
+        public void onReceive(Context context, final Intent intent)
         {
             Log.i("Payments", "inside payment handler1");
             if(intent!=null && intent.getAction().equals("GOT_PAYMENT_RESPONSE"))
@@ -378,6 +392,42 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
                     Toast.makeText(CustomerConversationActivity.this, "Payment successful",Toast.LENGTH_LONG).show();
                     pay_message = pay_message.concat(intent.getStringExtra("amount"));
                     communication.sendMessage(formatPaymentMessage("PAID:" + pay_message));
+
+                    final SharedPreferences settings = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+
+                    final Map<String, Object> data = new HashMap<>();
+                    data.put("amount", intent.getStringExtra("amount"));
+                    data.put("name", merchantName);
+                    data.put("time", Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+":"+Calendar.getInstance().get(Calendar.MINUTE));
+                    data.put("date", Calendar.getInstance().get(Calendar.DAY_OF_MONTH)+"-"+Calendar.getInstance().get(Calendar.MONTH));
+
+                    final DatabaseReference mDB = FirebaseDatabase.getInstance().getReference().child("customers")
+                            .child(myUid).child("transactions").push();
+                    mDB.updateChildren(data);
+
+                    FirebaseDatabase.getInstance().getReference().child("customers")
+                            .child(myUid).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                        {
+                            String name = dataSnapshot.child("firstName").getValue(String.class)+" "+
+                                    dataSnapshot.child("lastName").getValue(String.class);
+
+
+                            Map<String, Object> data = new HashMap<>();
+                            data.put("amount", intent.getStringExtra("amount"));
+                            data.put("name", name);
+                            data.put("time", Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+":"+Calendar.getInstance().get(Calendar.MINUTE));
+                            data.put("date", Calendar.getInstance().get(Calendar.DAY_OF_MONTH)+"-"+Calendar.getInstance().get(Calendar.MONTH));
+
+                            FirebaseDatabase.getInstance().getReference()
+                                    .child("merchants")
+                                    .child(merchantId).child("transactions").child(mDB.getKey())
+                                    .updateChildren(data);
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) { }
+                    });
                 }
                 else
                 {

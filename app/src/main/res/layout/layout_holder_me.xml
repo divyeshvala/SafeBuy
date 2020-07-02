@@ -41,6 +41,5 @@
                 android:layout_alignParentEnd="true"
                 android:textAppearance="@style/CardView.Light"/>
         </RelativeLayout>
-
     </LinearLayout>
 </RelativeLayout>
