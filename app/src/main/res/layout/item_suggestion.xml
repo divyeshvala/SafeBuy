@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/border_blue"
     android:foreground="?selectableItemBackground"
@@ -17,7 +17,7 @@
         android:layout_margin="6dp"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
-        android:elevation="4dp"
+        android:elevation="1dp"
         android:paddingTop="6dp"
         android:paddingBottom="6dp"
         />

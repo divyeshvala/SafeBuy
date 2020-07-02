@@ -27,7 +27,12 @@
 
     </RelativeLayout>
 
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/id_suggestionsRecyclerView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bt_send"
+        android:overScrollMode="never"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/bt_send"
@@ -76,7 +81,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/title"
-        android:layout_above="@id/relativeLayout"
+        android:layout_above="@id/id_suggestionsRecyclerView"
         android:orientation="vertical"
         >
 
@@ -88,12 +93,9 @@
             android:overScrollMode="never"
             android:translationZ="-2dp" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/id_suggestionsRecyclerView"
-            android:layout_weight="0.3"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            />
+
+
+
     </LinearLayout>
 
 </RelativeLayout>
