@@ -2,17 +2,6 @@ import datetime
 
 import requests
 import json
-import base64
-import hashlib
-from Crypto.Cipher import AES
-from Crypto import Random
-
-BLOCK_SIZE = 16
-unpad = lambda s: s[:-ord(s[len(s) - 1:])]
-
-decrypt_key = "appefizzvisa2020"
-iv = "safebuyhackathon"
-
 
 def verifyPayment(senderPAN, receipentPAN, amount, transactionCurrencyCode):
     now = datetime.datetime.now()
@@ -71,31 +60,8 @@ def handlePaymentRequest(root, tablepath, senderPAN, receiverPAN, amount, transa
     print(senderPAN)
     print(receiverPAN)
 
-#    sPAN = decrypt(senderPAN, decrypt_key)
-#
-#    rPAN = decrypt(receiverPAN, decrypt_key)
-#
-#    senderPAN = bytes.decode(sPAN)
-#
-#    receiverPAN = bytes.decode(rPAN)
-#
-#    print('Sender PAN : ', sPAN)
-#
-#    print('Receiver PAN : ', rPAN)
-#
-#    print('Sender PAN : ', senderPAN)
-#
-#    print('Receiver PAN : ', receiverPAN)
-
     response = verifyPayment(senderPAN, receiverPAN, amount, transactionCurrencyCode)
 
     root.child(tablepath).update({
         'response': response
     })
-
-
-def decrypt(enc, password):
-    private_key = hashlib.sha256(password.encode("utf-8")).digest()
-    enc = base64.b64decode(enc)
-    cipher = AES.new(private_key, AES.MODE_CBC, iv)
-    return unpad(cipher.decrypt(enc[16:]))

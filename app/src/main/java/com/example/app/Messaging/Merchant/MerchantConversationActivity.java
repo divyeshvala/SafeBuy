@@ -107,7 +107,7 @@ public class MerchantConversationActivity extends AppCompatActivity {
 
         recyclerViewSuggestions = findViewById(R.id.id_suggestionsRecyclerView);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerViewSuggestions.setLayoutManager(layoutManager);
         suggestionsList = new ArrayList<>();
         mSuggestionAdapter = new ListAdapter(suggestionsList);

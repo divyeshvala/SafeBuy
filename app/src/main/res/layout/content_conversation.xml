@@ -31,24 +31,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/title"
-        android:layout_above="@id/bt_send"
+        android:layout_above="@id/id_suggestionsRecyclerView"
         android:orientation="vertical"
         >
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.7"
+            android:layout_height="match_parent"
             android:overScrollMode="never"
             android:translationZ="-2dp" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/id_suggestionsRecyclerView"
-            android:layout_weight="0.3"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"/>
+
     </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/id_suggestionsRecyclerView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bt_send"
+        android:overScrollMode="never"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/bt_send"
