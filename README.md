@@ -12,7 +12,7 @@
 * [Techologies Used](#technologies-used).
 * [Frameworks](#frameworks).
 * [Contributors](#contributors).
-* [Some shots of app](#some-shots-of-app).
+* [Testing the app] (#testing-the-app)
 
 ### Idea
 * As the whole world is dealing with a pandemic, everyone is aiming to avoid going outside and if he/she has to go outside for some essentials it should be present at some safe locations.Our aim is to provide the list of safe ATMs for cardhlders in some radius. Also we are aiming to provide the list of safe merchants in these areas. If a customer wants to buy something from any merchant he/she will be provided two options to get his/her essentials :-
@@ -40,4 +40,11 @@
 5. Sanath 
 6. Soumya Agarwal
 
-### Some shots of app
+### Testing the app
+1. Clone this repository in android studio. 
+2. Run this app on your phone.
+3. For login/signup. Use your email and you can use any password for signUp.
+4. If you want to login as a merchant. Then use this credentials for dummy merchant.
+   * appefizz22@gmail.com - interns@visa
+5. Our python server has not been hosted online. It's running on the local computer. So you
+
