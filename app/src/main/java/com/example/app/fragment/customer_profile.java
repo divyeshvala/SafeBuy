@@ -63,7 +63,7 @@ public class customer_profile extends Fragment
                 editor.apply();
                 child.removeAllViews();
                 TextView tv = new TextView(getActivity());
-                tv.setText("Your card is already added");
+                tv.setText("Your card is added");
                 child.addView(tv);
                 Log.i("customer_profile", month+year+cardNumber+cvv);
 
