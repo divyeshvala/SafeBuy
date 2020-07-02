@@ -137,6 +137,8 @@ public class FragmentATM extends Fragment
                     progressMessage.setVisibility(View.VISIBLE);
                     progressMessage.setText("Searching ATMs near "+place.getName()+". Please wait..");
                     final Address finalAddress = address;
+                    dataList.clear();
+                    mListadapter.notifyDataSetChanged();
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
