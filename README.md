@@ -46,11 +46,11 @@
 3. Firebase.
 
 ### Contributors
-1. Chandan 
+1. Chandan Naik
 2. Divyesh Vala
 3. Kunal Anand
 4. Pawan Kumar Kesarwani
-5. Sanath 
+5. Sanath Ramesh
 6. Soumya Agarwal
 
 ### Testing the app
