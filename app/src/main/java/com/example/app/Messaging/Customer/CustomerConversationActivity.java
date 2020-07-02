@@ -425,8 +425,15 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
                             Map<String, Object> data = new HashMap<>();
                             data.put("amount", intent.getStringExtra("amount"));
                             data.put("name", name);
+                            String mon="wrong";
+                            int n =Calendar.getInstance().get(Calendar.MONTH);
+                            DateFormatSymbols dfs = new DateFormatSymbols();
+                            String[] mont = dfs.getMonths();
+                            if(n>=0 && n<=11){
+                                mon = mont[n];
+                            }
                             data.put("time", Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+":"+Calendar.getInstance().get(Calendar.MINUTE));
-                            data.put("date", Calendar.getInstance().get(Calendar.DAY_OF_MONTH)+"-"+Calendar.getInstance().get(Calendar.MONTH));
+                            data.put("date", Calendar.getInstance().get(Calendar.DAY_OF_MONTH)+"/"+mon);
 
                             FirebaseDatabase.getInstance().getReference()
                                     .child("merchants")
