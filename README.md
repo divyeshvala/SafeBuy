@@ -27,6 +27,9 @@
 6. Payment from customer to merchant using VISA direct.
 
 ### Technologies Used
+1. Android Studio
+2. Firebase
+3. Adobe xd
 
 ### Frameworks
 
