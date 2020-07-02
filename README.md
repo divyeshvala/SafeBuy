@@ -34,7 +34,7 @@
 4. Visa Direct API.
 5. Visa Merchant Locator API.
 6. Visa Global ATM Locator API.
-7. Geo-IQ API.
+7. Geo-IQ containment zones API.
 8. Google Maps API.
 9. Google geocoding and reverse geocoding API.
 10. Google Places API.
