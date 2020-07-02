@@ -27,16 +27,17 @@
 6. Payment from customer to merchant using VISA direct.
 
 ### Technologies Used
-1. Android Studio
-2. Firebase
-3. Adobe xd
+1. Java
+2. Firebase realtime database.
+3. Python for server side processing.
+
 
 ### Frameworks
 
 ### Contributors
-* Divyesh Vala
-* Pawan Kumar Kesarwani
-* Chandan Naik
-* Soumya Agarwal
-* Sanath Ramesh
-* Kunal Ananad
+1. Chandan 
+2. Divyesh Vala
+3. Kunal Anand
+4. Pawan Kumar Kesarwani
+5. Sanath 
+6. Soumya Agarwal
