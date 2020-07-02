@@ -11,6 +11,7 @@
     card_view:cardCornerRadius="8dp"
     android:background="@drawable/border_blue"
     android:foreground="?selectableItemBackground"
+    android:elevation="20dp"
     android:id="@+id/merchant_cardview">
 
     <LinearLayout
@@ -21,7 +22,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/white_back_up_round"
+            android:background="@drawable/customborder"
             android:layout_marginStart="2dp"
             android:layout_marginTop="2dp"
             android:layout_marginEnd="2dp"
@@ -60,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
                 android:text="-450"
-                android:textColor="@color/green"
+                android:textColor="@color/red"
                 android:textSize="28sp"
                 card_view:layout_constraintBottom_toBottomOf="@+id/name"
                 card_view:layout_constraintEnd_toEndOf="parent"

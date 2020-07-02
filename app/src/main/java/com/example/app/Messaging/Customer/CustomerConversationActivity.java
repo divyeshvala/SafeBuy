@@ -44,6 +44,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -398,8 +399,15 @@ public class CustomerConversationActivity extends AppCompatActivity implements A
                     final Map<String, Object> data = new HashMap<>();
                     data.put("amount", intent.getStringExtra("amount"));
                     data.put("name", merchantName);
+                    String month="wrong";
+                    int num =Calendar.getInstance().get(Calendar.MONTH);
+                    DateFormatSymbols dfs = new DateFormatSymbols();
+                    String[] months = dfs.getMonths();
+                    if(num>=0 && num<=11){
+                        month = months[num];
+                    }
                     data.put("time", Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+":"+Calendar.getInstance().get(Calendar.MINUTE));
-                    data.put("date", Calendar.getInstance().get(Calendar.DAY_OF_MONTH)+"-"+Calendar.getInstance().get(Calendar.MONTH));
+                    data.put("date", Calendar.getInstance().get(Calendar.DAY_OF_MONTH)+"/"+month);
 
                     final DatabaseReference mDB = FirebaseDatabase.getInstance().getReference().child("customers")
                             .child(myUid).child("transactions").push();

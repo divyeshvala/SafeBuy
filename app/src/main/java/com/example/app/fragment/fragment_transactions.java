@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -39,7 +40,7 @@ public class fragment_transactions extends Fragment {
     {
         View view = inflater.inflate(R.layout.fragment_transactions, container, false);
 
-        recyclerView = view.findViewById(R.id.id_suggestionsRecyclerView);
+        recyclerView = view.findViewById(R.id.id_recyclerView);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
@@ -92,10 +93,15 @@ public class fragment_transactions extends Fragment {
 
         private class ViewHolder extends RecyclerView.ViewHolder {
             TextView textView;
+            TextView date;
+            TextView cost;
 
             private ViewHolder(View itemView) {
                 super(itemView);
                 this.textView = itemView.findViewById(R.id.name);
+                this.date =itemView.findViewById(R.id.address);
+                this.cost = itemView.findViewById(R.id.distance);
+
             }
         }
 
@@ -109,6 +115,8 @@ public class fragment_transactions extends Fragment {
         @Override
         public void onBindViewHolder(ViewHolder holder, final int position) {
             holder.textView.setText(list.get(position).getMerchantName());
+            holder.date.setText(list.get(position).getDate());
+            holder.cost.setText(list.get(position).getAmount());
         }
 
         @Override
