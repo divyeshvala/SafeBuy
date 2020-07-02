@@ -15,7 +15,7 @@
 * [Testing the app](#testing-the-app).
 
 ### Idea
-* As the whole world is dealing with a pandemic, everyone is aiming to avoid going outside and if he/she has to go outside for some essentials it should be present at some safe locations.Our aim is to provide the list of safe ATMs for cardhlders in some radius. Also we are aiming to provide the list of safe merchants in these areas. If a customer wants to buy something from any merchant he/she will be provided two options to get his/her essentials :-
+* As the whole world is dealing with a pandemic, everyone is aiming to avoid going outside and if he/she has to go outside for some essentials it should be present at some safe locations.Our aim is to provide the list of safe ATMs for cardholders in some radius. Also we are aiming to provide the list of safe merchants in these areas. If a customer wants to buy something from any merchant he/she will be provided two options to get his/her essentials :-
 1. Pickup.
 2. Delivery
 
@@ -34,7 +34,7 @@
 4. Visa Direct API.
 5. Visa Merchant Locator API.
 6. Visa Global ATM Locator API.
-7. Geo-IQ API.
+7. Geo-IQ containment zones API.
 8. Google Maps API.
 9. Google geocoding and reverse geocoding API.
 10. Google Places API.
