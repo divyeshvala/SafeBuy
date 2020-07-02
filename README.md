@@ -28,7 +28,7 @@
 6. Payment from customer to merchant using VISA direct.
 
 ### Technologies Used
-1. Java
+1. Java.
 2. Firebase realtime database.
 3. Python for server side processing.
 4. Visa Direct API.
@@ -36,6 +36,13 @@
 6. Visa Global ATM Locator API.
 7. Geo-IQ API.
 8. Google Maps API.
+9. Google geocoding and reverse geocoding API.
+10. Google Places API.
+
+### Frameworks
+1. Android Studio.
+2. PyCharm.
+3. Firebase.
 
 ### Contributors
 1. Chandan 
@@ -51,5 +58,5 @@
 3. For login/signup. Use your email and you can use any password for signUp.
 4. If you want to login as a merchant. Then use this credentials for dummy merchant.
    * appefizz22@gmail.com - interns@visa
-5. Our python server has not been hosted online. It's running on the local computer. So you
+5. To Run the server just run the RequestHandler.py file.
 
