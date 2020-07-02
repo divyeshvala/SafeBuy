@@ -31,6 +31,11 @@
 1. Java
 2. Firebase realtime database.
 3. Python for server side processing.
+4. Visa Direct API.
+5. Visa Merchant Locator API.
+6. Visa Global ATM Locator API.
+7. Geo-IQ API.
+8. Google Maps API.
 
 ### Contributors
 1. Chandan 
