@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -124,8 +126,16 @@ public class FragmentATM extends Fragment
                             place.getName(),
                             1
                     );
-                    address = addresses.get(0);
-                    mLatLng = new LatLng(address.getLatitude(), address.getLongitude());
+                    if(addresses.size()>0)
+                    {
+                        address = addresses.get(0);
+                        mLatLng = new LatLng(address.getLatitude(), address.getLongitude());
+                    }
+                    else
+                    {
+                        Toast.makeText(getActivity(), "Invalid Address", Toast.LENGTH_SHORT).show();
+                    }
+
 
                 } catch (IOException e) {
                     e.printStackTrace();
