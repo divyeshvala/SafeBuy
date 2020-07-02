@@ -20,12 +20,13 @@
 2. Delivery
 
 ### Main Features
-1. Locating nearby safe ATMs
-2. Locating nearby safe Merchants
+1. Locating safe ATMs near you or any other location
+2. Locating safe Merchants near you or any other location
 3. Get directions for ATMs/Merchants
-4. Messaging service between merchant and customer
-5. Order or pickup something from merchant
-6. Payment from customer to merchant using VISA direct.
+4. Filter Merchants based on their category(Pharmacy, grocery, eateries etc.) and distance
+5. Messaging service between merchant and customer
+6. Order or pickup something from merchant
+7. Payment from customer to merchant using VISA direct.
 
 ### Technologies Used
 1. Java.
