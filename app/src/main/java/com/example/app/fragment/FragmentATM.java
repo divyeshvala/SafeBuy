@@ -56,7 +56,7 @@ public class FragmentATM extends Fragment
     }
 
     private ArrayList<ATMObject> dataList;
-    private static final int containmentZoneRadius = 100;
+    private static final int containmentZoneRadius = 50;
     public ArrayList<LocationObject> ATMsList;
     public ArrayList<LocationObject> containmentZonesList;
     private GetNearbyATMs getATMs;
@@ -180,7 +180,6 @@ public class FragmentATM extends Fragment
             }
 
             findSafeAndUnsafeATMs(ATMsList, containmentZonesList);
-
         }
     };
 
@@ -219,23 +218,19 @@ public class FragmentATM extends Fragment
                 {
                     isInContainment = true;
                     dataList.add(new ATMObject(atmObject.getPlaceName(), address, distance, atmObject.getLatitude(), atmObject.getLongitude(), false));
+                    mListadapter.notifyDataSetChanged();
                     break;
                 }
             }
             if(!isInContainment)  // outside containment zone
             {
                 dataList.add(new ATMObject(atmObject.getPlaceName(), address, distance, atmObject.getLatitude(), atmObject.getLongitude(), true));
-            }
-            if(containmentZonesList.size()==0)
-            {
-                dataList.add(new ATMObject(atmObject.getPlaceName(), address, distance, atmObject.getLatitude(), atmObject.getLongitude(), true));
+                mListadapter.notifyDataSetChanged();
             }
         }
         progressBar.setVisibility(View.INVISIBLE);
         progressMessage.setVisibility(View.INVISIBLE);
         searching_icon.setVisibility(View.INVISIBLE);
-        Collections.sort(dataList, new CustomComparator());
-        mListadapter.notifyDataSetChanged();
     }
 
     public class CustomComparator implements Comparator<ATMObject> {
@@ -327,7 +322,8 @@ public class FragmentATM extends Fragment
             holder.textViewAddress.setText(dataList.get(position).getAddress());
             holder.textViewDistance.setText( String.format(Locale.getDefault(),"%.1f", dataList.get(position).getDistance())+"km");
 
-            if(!dataList.get(position).isSafe()){
+            if(!dataList.get(position).isSafe())
+            {
                 holder.atmCardLayout.setBackground(getResources().getDrawable(R.drawable.red_back_up_round));
             }
 
