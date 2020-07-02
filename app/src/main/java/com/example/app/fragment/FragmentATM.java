@@ -322,6 +322,7 @@ public class FragmentATM extends Fragment
         public void onBindViewHolder(ListAdapter.ViewHolder holder, final int position) {
             holder.textViewName.setText(dataList.get(position).getName());
             holder.textViewAddress.setText(dataList.get(position).getAddress());
+            holder.setIsRecyclable(false);
             holder.textViewDistance.setText( String.format(Locale.getDefault(),"%.1f", dataList.get(position).getDistance())+"km");
 
             if(!dataList.get(position).isSafe())
@@ -344,6 +345,7 @@ public class FragmentATM extends Fragment
         
                 }
             });
+            ;
         }
 
         @Override
