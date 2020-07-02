@@ -15,7 +15,9 @@
         android:id="@+id/recyclerViewNearYou"
         android:layout_below="@id/autocomplete_fragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:layout_marginBottom="15dp"
+        />
 
     <ImageView
         android:id="@+id/searching_icon"

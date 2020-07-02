@@ -35,7 +35,6 @@ public class customer_profile extends Fragment
 
         im = rootView.findViewById(R.id.transactions);
         im.setOnClickListener(new View.OnClickListener(){
-
             @Override
             public void onClick(View view) {
 
@@ -80,15 +79,14 @@ public class customer_profile extends Fragment
         String senderPAN = sharedPreferences.getString("cardNumber", "-1");
         senderPAN = senderPAN.replace(" ", "");
 
-        if(senderPAN.equals("-1"))
+        if(!senderPAN.equals("-1"))
         {
-        }
-        else{
             child.removeAllViews();
             TextView tv = new TextView(getActivity());
-            tv.setText("Your card is already added");
+            tv.setText("Your card is added");
             child.addView(tv);
         }
+
         RelativeLayout logOut = rootView.findViewById(R.id.id_customerLogOut);
         logOut.setOnClickListener(new View.OnClickListener() {
             @Override
