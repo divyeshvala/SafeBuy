@@ -11,6 +11,7 @@
 * [Main Features](#main-features).
 * [Techologies Used](#technologies-used).
 * [Frameworks](#frameworks).
+* [App Snapshots](#app-snapshots)
 * [Contributors](#contributors).
 * [Testing](#testing).
 
@@ -44,6 +45,10 @@
 1. Android Studio.
 2. PyCharm.
 3. Firebase.
+
+### App Snapshots
+![Features snapshot 1](https://github.com/divyeshvala/SafeBuy/blob/master/App_Snapshots/safebuy_feature_set1.png?raw=true "Title")
+![Features snapshot 2](https://github.com/divyeshvala/SafeBuy/blob/master/App_Snapshots/safebuy_feature_set2.png?raw=true "Title")
 
 ### Contributors
 1. Chandan Naik
